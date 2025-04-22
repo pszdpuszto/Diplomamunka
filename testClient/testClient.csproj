@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UniversalFormModel\UniversalForm.Model.csproj" />
+    <ProjectReference Include="..\UniversalForm.Model\UniversalForm.Model.csproj" />
   </ItemGroup>
 
 </Project>

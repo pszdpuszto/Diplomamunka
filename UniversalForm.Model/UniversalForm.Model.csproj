@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UniversalFormPersistence\UniversalForm.Persistence.csproj" />
+    <ProjectReference Include="..\UniversalForm.Persistence\UniversalForm.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
