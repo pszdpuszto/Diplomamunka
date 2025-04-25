@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UniversalForm.Persistence
+namespace UniversalForm.Client.Persistence
 {
     public interface IPersistence
     {

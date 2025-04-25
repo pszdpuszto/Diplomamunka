@@ -1,7 +1,10 @@
-﻿using UniversalForm.Model;
-using UniversalForm.Persistence;
+﻿using System.Net;
+using UniversalForm.Client.Model;
+using UniversalForm.Client.Persistence;
 
-var model = new Model(new BinaryFileJsonPersistence(Model.getQuestionTypes()));
+IPHostEntry ipHostInfo = await Dns.GetHostEntryAsync(Dns.GetHostName());
+IPAddress ipAddress = ipHostInfo.AddressList[0];
+var model = new Model(new ClientJsonPersistence(Model.getQuestionTypes(), new(ipAddress, 3000)));
 
 model.CreateDebugForm();
 model.SaveForm();
@@ -13,3 +16,5 @@ while ((q = model.NextQuestion()) != null)
 {
     Console.WriteLine(q);
 }
+
+Console.ReadLine();

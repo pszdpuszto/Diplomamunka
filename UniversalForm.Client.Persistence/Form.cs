@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json.Serialization;
 
-namespace UniversalForm.Persistence
+namespace UniversalForm.Client.Persistence
 {
     public class Form
     {
@@ -13,11 +13,11 @@ namespace UniversalForm.Persistence
         [JsonIgnore]
         int _index = 0;
         [JsonConstructor]
-        public Form(string title, string description, Question[] questions)
+        public Form(string title, string description, List<Question> _questions)
         {
             Title = title;
             Description = description;
-            _questions = [.. questions];
+            this._questions = [.. _questions];
         }
 
         public override string ToString()

@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UniversalForm.Persistence
+namespace UniversalForm.Client.Persistence
 {
-    public class BinaryFileJsonPersistence : JsonPersistence
+    public class BinaryFileJsonPersistence(IEnumerable<Type> questionTypes) : JsonPersistence(questionTypes)
     {
-        public BinaryFileJsonPersistence(IEnumerable<Type> questionTypes) : base(questionTypes) {}
-
         protected override string GetId(Form form) => form.Title.Replace(' ', '_') + ".uff";
 
         protected override string LoadJson(string fileName)

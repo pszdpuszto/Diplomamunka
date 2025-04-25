@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace UniversalForm.Persistence
+namespace UniversalForm.Client.Persistence
 {
     
     public abstract class Question

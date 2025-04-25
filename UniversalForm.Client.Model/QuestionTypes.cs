@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using UniversalForm.Persistence;
+using UniversalForm.Client.Persistence;
 
-namespace UniversalForm.Model
+namespace UniversalForm.Client.Model
 {
 
     public class QTextArea : Question

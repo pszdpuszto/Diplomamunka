@@ -4,9 +4,9 @@ using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
-using UniversalForm.Persistence;
+using UniversalForm.Client.Persistence;
 
-namespace UniversalForm.Model
+namespace UniversalForm.Client.Model
 {
     public class Model
     {
@@ -47,7 +47,7 @@ namespace UniversalForm.Model
             {
                 qs[5+i] = new QSingleSelect("Title for q" + (i + 5), "desc\n\n\n\nfarrt", new List<string> { "option1", "option2", "wow3" });
             }
-            _form = new Form("Test form", "test description", qs);
+            _form = new Form("Test form", "test description", [.. qs]);
         }
 
         public string GetTitle() => (_form == null) ? "" : _form.Title;

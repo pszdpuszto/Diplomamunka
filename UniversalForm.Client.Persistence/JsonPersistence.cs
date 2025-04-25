@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 
-namespace UniversalForm.Persistence
+namespace UniversalForm.Client.Persistence
 {
     public abstract class JsonPersistence : IPersistence
     {
@@ -27,9 +27,9 @@ namespace UniversalForm.Persistence
                 return jsonTypeInfo;
             }
         }
-        protected static string ERROR = "ERROR";
+        protected const string ERROR = "ERROR";
 
-        JsonSerializerOptions _options;
+        private readonly JsonSerializerOptions _options;
 
         public JsonPersistence(IEnumerable<Type> questionTypes)
         {
@@ -56,7 +56,8 @@ namespace UniversalForm.Persistence
 
         public bool SaveForm(Form form)
         {
-            return SaveJson(GetId(form), JsonSerializer.Serialize(form, _options));
+            var jsonStr = JsonSerializer.Serialize(form, _options);
+            return SaveJson(GetId(form), jsonStr);
         }
 
         protected abstract string LoadJson(string name);

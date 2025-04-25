@@ -7,13 +7,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Server", "Uni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientTest", "..\ClientTest\ClientTest.csproj", "{4DD7AAEA-1618-47A3-A47A-404D36A27474}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Model", "..\UniversalForm.Model\UniversalForm.Model.csproj", "{ADAEEAE6-AEA9-431C-BD91-3493839EEDB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Client.Model", "..\UniversalForm.Client.Model\UniversalForm.Client.Model.csproj", "{ADAEEAE6-AEA9-431C-BD91-3493839EEDB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Persistence", "..\UniversalForm.Persistence\UniversalForm.Persistence.csproj", "{D429A3AE-8EC2-4CA8-B9C0-BFC0C3E33359}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Client", "..\UniversalForm.Client\UniversalForm.Client.csproj", "{A5D48881-7235-4A3C-9B87-DEAAF86F1E1F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Client.Persistence", "..\UniversalForm.Client.Persistence\UniversalForm.Client.Persistence.csproj", "{D429A3AE-8EC2-4CA8-B9C0-BFC0C3E33359}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testClient", "..\testClient\testClient.csproj", "{099A4BE3-00A8-4E62-A3EA-A7A746C1D5B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Client.View", "..\UniversalForm.Client.View\UniversalForm.Client.View.csproj", "{1056BAA3-A535-4E2B-9DB3-49672FF4996B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Server.Persistence", "..\UniversalForm.Server.Persistence\UniversalForm.Server.Persistence.csproj", "{E82CAE0B-D68D-48E3-AAF1-A9C6460FDEBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.JsonUtil", "..\UniversalForm.JsonUtil\UniversalForm.JsonUtil.csproj", "{97762550-3C6B-460A-92EB-179980B90688}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,14 +41,22 @@ Global
 		{D429A3AE-8EC2-4CA8-B9C0-BFC0C3E33359}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D429A3AE-8EC2-4CA8-B9C0-BFC0C3E33359}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D429A3AE-8EC2-4CA8-B9C0-BFC0C3E33359}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A5D48881-7235-4A3C-9B87-DEAAF86F1E1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A5D48881-7235-4A3C-9B87-DEAAF86F1E1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A5D48881-7235-4A3C-9B87-DEAAF86F1E1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A5D48881-7235-4A3C-9B87-DEAAF86F1E1F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{099A4BE3-00A8-4E62-A3EA-A7A746C1D5B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{099A4BE3-00A8-4E62-A3EA-A7A746C1D5B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{099A4BE3-00A8-4E62-A3EA-A7A746C1D5B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{099A4BE3-00A8-4E62-A3EA-A7A746C1D5B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1056BAA3-A535-4E2B-9DB3-49672FF4996B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1056BAA3-A535-4E2B-9DB3-49672FF4996B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1056BAA3-A535-4E2B-9DB3-49672FF4996B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1056BAA3-A535-4E2B-9DB3-49672FF4996B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E82CAE0B-D68D-48E3-AAF1-A9C6460FDEBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E82CAE0B-D68D-48E3-AAF1-A9C6460FDEBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E82CAE0B-D68D-48E3-AAF1-A9C6460FDEBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E82CAE0B-D68D-48E3-AAF1-A9C6460FDEBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97762550-3C6B-460A-92EB-179980B90688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97762550-3C6B-460A-92EB-179980B90688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97762550-3C6B-460A-92EB-179980B90688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97762550-3C6B-460A-92EB-179980B90688}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
