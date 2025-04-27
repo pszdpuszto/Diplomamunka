@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using UniversalForm.JsonUtil;
+using UniversalForm.Utils;
 
 namespace UniversalForm.Client.Persistence
 {
@@ -52,12 +52,13 @@ namespace UniversalForm.Client.Persistence
             return ERROR;
         }
 
-        protected override bool SaveJson(string id, string jsonStr)
+        protected override bool SaveJson(string userName, string id, string jsonStr)
         {
             var request = new Request
             {
-                ID = Request.Type.GET_FORM,
+                ID = Request.Type.SAVE_FORM,
                 FormName = id,
+                Username = userName,
                 JsonStr = jsonStr
             };
             var response = SendAndRecieve(request);
@@ -75,6 +76,31 @@ namespace UniversalForm.Client.Persistence
             } while (sb.ToString().IndexOf(JsonParser.EOT) < 0);
             var response = sb.ToString();
             return JsonParser.Deserialize<Response>(response.Substring(0, response.IndexOf(JsonParser.EOT)));
+        }
+
+        public override bool LogIn(string userName, string password)
+        {
+            var request = new Request
+            {
+                ID = Request.Type.LOGIN,
+                Username = userName,
+                JsonStr = password
+            };
+            var response = SendAndRecieve(request);
+            return response.ID == Response.Type.ACKNOWLEDGE;
+        }
+
+        public override string GetFormsJson(string username)
+        {
+            var request = new Request
+            {
+                ID = Request.Type.GET_FORM_LIST,
+                Username = username
+            };
+            var response = SendAndRecieve(request);
+            if (response.ID == Response.Type.FORM_LIST)
+                return response.JsonStr;
+            return ERROR;
         }
     }
 }

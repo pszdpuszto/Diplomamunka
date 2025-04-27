@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
+using UniversalForm.Utils;
 
 namespace UniversalForm.Server.Persistence
 {
     public class BinaryPersistence : IPersistence
     {
+        private struct User
+        {
+            public string Username { get; set; }
+            public string Password { get; set; }
+            public List<string> Forms { get; set; }
+        }
         private static readonly string FORM_EXTENSION = "uff";
         private static readonly string STAT_EXTENSION = "ufs";
+        private static readonly string USER_EXTENSION = "ufu";
         readonly string _dirPath;
         public BinaryPersistence(string dirPath)
         {
@@ -20,11 +26,12 @@ namespace UniversalForm.Server.Persistence
         }
         public string GetJsonForm(string formName)
         {
-            if (!File.Exists(formName))
+            var fileName = GetFileLocation(formName, FORM_EXTENSION);
+            if (!File.Exists(fileName))
                 return IPersistence.ERROR;
             try
             {
-                using (FileStream fs = new FileStream(GetFileLocation(formName, FORM_EXTENSION), FileMode.Open, FileAccess.Read))
+                using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
                 {
                     using (BinaryReader r = new BinaryReader(fs))
                     {
@@ -38,11 +45,12 @@ namespace UniversalForm.Server.Persistence
         }
         public string GetJsonStatistics(string formName)
         {
-            if (!File.Exists(formName))
+            var fileName = GetFileLocation(formName, STAT_EXTENSION);
+            if (!File.Exists(fileName))
                 return IPersistence.ERROR;
             try
             {
-                using (FileStream fs = new FileStream(GetFileLocation(formName, STAT_EXTENSION), FileMode.Open, FileAccess.Read))
+                using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
                 {
                     using (BinaryReader r = new BinaryReader(fs))
                     {
@@ -54,33 +62,57 @@ namespace UniversalForm.Server.Persistence
                 return IPersistence.ERROR;
             }
         }
-        public bool SaveForm(string formName, string jsonStr)
+        public bool SaveForm(string userName, string formName, string jsonStr)
         {
-            if (File.Exists(formName + FORM_EXTENSION))
-                File.Delete(formName + FORM_EXTENSION);
+            var userFileName = GetFileLocation(userName, USER_EXTENSION);
+            if (!File.Exists(userFileName))
+                return false;
+            /* save form */
+            var fileName = GetFileLocation(formName, FORM_EXTENSION);
+            if (File.Exists(fileName))
+                File.Delete(fileName);
             try
             {
-                using (var fs = new FileStream(GetFileLocation(formName, FORM_EXTENSION), FileMode.CreateNew))
+                using (var fs = new FileStream(fileName, FileMode.CreateNew))
                 {
                     using (var bw = new BinaryWriter(fs))
                     {
                         bw.Write(jsonStr);
                     }
                 }
-                System.Console.WriteLine($"Saved {_dirPath + "/" + formName + FORM_EXTENSION}");
-                return true;
+                System.Console.WriteLine($"Saved {fileName}");
             } catch
             {
                 return false;
             }
+            /* update user form list */
+            try
+            {
+                var user = LoadUser(userName);
+                if (!user.HasValue)
+                    return false;
+                user.Value.Forms.Add(formName);
+                using (var fs = new FileStream(userFileName, FileMode.Create))
+                {
+                    using (var bw = new BinaryWriter(fs))
+                    {
+                        bw.Write(JsonParser.Serialize(user.Value));
+                    }
+                }
+            } catch
+            {
+                return false;
+            }
+            return true;
         }
         public bool SaveStatistics(string formName, string jsonStr)
         {
-            if (File.Exists(formName + STAT_EXTENSION))
-                File.Delete(formName + STAT_EXTENSION);
+            var fileName = GetFileLocation(formName, STAT_EXTENSION);
+            if (File.Exists(fileName))
+                File.Delete(fileName);
             try
             {
-                using (var fs = new FileStream(GetFileLocation(formName, STAT_EXTENSION), FileMode.CreateNew))
+                using (var fs = new FileStream(fileName, FileMode.CreateNew))
                 {
                     using (var bw = new BinaryWriter(fs))
                     {
@@ -94,18 +126,101 @@ namespace UniversalForm.Server.Persistence
                 return false;
             }
         }
-        public bool CheckLogin(string username, string password)
+        public IPersistence.LoginResult CheckLogin(string username, string password)
         {
-            return true; // TODO: Implement login check
+            var fileName = GetFileLocation(username, USER_EXTENSION);
+            if (!File.Exists(fileName))
+                return IPersistence.LoginResult.USER_NOT_FOUND;
+            try
+            {
+                using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+                {
+                    using (BinaryReader r = new BinaryReader(fs))
+                    {
+                        var user = JsonParser.Deserialize<User>(r.ReadString());
+                        return PasswordHasher.VerifyPassword(password, user.Password) ? IPersistence.LoginResult.SUCCESS : IPersistence.LoginResult.PASSWORD_INCORRECT;
+                    }
+                }
+            }
+            catch
+            {
+                return IPersistence.LoginResult.IO_ERROR;
+            }
         }
         public string GetJsonFormList(string username) // TODO: not like this
         {
-            return JsonSerializer.Serialize(Directory.GetFiles(_dirPath + "/username", "*." + FORM_EXTENSION));
+            var fileName = GetFileLocation(username, USER_EXTENSION);
+            if (!File.Exists(fileName))
+                return IPersistence.ERROR;
+            try
+            {
+                using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+                {
+                    using (BinaryReader r = new BinaryReader(fs))
+                    {
+                        var user = JsonParser.Deserialize<User>(r.ReadString());
+                        return JsonParser.Serialize(user.Forms);
+                    }
+                }
+            }
+            catch
+            {
+                return IPersistence.ERROR;
+            }
+        }
+        public bool RegisterUser(string username, string password)
+        {
+            var fileName = GetFileLocation(username, USER_EXTENSION);
+            if (File.Exists(fileName))
+                return false;
+            try
+            {
+                using (var fs = new FileStream(fileName, FileMode.CreateNew))
+                {
+                    using (var bw = new BinaryWriter(fs))
+                    {
+                        var user = new User
+                        {
+                            Username = username,
+                            Password = PasswordHasher.HashPassword(password),
+                            Forms = new List<string>()
+                        };
+                        bw.Write(JsonParser.Serialize(user));
+                    }
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private string GetFileLocation(string formName, string extension)
         {
             return _dirPath + "/" + formName + "." + extension;
         }
+
+        private User? LoadUser(string username)
+        {
+            var fileName = GetFileLocation(username, USER_EXTENSION);
+            if (!File.Exists(fileName))
+                return null;
+            try
+            {
+                using (var fs = new FileStream(fileName, FileMode.Open))
+                {
+                    using (var bw = new BinaryReader(fs))
+                    {
+                        return JsonParser.Deserialize<User>(bw.ReadString());
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
     }
 }

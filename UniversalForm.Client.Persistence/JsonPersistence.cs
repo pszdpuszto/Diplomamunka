@@ -54,14 +54,22 @@ namespace UniversalForm.Client.Persistence
             catch {  return null; }
         }
 
-        public bool SaveForm(Form form)
+        public bool SaveForm(string userName, Form form)
         {
             var jsonStr = JsonSerializer.Serialize(form, _options);
-            return SaveJson(GetId(form), jsonStr);
+            return SaveJson(userName, GetId(form), jsonStr);
         }
-
+        public List<string>? GetForms(string userName)
+        {
+            var jsonStr = GetFormsJson(userName);
+            if (jsonStr == ERROR)
+                return null;
+            return JsonSerializer.Deserialize<List<string>>(jsonStr, _options);
+        }
         protected abstract string LoadJson(string name);
-        protected abstract bool SaveJson(string id, string jsonStr);
+        protected abstract bool SaveJson(string userName, string formName, string jsonStr);
         protected abstract string GetId(Form form);
+        public abstract bool LogIn(string userName, string password);
+        public abstract string GetFormsJson(string userName);
     }
 }

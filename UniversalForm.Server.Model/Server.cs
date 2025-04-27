@@ -9,12 +9,12 @@ using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using UniversalForm.Server.Persistence;
-using UniversalForm.JsonUtil;
+using UniversalForm.Utils;
 
-namespace UniversalForms.Server
+namespace UniversalForm.Server.Model
 {
 
-    internal class Server
+    public class Server
     {
         private struct Client
         {
@@ -82,7 +82,15 @@ namespace UniversalForms.Server
             }
             Console.WriteLine("Closed");
         }
-        
+
+        public bool RegisterAdmin(string userName, string password)
+        {
+            return _persistence.RegisterUser(userName, password);
+        }
+        public bool UsernameAvailable(string username)
+        {
+            return _persistence.CheckLogin(username, string.Empty) == IPersistence.LoginResult.USER_NOT_FOUND;
+        }
         private string ProcessRequest(string jsonStr)
         {
             var request = JsonParser.Deserialize<Request>(jsonStr);
@@ -101,10 +109,10 @@ namespace UniversalForms.Server
                     return JsonParser.Serialize<Response>(new Response
                     {
                         ID = Response.Type.FORM,
-                        JsonStr = _persistence.GetJsonForm(request.JsonStr)
+                        JsonStr = _persistence.GetJsonForm(request.FormName)
                     });
                 case Request.Type.SAVE_FORM:
-                    if (_persistence.SaveForm(request.JsonStr, request.JsonStr))
+                    if (_persistence.SaveForm(request.Username, request.FormName, request.JsonStr))
                     {
                         return JsonParser.Serialize<Response>(new Response
                         {
@@ -145,7 +153,7 @@ namespace UniversalForms.Server
                         JsonStr = _persistence.GetJsonStatistics(request.JsonStr)
                     });
                 case Request.Type.LOGIN: // TODO: return form list
-                    if (_persistence.CheckLogin(request.FormName, request.JsonStr))
+                    if (_persistence.CheckLogin(request.Username, request.JsonStr) == IPersistence.LoginResult.SUCCESS)
                         return JsonParser.Serialize<Response>(new Response
                         {
                             ID = Response.Type.ACKNOWLEDGE,
@@ -242,6 +250,7 @@ namespace UniversalForms.Server
                     var responseJsonStr = ProcessRequest(content) + JsonParser.EOT;
 
                     Send(client.socket, responseJsonStr);
+                    Console.WriteLine($"Sent {responseJsonStr.Length} bytes of data: {responseJsonStr}");
 
                     client.sb.Clear();
                 }

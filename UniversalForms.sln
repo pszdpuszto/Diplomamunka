@@ -3,21 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Server", "UniversalForm.Server.csproj", "{0F5BF89C-F3DD-4CD0-B00D-03753D33B562}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Server.Model", "UniversalForm.Server.Model\UniversalForm.Server.Model.csproj", "{0F5BF89C-F3DD-4CD0-B00D-03753D33B562}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientTest", "..\ClientTest\ClientTest.csproj", "{4DD7AAEA-1618-47A3-A47A-404D36A27474}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientTest", "ClientTest\ClientTest.csproj", "{4DD7AAEA-1618-47A3-A47A-404D36A27474}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Client.Model", "..\UniversalForm.Client.Model\UniversalForm.Client.Model.csproj", "{ADAEEAE6-AEA9-431C-BD91-3493839EEDB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Client.Model", "UniversalForm.Client.Model\UniversalForm.Client.Model.csproj", "{ADAEEAE6-AEA9-431C-BD91-3493839EEDB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Client.Persistence", "..\UniversalForm.Client.Persistence\UniversalForm.Client.Persistence.csproj", "{D429A3AE-8EC2-4CA8-B9C0-BFC0C3E33359}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Client.Persistence", "UniversalForm.Client.Persistence\UniversalForm.Client.Persistence.csproj", "{D429A3AE-8EC2-4CA8-B9C0-BFC0C3E33359}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testClient", "..\testClient\testClient.csproj", "{099A4BE3-00A8-4E62-A3EA-A7A746C1D5B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testClient", "testClient\testClient.csproj", "{099A4BE3-00A8-4E62-A3EA-A7A746C1D5B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Client.View", "..\UniversalForm.Client.View\UniversalForm.Client.View.csproj", "{1056BAA3-A535-4E2B-9DB3-49672FF4996B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Client.View", "UniversalForm.Client.View\UniversalForm.Client.View.csproj", "{1056BAA3-A535-4E2B-9DB3-49672FF4996B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Server.Persistence", "..\UniversalForm.Server.Persistence\UniversalForm.Server.Persistence.csproj", "{E82CAE0B-D68D-48E3-AAF1-A9C6460FDEBA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Server.Persistence", "UniversalForm.Server.Persistence\UniversalForm.Server.Persistence.csproj", "{E82CAE0B-D68D-48E3-AAF1-A9C6460FDEBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.JsonUtil", "..\UniversalForm.JsonUtil\UniversalForm.JsonUtil.csproj", "{97762550-3C6B-460A-92EB-179980B90688}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Utils", "UniversalForm.JsonUtil\UniversalForm.Utils.csproj", "{97762550-3C6B-460A-92EB-179980B90688}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Server.View", "UniversalForm.Server.View\UniversalForm.Server.View.csproj", "{25C40D0F-2364-417A-841E-0EAD6F21C0D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{97762550-3C6B-460A-92EB-179980B90688}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97762550-3C6B-460A-92EB-179980B90688}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97762550-3C6B-460A-92EB-179980B90688}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25C40D0F-2364-417A-841E-0EAD6F21C0D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25C40D0F-2364-417A-841E-0EAD6F21C0D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25C40D0F-2364-417A-841E-0EAD6F21C0D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25C40D0F-2364-417A-841E-0EAD6F21C0D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

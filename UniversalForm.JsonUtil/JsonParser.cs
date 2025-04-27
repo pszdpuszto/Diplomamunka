@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace UniversalForm.JsonUtil
+namespace UniversalForm.Utils
 {
     public struct Request
     {
@@ -15,9 +16,11 @@ namespace UniversalForm.JsonUtil
             SAVE_FORM,
             GET_STATISTICS,
             SAVE_STATISTICS,
-            LOGIN
+            LOGIN,
+            GET_FORM_LIST
         }
         public Type ID { get; set; }
+        public string Username { get; set; }
         public string FormName { get; set; }
         public string JsonStr { get; set; }
     }
@@ -41,7 +44,11 @@ namespace UniversalForm.JsonUtil
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             WriteIndented = true,
-            IncludeFields = true
+            IncludeFields = true,
+            Converters = 
+            {
+                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+            }
         };
         public static string Serialize<T>(T obj)
         {

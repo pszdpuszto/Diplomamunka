@@ -9,6 +9,8 @@ namespace UniversalForm.Client.Persistence
     public interface IPersistence
     {
         Form? LoadForm(string name);
-        bool SaveForm(Form form);
+        bool SaveForm(string userName, Form form);
+        bool LogIn(string userName, string password);
+        List<string>? GetForms(string userName);
     }
 }
