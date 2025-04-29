@@ -14,7 +14,7 @@ model.SaveForm();
 model.ResetForm();
 model.LoadForm("Test_form");
 
-Console.WriteLine(model.GetTitle() + "\n" + model.GetDescription());
+Console.WriteLine(model.Title + "\n" + model.Description);
 Question? q;
 while ((q = model.NextQuestion()) != null)
 {

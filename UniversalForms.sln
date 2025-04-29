@@ -5,8 +5,6 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Server.Model", "UniversalForm.Server.Model\UniversalForm.Server.Model.csproj", "{0F5BF89C-F3DD-4CD0-B00D-03753D33B562}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientTest", "ClientTest\ClientTest.csproj", "{4DD7AAEA-1618-47A3-A47A-404D36A27474}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Client.Model", "UniversalForm.Client.Model\UniversalForm.Client.Model.csproj", "{ADAEEAE6-AEA9-431C-BD91-3493839EEDB9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Client.Persistence", "UniversalForm.Client.Persistence\UniversalForm.Client.Persistence.csproj", "{D429A3AE-8EC2-4CA8-B9C0-BFC0C3E33359}"
@@ -31,10 +29,6 @@ Global
 		{0F5BF89C-F3DD-4CD0-B00D-03753D33B562}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F5BF89C-F3DD-4CD0-B00D-03753D33B562}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F5BF89C-F3DD-4CD0-B00D-03753D33B562}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4DD7AAEA-1618-47A3-A47A-404D36A27474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4DD7AAEA-1618-47A3-A47A-404D36A27474}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4DD7AAEA-1618-47A3-A47A-404D36A27474}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4DD7AAEA-1618-47A3-A47A-404D36A27474}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ADAEEAE6-AEA9-431C-BD91-3493839EEDB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ADAEEAE6-AEA9-431C-BD91-3493839EEDB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADAEEAE6-AEA9-431C-BD91-3493839EEDB9}.Release|Any CPU.ActiveCfg = Release|Any CPU

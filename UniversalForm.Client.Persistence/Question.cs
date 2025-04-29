@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -13,14 +14,22 @@ namespace UniversalForm.Client.Persistence
         public enum QTYPE
         {
             TEXT_AREA,
-            SINGLE_SELECT
+            SINGLE_SELECT,
+            MULTI_SELECT,
+            DATE,
+            NUMBER
         }
-        QTYPE Type { get; }
-        [JsonInclude]
-        string Title { get; }
-        [JsonInclude]
-        string Description { get; }
-
+        public static Dictionary<QTYPE, string> TypeToString = new()
+        {
+            { QTYPE.TEXT_AREA, "Text Area" },
+            { QTYPE.SINGLE_SELECT, "Single Select" },
+            { QTYPE.MULTI_SELECT, "Multi Select" },
+            { QTYPE.DATE, "Date" },
+            { QTYPE.NUMBER, "Number" }
+        };
+        public QTYPE Type { get; }
+        public string Title { get; set; }
+        public string Description { get; set; }
         public Question(QTYPE type, string title, string description)
         {
             Type = type;
@@ -33,6 +42,6 @@ namespace UniversalForm.Client.Persistence
             return $"Type:{Type.ToString()}\nTitle:{Title}\nDescription:{Description}\n{extraStr()}";
         }
 
-        protected abstract string extraStr();
+        protected virtual string extraStr() => "Default";
     }
 }

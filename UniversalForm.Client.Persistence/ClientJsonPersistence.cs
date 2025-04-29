@@ -31,11 +31,6 @@ namespace UniversalForm.Client.Persistence
                 ProtocolType.Tcp);
         }
 
-        protected override string GetId(Form form)
-        {
-            return form.Title.Replace(' ', '_');
-        }
-
         private static readonly int BUFFER_SIZE = 4096;
         protected override string LoadJson(string name)
         {

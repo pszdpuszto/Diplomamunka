@@ -5,13 +5,15 @@ namespace UniversalForm.Client.Persistence
 {
     public class Form
     {
-        public string Title { get; }
-        public string Description { get; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public bool MeasureCorrections { get; set; } = false;
+        public bool MeasureTime { get; set; } = false;
+        public bool Anonymous { get; set; } = false;
+        public bool FocusTracking { get; set; } = false;
         [JsonPropertyName("questions")]
         [JsonInclude]
         List<Question> _questions;
-        [JsonIgnore]
-        int _index = 0;
         [JsonConstructor]
         public Form(string title, string description, List<Question> _questions)
         {
@@ -27,7 +29,13 @@ namespace UniversalForm.Client.Persistence
             sb.Append(_questions);
             return sb.ToString();
         }
-        public Question? NextQuestion() => (_index + 1 < _questions.Count ) ? _questions[_index++] : null;
-        public Question? PreviousQuestion() => (_index > 1) ? _questions[--_index] : null;
+        public void AddQuestion(Question q) => _questions.Add(q);
+        public bool RemoveQuestion(Question q) => _questions.Remove(q);
+        public Question? GetQuestion(int index)
+        {
+            if (index < 0 || index >= _questions.Count)
+                return null;
+            return _questions[index];
+        }
     }
 }

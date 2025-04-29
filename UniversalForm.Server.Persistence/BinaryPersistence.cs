@@ -8,7 +8,7 @@ namespace UniversalForm.Server.Persistence
 {
     public class BinaryPersistence : IPersistence
     {
-        private struct User
+        public struct User
         {
             public string Username { get; set; }
             public string Password { get; set; }
@@ -38,7 +38,8 @@ namespace UniversalForm.Server.Persistence
                         return r.ReadString();
                     }
                 }
-            } catch
+            }
+            catch
             {
                 return IPersistence.ERROR;
             }
@@ -57,7 +58,8 @@ namespace UniversalForm.Server.Persistence
                         return r.ReadString();
                     }
                 }
-            } catch
+            }
+            catch
             {
                 return IPersistence.ERROR;
             }
@@ -65,23 +67,24 @@ namespace UniversalForm.Server.Persistence
         public bool SaveForm(string userName, string formName, string jsonStr)
         {
             var userFileName = GetFileLocation(userName, USER_EXTENSION);
+            var formFileName = GetFileLocation(formName, FORM_EXTENSION);
             if (!File.Exists(userFileName))
                 return false;
             /* save form */
-            var fileName = GetFileLocation(formName, FORM_EXTENSION);
-            if (File.Exists(fileName))
-                File.Delete(fileName);
+            if (File.Exists(formFileName))
+                File.Delete(formFileName);
             try
             {
-                using (var fs = new FileStream(fileName, FileMode.CreateNew))
+                using (var fs = new FileStream(formFileName, FileMode.CreateNew))
                 {
                     using (var bw = new BinaryWriter(fs))
                     {
                         bw.Write(jsonStr);
                     }
                 }
-                System.Console.WriteLine($"Saved {fileName}");
-            } catch
+                System.Console.WriteLine($"Saved {formName}");
+            }
+            catch
             {
                 return false;
             }
@@ -99,7 +102,8 @@ namespace UniversalForm.Server.Persistence
                         bw.Write(JsonParser.Serialize(user.Value));
                     }
                 }
-            } catch
+            }
+            catch
             {
                 return false;
             }
@@ -137,7 +141,8 @@ namespace UniversalForm.Server.Persistence
                 {
                     using (BinaryReader r = new BinaryReader(fs))
                     {
-                        var user = JsonParser.Deserialize<User>(r.ReadString());
+                        var str = r.ReadString();
+                        var user = JsonParser.Deserialize<User>(str);
                         return PasswordHasher.VerifyPassword(password, user.Password) ? IPersistence.LoginResult.SUCCESS : IPersistence.LoginResult.PASSWORD_INCORRECT;
                     }
                 }
@@ -145,27 +150,6 @@ namespace UniversalForm.Server.Persistence
             catch
             {
                 return IPersistence.LoginResult.IO_ERROR;
-            }
-        }
-        public string GetJsonFormList(string username) // TODO: not like this
-        {
-            var fileName = GetFileLocation(username, USER_EXTENSION);
-            if (!File.Exists(fileName))
-                return IPersistence.ERROR;
-            try
-            {
-                using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
-                {
-                    using (BinaryReader r = new BinaryReader(fs))
-                    {
-                        var user = JsonParser.Deserialize<User>(r.ReadString());
-                        return JsonParser.Serialize(user.Forms);
-                    }
-                }
-            }
-            catch
-            {
-                return IPersistence.ERROR;
             }
         }
         public bool RegisterUser(string username, string password)
@@ -222,5 +206,12 @@ namespace UniversalForm.Server.Persistence
             }
         }
 
+        public string GetForms(string userName)
+        {
+            var user = LoadUser(userName);
+            if (user == null)
+                return IPersistence.ERROR;
+            return JsonParser.Serialize(user.Value.Forms);
+        }
     }
 }

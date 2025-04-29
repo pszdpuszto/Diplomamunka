@@ -54,10 +54,10 @@ namespace UniversalForm.Client.Persistence
             catch {  return null; }
         }
 
-        public bool SaveForm(string userName, Form form)
+        public bool SaveForm(string userName, string formName, Form form)
         {
             var jsonStr = JsonSerializer.Serialize(form, _options);
-            return SaveJson(userName, GetId(form), jsonStr);
+            return SaveJson(userName, formName, jsonStr);
         }
         public List<string>? GetForms(string userName)
         {
@@ -68,7 +68,6 @@ namespace UniversalForm.Client.Persistence
         }
         protected abstract string LoadJson(string name);
         protected abstract bool SaveJson(string userName, string formName, string jsonStr);
-        protected abstract string GetId(Form form);
         public abstract bool LogIn(string userName, string password);
         public abstract string GetFormsJson(string userName);
     }

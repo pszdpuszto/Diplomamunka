@@ -1,0 +1,58 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace UniversalForm.Client.View
+{
+    public partial class Login : Form
+    {
+        private Model.Model _model;
+        public bool Success { get; private set; } = false;
+        public Login(Model.Model model)
+        {
+            InitializeComponent();
+            _model = model;
+        }
+        private void okButton_Click(object sender, System.EventArgs e)
+        {
+            var pwd = passwordTextBox.Text;
+            if (_model.LogIn(usernameTextBox.Text, pwd))
+            {
+                Success = true;
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("Invalid username or password");
+            }
+        }
+
+        private void CancelButton_click(object sender, System.EventArgs e)
+        {
+            Close();
+        }
+
+        private void textBox_TextChanged(object sender, System.EventArgs e)
+        {
+            if (usernameTextBox.Text.Length > 0 && passwordTextBox.Text.Length > 0)
+            {
+                okButton.Enabled = true;
+            }
+            else
+            {
+                okButton.Enabled = false;
+            }
+        }
+
+        private void Login_Load(object sender, System.EventArgs e)
+        {
+
+        }
+    }
+}

@@ -1,3 +1,8 @@
+using System.Net;
+using UniversalForm.Client.Model;
+using UniversalForm.Client.Persistence;
+using UniversalForm.Utils;
+
 namespace UniversalForm.Client.View;
 
 static class Program
@@ -11,6 +16,28 @@ static class Program
         // To customize application configuration such as set high DPI settings or default font,
         // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
-        Application.Run(new View());
-    }    
+        var endPoint = IniReader.ReadServerAddress("settings.ini");
+        if (endPoint == null)
+        {
+            MessageBox.Show("Invalid server address in settings.ini");
+            return;
+        }
+        var persistence = new ClientJsonPersistence(Model.Model.getQuestionTypes(), endPoint);
+        var model = new Model.Model(persistence);
+        var view = new Menu(model);
+        Application.Run(view);
+
+        switch (view.ResultValue)
+        {
+            case Menu.Result.LOGIN:
+                Application.Run(new Admin(model));
+                break;
+            case Menu.Result.FILL_FORM:
+                Application.Run(new FillForm(model));
+                break;
+            case Menu.Result.EXIT:
+                break;
+        }
+    }
 }
+

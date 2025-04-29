@@ -152,7 +152,7 @@ namespace UniversalForm.Server.Model
                         ID = Response.Type.STATISTICS,
                         JsonStr = _persistence.GetJsonStatistics(request.JsonStr)
                     });
-                case Request.Type.LOGIN: // TODO: return form list
+                case Request.Type.LOGIN:
                     if (_persistence.CheckLogin(request.Username, request.JsonStr) == IPersistence.LoginResult.SUCCESS)
                         return JsonParser.Serialize<Response>(new Response
                         {
@@ -163,6 +163,21 @@ namespace UniversalForm.Server.Model
                     {
                         ID = Response.Type.ERROR,
                         JsonStr = "Login failed"
+                    });
+                case Request.Type.GET_FORM_LIST:
+                    var formList = _persistence.GetForms(request.Username);
+                    if (formList == IPersistence.ERROR)
+                    {
+                        return JsonParser.Serialize<Response>(new Response
+                        {
+                            ID = Response.Type.ERROR,
+                            JsonStr = "Error getting form list"
+                        });
+                    }
+                    return JsonParser.Serialize<Response>(new Response
+                    {
+                        ID = Response.Type.FORM_LIST,
+                        JsonStr = formList
                     });
                 default:
                     return JsonParser.Serialize<Response>(new Response
