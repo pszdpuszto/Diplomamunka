@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using UniversalForm.Client.Model;
+﻿using UniversalForm.Client.Model;
 using UniversalForm.Client.Persistence;
 
 namespace UniversalForm.Client.View
@@ -80,7 +74,7 @@ namespace UniversalForm.Client.View
         }
     }
 
-        internal class CPTextArea : CreatePage
+    internal class CPTextArea : CreatePage
     {
         private QTextArea _question;
         public CPTextArea(QTextArea question) : base(question)

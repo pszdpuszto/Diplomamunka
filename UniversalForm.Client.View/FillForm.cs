@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using UniversalForm.Client.Model;
+﻿using UniversalForm.Client.Model;
 using UniversalForm.Client.Persistence;
 
 namespace UniversalForm.Client.View
@@ -47,7 +38,7 @@ namespace UniversalForm.Client.View
             _page = FormPage.Factory(e.New, answerPanel, _model.GetStatisticsOfCurrentQuestion());
             if (_page == null)
             {
-                MessageBox.Show("Error creating question page");
+                MessageBox.Show("Error creating question page", "Page Creation Error");
                 return;
             }
             Deactivate += _page.LostFocus;
@@ -103,11 +94,11 @@ namespace UniversalForm.Client.View
                 {
                     if (_model.SaveFormStatistics())
                     {
-                        MessageBox.Show("Form submitted successfully");
+                        MessageBox.Show("Form submitted successfully", "Form Submission");
                         FullExit = false;
                         Close();
                     }
-                    else MessageBox.Show("Failed to send results.");
+                    else MessageBox.Show("Failed to send results. Please try again.", "Form Submission");
                     _page?.StartTimer();
                 }
             }

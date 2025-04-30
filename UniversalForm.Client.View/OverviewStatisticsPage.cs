@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Data;
 using UniversalForm.Client.Model;
 
 namespace UniversalForm.Client.View
@@ -20,7 +12,7 @@ namespace UniversalForm.Client.View
         private string AverageLostFocusLabelText => $"Average corrections: {_statModel.GetAllAverageLostFocus() / 1000.0}";
         private string AverageCorrectionsLabelText => $"Average time without focus: {_statModel.GetAllAverageCorrections()} seconds";
         private List<DateTime> SubmissionDates => _statModel.GetSubmissionDates();
-        private List<int> SubmissionCount 
+        private List<int> SubmissionCount
         {
             get
             {
@@ -30,7 +22,7 @@ namespace UniversalForm.Client.View
                     submissionCount.Add(i + 1);
                 }
                 return submissionCount;
-            } 
+            }
         }
         private List<string> QuestionLabels => _model.GetQuestionLabels();
         private List<double> AverageTimesSeconds => [.. _statModel.GetQuestionAverageTimes().Select(ms => ms / 1000.0)];

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UniversalForm.Client.Persistence;
+﻿using UniversalForm.Client.Persistence;
 
 namespace UniversalForm.Client.Model
 {

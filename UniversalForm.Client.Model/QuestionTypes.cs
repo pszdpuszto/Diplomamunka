@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using UniversalForm.Client.Persistence;
+﻿using UniversalForm.Client.Persistence;
 
 namespace UniversalForm.Client.Model
 {
@@ -26,7 +20,7 @@ namespace UniversalForm.Client.Model
     {
         public List<string> Options { get; }
         public bool CustomOption { get; set; }
-        public QSingleSelect(string title, string description, List<string> options, bool customOption, bool required=false) : base(QTYPE.SINGLE_SELECT, title, description, required)
+        public QSingleSelect(string title, string description, List<string> options, bool customOption, bool required = false) : base(QTYPE.SINGLE_SELECT, title, description, required)
         {
             Options = options;
             CustomOption = customOption;
@@ -41,7 +35,7 @@ namespace UniversalForm.Client.Model
     {
         public List<string> Options { get; }
         public bool CustomOption { get; set; }
-        public QMultiSelect(string title, string description, List<string> options, bool customOption, bool required=false) : base(QTYPE.MULTI_SELECT, title, description, required)
+        public QMultiSelect(string title, string description, List<string> options, bool customOption, bool required = false) : base(QTYPE.MULTI_SELECT, title, description, required)
         {
             Options = options;
             CustomOption = customOption;
@@ -51,7 +45,7 @@ namespace UniversalForm.Client.Model
     {
         public DateTime MinDate { get; set; }
         public DateTime MaxDate { get; set; }
-        public QDate(string title, string description, DateTime minDate, DateTime maxDate, bool required=false) : base(QTYPE.DATE, title, description, required)
+        public QDate(string title, string description, DateTime minDate, DateTime maxDate, bool required = false) : base(QTYPE.DATE, title, description, required)
         {
             MinDate = minDate;
             MaxDate = maxDate;
@@ -61,7 +55,7 @@ namespace UniversalForm.Client.Model
     {
         public int Min;
         public int Max;
-        public QNumber(string title, string description, int min, int max, bool required=false) : base(QTYPE.NUMBER, title, description, required)
+        public QNumber(string title, string description, int min, int max, bool required = false) : base(QTYPE.NUMBER, title, description, required)
         {
             Min = min;
             Max = max;

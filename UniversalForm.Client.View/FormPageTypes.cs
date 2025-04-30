@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UniversalForm.Client.Model;
+﻿using UniversalForm.Client.Model;
 using UniversalForm.Client.Persistence;
 
 namespace UniversalForm.Client.View
@@ -24,21 +19,21 @@ namespace UniversalForm.Client.View
                 Dock = DockStyle.Top,
                 Tag = null
             };
-            textBox.GotFocus += (s, e) => 
-            { 
+            textBox.GotFocus += (s, e) =>
+            {
                 if (_statistics.HasAnswer())
                     textBox.Tag = new object();
             };
             if (_statistics.HasAnswer())
                 textBox.Text = _statistics.GetSingleAnswer();
-            textBox.TextChanged += (s, e) => 
+            textBox.TextChanged += (s, e) =>
             {
                 if (textBox.Tag != null)
                 {
                     _statistics.Corrections++;
                     textBox.Tag = null;
                 }
-                _statistics.SetSingleAnswer(textBox.Text); 
+                _statistics.SetSingleAnswer(textBox.Text);
             };
             _controls.Add(textBox);
         }
@@ -62,10 +57,11 @@ namespace UniversalForm.Client.View
                     radioButton.Checked = true;
                     hasAnswer = true;
                 }
-                radioButton.CheckedChanged += (s, e) => { 
+                radioButton.CheckedChanged += (s, e) =>
+                {
                     if (_statistics.HasAnswer())
                         _statistics.Corrections++;
-                    _statistics.SetSingleAnswer(option); 
+                    _statistics.SetSingleAnswer(option);
                 };
                 _controls.Add(radioButton);
             }
@@ -127,7 +123,8 @@ namespace UniversalForm.Client.View
                     if (checkBox.Tag != null)
                     {
                         _statistics.Corrections++;
-                    } else
+                    }
+                    else
                     {
                         checkBox.Tag = new object();
                     }

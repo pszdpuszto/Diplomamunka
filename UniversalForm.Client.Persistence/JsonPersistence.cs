@@ -39,9 +39,9 @@ namespace UniversalForm.Client.Persistence
                 WriteIndented = true,
                 IncludeFields = true,
                 TypeInfoResolver = new QuestionTypeResolver(questionTypes)
-            };                 
+            };
         }
-            
+
         public Form? LoadForm(string name)
         {
             var jsonStr = LoadJson(name);
@@ -51,7 +51,7 @@ namespace UniversalForm.Client.Persistence
             {
                 return JsonSerializer.Deserialize<Form>(jsonStr, _options);
             }
-            catch {  return null; }
+            catch { return null; }
         }
 
         public bool SaveForm(string userName, string formName, Form form)

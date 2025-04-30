@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace UniversalForm.Client.Persistence
 {
@@ -42,15 +36,16 @@ namespace UniversalForm.Client.Persistence
             if (left.MultipleAnswers)
             {
                 left.Answers.UnionWith(right.Answers);
-            } else
+            }
+            else
             {
-                left.Answers = new(); 
+                left.Answers = new();
                 left.Answers.Add(right.Answers.First());
             }
             left.Corrections += right.Corrections;
             left.Time += right.Time;
             left.LostFocusTime += right.LostFocusTime;
-            return left;    
+            return left;
         }
         public bool HasAnswer()
         {

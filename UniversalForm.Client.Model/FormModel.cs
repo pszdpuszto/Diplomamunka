@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
-using UniversalForm.Client.Persistence;
+﻿using UniversalForm.Client.Persistence;
 
 namespace UniversalForm.Client.Model
 {
@@ -15,12 +9,16 @@ namespace UniversalForm.Client.Model
         IPersistence _persistence;
         FormMeasurement? _measurements;
         string _formName = string.Empty;
-        private Form? _form { get; set {
-                _measurements = (value != null) ? new(value) : null; 
+        private Form? _form
+        {
+            get; set
+            {
+                _measurements = (value != null) ? new(value) : null;
                 if (value != null && value.Anonymous)
                     UserName = "ANON";
-                field = value; 
-            } } = null;
+                field = value;
+            }
+        } = null;
         public int Index { get; private set; } = 0;
         public string? UserName { get; private set; }
         public void SetUserName(string userName)
@@ -29,7 +27,7 @@ namespace UniversalForm.Client.Model
                 UserName = userName;
         }
 
-        public FormModel(IPersistence persistence) 
+        public FormModel(IPersistence persistence)
         {
             _persistence = persistence;
         }
@@ -53,7 +51,7 @@ namespace UniversalForm.Client.Model
             return false;
         }
 
-        public bool LoadForm(string  formName)
+        public bool LoadForm(string formName)
         {
             var newForm = _persistence.LoadForm(formName);
             if (newForm == null)
@@ -65,7 +63,7 @@ namespace UniversalForm.Client.Model
 
         public bool SaveForm()
         {
-            if (_form == null || UserName == null) 
+            if (_form == null || UserName == null)
                 return false;
             return _persistence.SaveForm(UserName, _formName, _form);
         }
@@ -108,11 +106,11 @@ namespace UniversalForm.Client.Model
             Question[] qs = new Question[10];
             for (int i = 0; i < 5; i++)
             {
-                qs[i]= new QTextArea("Title for q" + i, "desc\n\n\n\nfarrt", false, "defText");
+                qs[i] = new QTextArea("Title for q" + i, "desc\n\n\n\nfarrt", false, "defText");
             }
             for (int i = 0; i < 5; i++)
             {
-                qs[5+i] = new QSingleSelect("Title for q" + (i + 5), "desc\n\n\n\nfarrt", new List<string> { "option1", "option2", "wow3" }, true);
+                qs[5 + i] = new QSingleSelect("Title for q" + (i + 5), "desc\n\n\n\nfarrt", new List<string> { "option1", "option2", "wow3" }, true);
             }
             _form = new Form("TestForm2", "test description", [.. qs]);
         }
@@ -140,7 +138,7 @@ namespace UniversalForm.Client.Model
                     _form.Title = value;
             }
         }
-        public string Description 
+        public string Description
         {
             get
             {
@@ -154,17 +152,17 @@ namespace UniversalForm.Client.Model
         }
         public bool HasQuestion() => (_form == null) ? false : _form.GetQuestion(Index) != null;
         public Question? FirstQuestion()
-        { 
+        {
             var firstQuestion = _form?.GetQuestion(0);
             if (firstQuestion != null)
                 Index = 0;
-           return firstQuestion;
+            return firstQuestion;
         }
         public Question? CurrentQuestion()
         {
             return _form?.GetQuestion(Index);
         }
-        public bool HasNextQuestion() => (_form == null) ? false : _form.GetQuestion(Index + 1 ) != null;
+        public bool HasNextQuestion() => (_form == null) ? false : _form.GetQuestion(Index + 1) != null;
         public Question? NextQuestion()
         {
             var nextQuestion = _form?.GetQuestion(Index + 1);
@@ -194,7 +192,7 @@ namespace UniversalForm.Client.Model
         public void RemoveQuestion(Question q)
         {
             if (_form != null && _form.RemoveQuestion(q) && Index != 0)
-               Index--;
+                Index--;
         }
         public List<string> GetQuestionLabels()
         {

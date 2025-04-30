@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using UniversalForm.Utils;
@@ -36,7 +33,8 @@ namespace UniversalForm.Client.Persistence
                 } while (sb.ToString().IndexOf(JsonParser.EOT) < 0);
                 var response = sb.ToString();
                 return JsonParser.Deserialize<Response>(response.Substring(0, response.IndexOf(JsonParser.EOT)));
-            } catch (SocketException)
+            }
+            catch (SocketException)
             {
                 ConnectionLost?.Invoke(this, this);
                 return new Response
@@ -55,7 +53,8 @@ namespace UniversalForm.Client.Persistence
             try
             {
                 _server.Connect(_endPoint);
-            } catch
+            }
+            catch
             {
                 return false;
             }

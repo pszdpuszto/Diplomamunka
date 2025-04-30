@@ -1,5 +1,3 @@
-using System.Net;
-using UniversalForm.Client.Model;
 using UniversalForm.Client.Persistence;
 using UniversalForm.Utils;
 
@@ -7,19 +5,22 @@ namespace UniversalForm.Client.View;
 
 static class Program
 {
-    /// <summary>
-    ///  The main entry point for the application.
-    /// </summary>
     [STAThread]
     static void Main()
     {
-        // To customize application configuration such as set high DPI settings or default font,
-        // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
-        var endPoint = IniReader.ReadServerAddress("settings.ini");
+        var iniReader = new IniReader("settings.ini");
+        if (!iniReader.InitSuccess)
+        {
+            var result = MessageBox.Show("Failed to read settings.ini, default values are used. Continue?", "settings.ini error", MessageBoxButtons.YesNo); ;
+            if (result == DialogResult.No)
+                return;
+
+        }
+        var endPoint = iniReader.ReadServerAddress();
         if (endPoint == null)
         {
-            MessageBox.Show("Invalid server address in settings.ini");
+            MessageBox.Show("Invalid server address in settings.ini", "settings.ini error");
             return;
         }
         var persistence = new ClientJsonPersistence(Model.FormModel.getQuestionTypes(), endPoint);

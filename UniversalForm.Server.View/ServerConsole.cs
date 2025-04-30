@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UniversalForm.Server.Model;
+﻿using UniversalForm.Server.Persistence;
 
 namespace UniversalForm.Server.View
 {
     internal class ServerConsole
     {
-        readonly string helpString = "Inputs are:\n\tregister\t-\tRegister a new admin user.\n\tstop\t-\tStop the server application.";
+        readonly string helpString = """
+            Inputs are:
+            register    -   Register a new admin user.
+            delete user -   Delete an existing admin user.
+            stop        -   Stop the server application.
+            """;
         Model.Server _server;
         bool _isRunning = false;
         public ServerConsole(Model.Server server)
@@ -43,6 +43,9 @@ namespace UniversalForm.Server.View
                             Console.WriteLine("Stopping the server...");
                             _isRunning = false;
                             break;
+                        case "delete user":
+                            DeleteUser();
+                            break;
                         default:
                             Console.WriteLine("Unknown command: \"" + input + "\"\n" + helpString);
                             break;
@@ -57,7 +60,8 @@ namespace UniversalForm.Server.View
             string password;
             string confirmPassword;
             string username = Console.ReadLine() ?? string.Empty;
-            while (!_server.UsernameAvailable(username)) {
+            while (!_server.UsernameAvailable(username))
+            {
                 Console.WriteLine("Username already taken. Please choose another one.\nEnter username: ");
                 username = Console.ReadLine() ?? string.Empty;
             }
@@ -86,6 +90,47 @@ namespace UniversalForm.Server.View
                 Console.WriteLine("Admin registered successfully.");
             else
                 Console.WriteLine("Failed to register admin. Please try again.");
+        }
+        private void DeleteUser()
+        {
+            Console.WriteLine("Enter username to delete or 'cancel' to cancel:");
+            string? input = Console.ReadLine();
+            if (input == null)
+                return;
+            else if (input == "cancel")
+                return;
+            var run = true;
+            while (run)
+            {
+                Console.WriteLine("Enter password:");
+                string? password = Console.ReadLine();
+                if (password == null)
+                    run = false;
+                else
+                {
+                    var result = _server.DeleteAdmin(input, password);
+                    switch (result)
+                    {
+                        case IPersistence.LoginResult.SUCCESS:
+                            Console.WriteLine("User deleted successfully.");
+                            run = false;
+                            break;
+                        case IPersistence.LoginResult.USER_NOT_FOUND:
+                            Console.WriteLine("User not found.");
+                            run = false;
+                            break;
+                        case IPersistence.LoginResult.PASSWORD_INCORRECT:
+                            Console.WriteLine("Incorrect password.");
+                            break;
+                        case IPersistence.LoginResult.IO_ERROR:
+                        default:
+                            Console.WriteLine("Failed to delete user.");
+                            run = false;
+                            break;
+                    }
+                }
+
+            }
         }
     }
 }

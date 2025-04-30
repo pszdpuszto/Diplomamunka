@@ -25,7 +25,7 @@
         }
         public static bool CompareToFile(string str, string fileName)
         {
-            var referenceFile = Path.Join(ReferencePath, fileName+".string");
+            var referenceFile = Path.Join(ReferencePath, fileName + ".string");
             if (!File.Exists(referenceFile))
                 return false;
             var referenceFileText = File.ReadAllText(referenceFile);

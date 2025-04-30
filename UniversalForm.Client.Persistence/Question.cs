@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-
-namespace UniversalForm.Client.Persistence
+﻿namespace UniversalForm.Client.Persistence
 {
-    
+
     public abstract class Question
     {
         public enum QTYPE

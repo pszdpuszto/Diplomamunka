@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UniversalForm.Client.Model;
+﻿using UniversalForm.Client.Model;
 using UniversalForm.Client.Persistence;
 
 namespace UniversalForm.Client.View
@@ -13,8 +8,8 @@ namespace UniversalForm.Client.View
         private Control? _parent;
         protected List<Control> _controls = new();
         public Question Question { get; }
-        public virtual string Title { get => Question.Title;  set => Question.Title = value; }
-        public virtual string Description { get => Question.Description;  set => Question.Description = value; }
+        public virtual string Title { get => Question.Title; set => Question.Title = value; }
+        public virtual string Description { get => Question.Description; set => Question.Description = value; }
         protected CreatePage(Question question)
         {
             Question = question;
@@ -95,6 +90,6 @@ namespace UniversalForm.Client.View
                 Question.Required = isRequired.Checked;
             };
             _controls.Add(isRequired);
-        } 
+        }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UniversalForm.Server.Persistence
+﻿namespace UniversalForm.Server.Persistence
 {
     public interface IPersistence
     {
@@ -24,5 +18,6 @@ namespace UniversalForm.Server.Persistence
         public bool SaveStatistics(string formName, string jsonStr);
         public string GetForms(string userName);
         public bool DeleteForm(string userName, string formName);
+        public bool DeleteUser(string userName);
     }
 }

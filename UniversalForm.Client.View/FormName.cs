@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace UniversalForm.Client.View
+﻿namespace UniversalForm.Client.View
 {
     public partial class FormName : Form
     {
@@ -24,12 +14,12 @@ namespace UniversalForm.Client.View
         {
             if (string.IsNullOrEmpty(textBox1.Text))
             {
-                MessageBox.Show("Please enter a form name.");
+                MessageBox.Show("Please enter a form name.", "Form Name Error");
                 return;
             }
             if (_model.FormExists(textBox1.Text))
             {
-                MessageBox.Show(" A form with that name already exists. Please choose a different name.");
+                MessageBox.Show(" A form with that name already exists. Please choose a different name.", "Form Name Error");
                 return;
             }
             FormNameValue = textBox1.Text;

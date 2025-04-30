@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace UniversalForm.Client.View
+﻿namespace UniversalForm.Client.View
 {
     public partial class UserName : Form
     {
@@ -21,7 +11,7 @@ namespace UniversalForm.Client.View
             {
                 if (string.IsNullOrEmpty(UserNameValue))
                 {
-                    MessageBox.Show("Please enter a username.");
+                    MessageBox.Show("Please enter a username.", "Username error");
                     return;
                 }
                 Close();

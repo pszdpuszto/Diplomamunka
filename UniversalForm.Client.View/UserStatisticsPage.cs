@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
+﻿using System.Data;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using UniversalForm.Client.Model;
 
 namespace UniversalForm.Client.View
@@ -19,7 +12,7 @@ namespace UniversalForm.Client.View
         private int? _userIndex;
         private string SubmitDateLabelText => $"Submitted on: {((_userName != null) ? _statModel.GetSubmitterDate(_userName) : _statModel.GetSubmitterDate(_userIndex!.Value)).ToString("dd/MM/yyyy HH:mm:ss")}";
         private List<string> Questions => _model.GetQuestionLabels();
-        private List<double> Times => [.. ((_userName != null) ? _statModel.GetSubmitterTimes(_userName) : _statModel.GetSubmitterTimes(_userIndex!.Value)).Select(ms => ms / 1000.0) ];
+        private List<double> Times => [.. ((_userName != null) ? _statModel.GetSubmitterTimes(_userName) : _statModel.GetSubmitterTimes(_userIndex!.Value)).Select(ms => ms / 1000.0)];
         private List<double> TimesCumulative
         {
             get

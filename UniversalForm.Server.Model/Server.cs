@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
 using System.Net;
 using System.Net.Sockets;
-using System.Numerics;
-using System.Security;
 using System.Text;
-using System.Threading.Tasks;
 using UniversalForm.Server.Persistence;
 using UniversalForm.Utils;
 
@@ -31,13 +25,14 @@ namespace UniversalForm.Server.Model
 
         private ManualResetEvent _threadSync = new(false);
         private ArrayList _peers = new();
+        private bool _verbose;
 
         private IPersistence _persistence;
-        public Server(IPEndPoint endPoint, IPersistence persistence)
+        public Server(IPEndPoint endPoint, bool verbose, IPersistence persistence)
         {
 
             _endPoint = endPoint;
-
+            _verbose = verbose;
             _persistence = persistence;
         }
 
@@ -63,14 +58,16 @@ namespace UniversalForm.Server.Model
                     _threadSync.WaitOne();
 
                 }
-            } catch (Exception ex)
+            }
+            catch (SocketException)
             {
-                Console.WriteLine(ex.ToString());
-            } 
+                Console.WriteLine("Socket is already in use!");
+            }
 
         }
 
-        public void Stop() { 
+        public void Stop()
+        {
             _running = false;
             if (_peers.Count > 0)
             {
@@ -82,6 +79,16 @@ namespace UniversalForm.Server.Model
         public bool RegisterAdmin(string userName, string password)
         {
             return _persistence.RegisterUser(userName, password);
+        }
+        public IPersistence.LoginResult DeleteAdmin(string userName, string password)
+        {
+            var result = _persistence.CheckLogin(userName, password);
+            if (result != IPersistence.LoginResult.SUCCESS)
+                return result;
+            if (_persistence.DeleteUser(userName))
+                return IPersistence.LoginResult.SUCCESS;
+            else
+                return IPersistence.LoginResult.IO_ERROR;
         }
         public bool UsernameAvailable(string username)
         {
@@ -222,7 +229,7 @@ namespace UniversalForm.Server.Model
             {
                 _peers.Add(handler.RemoteEndPoint);
             }
-            
+
             Console.WriteLine($"Connected client: {handler.RemoteEndPoint}");
             handler.BeginReceive(
                 client.buffer,
@@ -244,7 +251,8 @@ namespace UniversalForm.Server.Model
             try
             {
                 BytesRead = client.socket.EndReceive(ar);
-            } catch
+            }
+            catch
             {
                 Console.WriteLine($"Disconnected client: {client.socket.RemoteEndPoint}");
                 lock (_peers.SyncRoot)
@@ -262,26 +270,26 @@ namespace UniversalForm.Server.Model
                 if (content.IndexOf(JsonParser.EOT) > -1)
                 {
                     content = content.Substring(0, content.IndexOf(JsonParser.EOT));
-                    Console.WriteLine($"Read {content.Length} bytes of data: {content}");
+                    if (_verbose)
+                        Console.WriteLine($"Read {content.Length} bytes of data: {content}");
 
                     var responseJsonStr = ProcessRequest(content) + JsonParser.EOT;
 
                     Send(client.socket, responseJsonStr);
-                    Console.WriteLine($"Sent {responseJsonStr.Length} bytes of data: {responseJsonStr}");
+                    if (_verbose)
+                        Console.WriteLine($"Sent {responseJsonStr.Length} bytes of data: {responseJsonStr}");
 
                     client.sb.Clear();
                 }
-                //else
-                //{
-                    client.socket.BeginReceive(
-                        client.buffer,
-                        0,
-                        Client.BUFFER_SIZE,
-                        SocketFlags.None,
-                        new AsyncCallback(ReadCallback),
-                        client
-                        );
-                //}
+
+                client.socket.BeginReceive(
+                    client.buffer,
+                    0,
+                    Client.BUFFER_SIZE,
+                    SocketFlags.None,
+                    new AsyncCallback(ReadCallback),
+                    client
+                    );
             }
         }
 
@@ -291,16 +299,6 @@ namespace UniversalForm.Server.Model
             {
                 Socket handler = (Socket)ar.AsyncState!;
                 int bytesSent = handler.EndSend(ar);
-                Console.WriteLine($"Sent {bytesSent} bytes to client.");
-
-                /*lock (_peers.SyncRoot)
-                {
-                    _peers.Remove(handler.RemoteEndPoint);
-                }
-                handler.Shutdown(SocketShutdown.Both);
-                Console.WriteLine($"Disconnected client: {handler.RemoteEndPoint}");
-                handler.Close();*/
-
             }
             catch (Exception ex)
             {

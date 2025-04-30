@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Net.WebSockets;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace UniversalForm.Client.View
+﻿namespace UniversalForm.Client.View
 {
     public partial class Admin : Form
     {
@@ -28,7 +17,7 @@ namespace UniversalForm.Client.View
             var forms = _model.GetFormList();
             if (forms == null)
             {
-                MessageBox.Show("No forms found for user: " + _model.UserName);
+                MessageBox.Show("No forms found for user: " + _model.UserName, "Form List Load Error");
                 return;
             }
             foreach (var form in forms)
@@ -47,13 +36,13 @@ namespace UniversalForm.Client.View
             _model.LoadForm(e);
             if (_model == null)
             {
-                MessageBox.Show("Error loading form: " + e);
+                MessageBox.Show("Error loading form: " + e, "Form Load Error");
                 return;
             }
             var statModel = _model.GetStatisticsModel();
             if (statModel == null)
             {
-                MessageBox.Show("No statistics found for form: " + e);
+                MessageBox.Show("No statistics found for form: " + e, "Statistics Load Error");
                 return;
             }
             var stats = new FormStatistics(_model, statModel);

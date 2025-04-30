@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using UniversalForm.Utils;
+﻿using UniversalForm.Utils;
 
 namespace UniversalForm.Server.Persistence
 {
@@ -57,7 +53,8 @@ namespace UniversalForm.Server.Persistence
                     using (BinaryReader r = new BinaryReader(fs))
                     {
                         string stat;
-                        while (r.BaseStream.Position != r.BaseStream.Length) {
+                        while (r.BaseStream.Position != r.BaseStream.Length)
+                        {
                             stat = r.ReadString();
                             list.Add(stat);
                         }
@@ -234,6 +231,29 @@ namespace UniversalForm.Server.Persistence
                 return false;
             File.Delete(formFileName);
             File.Delete(GetFileLocation(formName, STAT_EXTENSION));
+            return true;
+        }
+
+        public bool DeleteUser(string userName)
+        {
+            var user = LoadUser(userName);
+            if (!user.HasValue)
+                return false;
+            try
+            {
+                foreach (var form in user.Value.Forms)
+                {
+                    var formFileName = GetFileLocation(form, FORM_EXTENSION);
+                    File.Delete(formFileName);
+                    File.Delete(GetFileLocation(form, STAT_EXTENSION));
+                }
+                var userFileName = GetFileLocation(userName, USER_EXTENSION);
+                File.Delete(userFileName);
+            }
+            catch
+            {
+                return false;
+            }
             return true;
         }
     }

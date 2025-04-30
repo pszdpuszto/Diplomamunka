@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
-
-namespace UniversalForm.Client.View
+﻿namespace UniversalForm.Client.View
 {
     public partial class Menu : Form
     {
@@ -46,7 +35,7 @@ namespace UniversalForm.Client.View
             }
             else
             {
-                MessageBox.Show("Invalid Form Name");
+                MessageBox.Show("Invalid Form Name", "Form Name Error");
             }
         }
 

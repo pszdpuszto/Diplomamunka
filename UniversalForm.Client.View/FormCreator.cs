@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Data;
 using UniversalForm.Client.Model;
 using UniversalForm.Client.Persistence;
 
@@ -36,7 +28,8 @@ namespace UniversalForm.Client.View
             if (newForm)
             {
                 _model.CreateEmptyForm(_formName);
-            } else
+            }
+            else
             {
                 _model.LoadForm(_formName);
             }
@@ -80,13 +73,13 @@ namespace UniversalForm.Client.View
             {
                 if (_model.SaveForm())
                 {
-                    MessageBox.Show("Form saved successfully.");
+                    MessageBox.Show("Form saved successfully.", "Form Saved");
                     FullExit = false;
                     Close();
                 }
                 else
                 {
-                    MessageBox.Show("Failed to save form.");
+                    MessageBox.Show("Failed to save form.", "Form Save Error");
                 }
             }
         }

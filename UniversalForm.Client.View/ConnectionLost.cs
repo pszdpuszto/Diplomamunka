@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using UniversalForm.Client.Persistence;
+﻿using UniversalForm.Client.Persistence;
 
 namespace UniversalForm.Client.View
 {
@@ -30,7 +21,7 @@ namespace UniversalForm.Client.View
             }
             else
             {
-                MessageBox.Show("Failed to reconnect.");
+                MessageBox.Show("Failed to reconnect.", "Connection Error");
             }
         }
 

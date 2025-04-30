@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using UniversalForm.Client.Model;
 using UniversalForm.Client.Persistence;
 
@@ -91,7 +86,7 @@ namespace UniversalForm.Client.View
                 Text = "*required*",
                 ForeColor = System.Drawing.Color.Red,
                 AutoSize = true,
-                Location = new Point(0,0),
+                Location = new Point(0, 0),
                 Dock = DockStyle.Top,
             };
             _controls.Add(requiredLabel);
@@ -103,7 +98,7 @@ namespace UniversalForm.Client.View
         {
             if (_noFocus)
                 return;
-                _lostFocusTime.Start();
+            _lostFocusTime.Start();
         }
         public void GotFocus(object? _, EventArgs __)
         {

@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using UniversalForm.Client.Model;
+﻿using UniversalForm.Client.Model;
 
 namespace UniversalForm.Client.View
 {
@@ -56,7 +46,7 @@ namespace UniversalForm.Client.View
                 var questionIndex = questionComboBox.SelectedIndex;
                 if (questionIndex < 0)
                 {
-                    MessageBox.Show("Please select a question.");
+                    MessageBox.Show("Please select a question.", "Question Name Error");
                     questionBtn.Checked = false;
                     return;
                 }
@@ -64,7 +54,7 @@ namespace UniversalForm.Client.View
                 var questionType = _model.GetQuestionType(questionIndex);
                 if (!questionType.HasValue)
                 {
-                    MessageBox.Show("Question type not found.");
+                    MessageBox.Show("Question type not found.", "Question Name Error");
                     questionBtn.Checked = false;
                     return;
                 }
@@ -80,17 +70,18 @@ namespace UniversalForm.Client.View
                     var userIndex = userComboBox.SelectedIndex;
                     if (userIndex < 0)
                     {
-                        MessageBox.Show("Please select a user.");
+                        MessageBox.Show("Please select a user.", "Username Error");
                         userBtn.Checked = false;
                         return;
                     }
                     CurrentPage = new UserStatisticsPage(_model, _statModel, userIndex);
-                } else
+                }
+                else
                 {
                     var userName = userComboBox.Text;
                     if (string.IsNullOrEmpty(userName))
                     {
-                        MessageBox.Show("Please select a user.");
+                        MessageBox.Show("Please select a user.", "Username Error");
                         userBtn.Checked = false;
                         return;
                     }
