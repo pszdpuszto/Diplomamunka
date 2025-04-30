@@ -22,11 +22,24 @@ namespace UniversalForm.Client.View
                 Width = 512,
                 PlaceholderText = textQuestion.DefaultText,
                 Dock = DockStyle.Top,
+                Tag = null
             };
-            textBox.LostFocus += (s, e) => { _statistics.Corrections++; };
+            textBox.GotFocus += (s, e) => 
+            { 
+                if (_statistics.HasAnswer())
+                    textBox.Tag = new object();
+            };
             if (_statistics.HasAnswer())
                 textBox.Text = _statistics.GetSingleAnswer();
-            textBox.TextChanged += (s, e) => { _statistics.SetSingleAnswer(textBox.Text); };
+            textBox.TextChanged += (s, e) => 
+            {
+                if (textBox.Tag != null)
+                {
+                    _statistics.Corrections++;
+                    textBox.Tag = null;
+                }
+                _statistics.SetSingleAnswer(textBox.Text); 
+            };
             _controls.Add(textBox);
         }
     }
@@ -50,8 +63,9 @@ namespace UniversalForm.Client.View
                     hasAnswer = true;
                 }
                 radioButton.CheckedChanged += (s, e) => { 
+                    if (_statistics.HasAnswer())
+                        _statistics.Corrections++;
                     _statistics.SetSingleAnswer(option); 
-                    _statistics.Corrections++;
                 };
                 _controls.Add(radioButton);
             }
@@ -83,10 +97,11 @@ namespace UniversalForm.Client.View
                 }
                 radioButton.CheckedChanged += (s, e) =>
                 {
+                    if (_statistics.HasAnswer())
+                        _statistics.Corrections++;
                     if (radioButton.Checked)
                         _statistics.SetSingleAnswer(customTextBox.Text);
                     customTextBox.Enabled = radioButton.Checked;
-                    _statistics.Corrections++;
                 };
                 _controls.Add(textPanel);
             }
@@ -182,8 +197,9 @@ namespace UniversalForm.Client.View
             }
             datePicker.ValueChanged += (s, e) =>
             {
+                if (_statistics.HasAnswer())
+                    _statistics.Corrections++;
                 _statistics.SetSingleAnswer(datePicker.Value.ToString("yyyy-MM-dd"));
-                _statistics.Corrections++;
             };
             _controls.Add(datePicker);
         }
@@ -201,15 +217,15 @@ namespace UniversalForm.Client.View
                 Increment = 1,
                 Dock = DockStyle.Top,
             };
-            int ans;
-            if (Int32.TryParse(_statistics.GetSingleAnswer(), out ans) && sliderQuestion.Min <= ans && sliderQuestion.Max >= ans)
+            if (Int32.TryParse(_statistics.GetSingleAnswer(), out int ans) && sliderQuestion.Min <= ans && sliderQuestion.Max >= ans)
             {
                 numInput.Value = ans;
             }
             numInput.ValueChanged += (s, e) =>
             {
+                if (_statistics.HasAnswer())
+                    _statistics.Corrections++;
                 _statistics.SetSingleAnswer(numInput.Value.ToString());
-                _statistics.Corrections++;
             };
             _controls.Add(numInput);
         }

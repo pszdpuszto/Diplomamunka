@@ -82,38 +82,48 @@ namespace UniversalForm.Client.View
         }
         private void CreateAnswerLabels()
         {
-            List<Control> answerLabels = new();
+            var sb = new StringBuilder();
             for (int i = 0; i < Answers.Count; i++)
             {
-                var label = new Label()
-                {
-                    Text = $"#{i+1}: {Questions[i]}",
-                    Font = new Font("Segoe UI", 14, FontStyle.Bold),
-                    Dock = DockStyle.Top
-                };
-                answerLabels.Add(label);
-                var subPanel = new Panel()
-                {
-                    Dock = DockStyle.Top,
-                    AutoSize = true,
-                    AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                    Padding = new Padding(0, 50, 0, 0),
-                };
-                label.Controls.Add(subPanel);
+                sb.AppendLine($"#{i + 1}: {Questions[i]}");
                 foreach (var answer in Answers[i])
                 {
-                    var answerLabel = new Label()
-                    {
-                        Text = answer,
-                        Dock = DockStyle.Top,
-                    };
-                    subPanel.Controls.Add(answerLabel);
+                    sb.AppendLine("    + " + answer);
                 }
             }
-            for (int i = answerLabels.Count - 1; i >= 0; i--)
-            {
-                answerPanel.Controls.Add(answerLabels[i]);
-            }
+            answersLabel.Text = sb.ToString();
+            //List<Control> answerLabels = new();
+            //for (int i = 0; i < Answers.Count; i++)
+            //{
+            //    var label = new Label()
+            //    {
+            //        Text = $"#{i+1}: {Questions[i]}",
+            //        Font = new Font("Segoe UI", 14, FontStyle.Bold),
+            //        Dock = DockStyle.Top
+            //    };
+            //    answerLabels.Add(label);
+            //    var subPanel = new Panel()
+            //    {
+            //        Dock = DockStyle.Top,
+            //        AutoSize = true,
+            //        AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            //        Padding = new Padding(0, 50, 0, 0),
+            //    };
+            //    label.Controls.Add(subPanel);
+            //    foreach (var answer in Answers[i])
+            //    {
+            //        var answerLabel = new Label()
+            //        {
+            //            Text = answer,
+            //            Dock = DockStyle.Top,
+            //        };
+            //        subPanel.Controls.Add(answerLabel);
+            //    }
+            //}
+            //for (int i = answerLabels.Count - 1; i >= 0; i--)
+            //{
+            //    answerPanel.Controls.Add(answerLabels[i]);
+            //}
         }
     }
 }

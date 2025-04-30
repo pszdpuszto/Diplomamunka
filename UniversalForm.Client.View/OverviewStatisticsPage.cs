@@ -19,6 +19,19 @@ namespace UniversalForm.Client.View
         private string AverageTimeLabelText => $"Average time: {_statModel.GetAllAverageTime() / 1000.0} seconds";
         private string AverageLostFocusLabelText => $"Average corrections: {_statModel.GetAllAverageLostFocus() / 1000.0}";
         private string AverageCorrectionsLabelText => $"Average time without focus: {_statModel.GetAllAverageCorrections()} seconds";
+        private List<DateTime> SubmissionDates => _statModel.GetSubmissionDates();
+        private List<int> SubmissionCount 
+        {
+            get
+            {
+                List<int> submissionCount = new();
+                for (int i = 0; i < SubmissionDates.Count; i++)
+                {
+                    submissionCount.Add(i + 1);
+                }
+                return submissionCount;
+            } 
+        }
         private List<string> QuestionLabels => _model.GetQuestionLabels();
         private List<double> AverageTimesSeconds => [.. _statModel.GetQuestionAverageTimes().Select(ms => ms / 1000.0)];
         private List<double> AverageLostFocus => [.. _statModel.GetQuestionAverageLostFocusTimes().Select(ms => ms / 1000.0)];
@@ -36,6 +49,7 @@ namespace UniversalForm.Client.View
             timeLabel.Text = AverageTimeLabelText;
             correctionLabel.Text = AverageLostFocusLabelText;
             lostFocusLabel.Text = AverageCorrectionsLabelText;
+            dateChart.Series.First().Points.DataBindXY(SubmissionDates, SubmissionCount);
             avgTimeChart.Series.First().Points.DataBindXY(QuestionLabels, AverageTimesSeconds);
             correctionChart.Series.First().Points.DataBindXY(QuestionLabels, AverageCorrections);
             lostFocusChart.Series.First().Points.DataBindXY(QuestionLabels, AverageLostFocus);

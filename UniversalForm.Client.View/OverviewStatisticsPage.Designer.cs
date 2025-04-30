@@ -37,6 +37,9 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
             avgTimeChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             correctionChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             panel1 = new Panel();
@@ -45,10 +48,12 @@
             timeLabel = new Label();
             userNumLabel = new Label();
             lostFocusChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            dateChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             ((System.ComponentModel.ISupportInitialize)avgTimeChart).BeginInit();
             ((System.ComponentModel.ISupportInitialize)correctionChart).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)lostFocusChart).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dateChart).BeginInit();
             SuspendLayout();
             // 
             // avgTimeChart
@@ -58,7 +63,7 @@
             chartArea1.Name = "AverageTime";
             avgTimeChart.ChartAreas.Add(chartArea1);
             avgTimeChart.Dock = DockStyle.Top;
-            avgTimeChart.Location = new Point(0, 90);
+            avgTimeChart.Location = new Point(0, 460);
             avgTimeChart.Margin = new Padding(4);
             avgTimeChart.Name = "avgTimeChart";
             avgTimeChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SeaGreen;
@@ -81,7 +86,7 @@
             chartArea2.Name = "ChartArea1";
             correctionChart.ChartAreas.Add(chartArea2);
             correctionChart.Dock = DockStyle.Top;
-            correctionChart.Location = new Point(0, 460);
+            correctionChart.Location = new Point(0, 830);
             correctionChart.Name = "correctionChart";
             correctionChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SeaGreen;
             series2.ChartArea = "ChartArea1";
@@ -157,7 +162,7 @@
             chartArea3.Name = "ChartArea1";
             lostFocusChart.ChartAreas.Add(chartArea3);
             lostFocusChart.Dock = DockStyle.Top;
-            lostFocusChart.Location = new Point(0, 830);
+            lostFocusChart.Location = new Point(0, 1200);
             lostFocusChart.Name = "lostFocusChart";
             lostFocusChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SeaGreen;
             series3.ChartArea = "ChartArea1";
@@ -174,6 +179,32 @@
             title3.Text = "Average Time Without Focus";
             lostFocusChart.Titles.Add(title3);
             // 
+            // dateChart
+            // 
+            chartArea4.AxisX.IsMarginVisible = false;
+            chartArea4.AxisX.Title = "Date";
+            chartArea4.AxisY.Title = "Submissions";
+            chartArea4.Name = "AverageTime";
+            dateChart.ChartAreas.Add(chartArea4);
+            dateChart.Dock = DockStyle.Top;
+            dateChart.Location = new Point(0, 90);
+            dateChart.Margin = new Padding(4);
+            dateChart.Name = "dateChart";
+            dateChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SeaGreen;
+            series4.ChartArea = "AverageTime";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series4.IsXValueIndexed = true;
+            series4.Name = "Series3";
+            series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            dateChart.Series.Add(series4);
+            dateChart.Size = new Size(780, 370);
+            dateChart.TabIndex = 4;
+            dateChart.Text = "Average Time Spent Per Question";
+            title4.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            title4.Name = "Title1";
+            title4.Text = "Amount Of Submissions";
+            dateChart.Titles.Add(title4);
+            // 
             // OverviewStatisticsPage
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
@@ -183,16 +214,18 @@
             Controls.Add(lostFocusChart);
             Controls.Add(correctionChart);
             Controls.Add(avgTimeChart);
+            Controls.Add(dateChart);
             Controls.Add(panel1);
             Font = new Font("Segoe UI", 12F);
             Margin = new Padding(4);
             Name = "OverviewStatisticsPage";
-            Size = new Size(780, 1200);
+            Size = new Size(780, 1570);
             ((System.ComponentModel.ISupportInitialize)avgTimeChart).EndInit();
             ((System.ComponentModel.ISupportInitialize)correctionChart).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)lostFocusChart).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dateChart).EndInit();
             ResumeLayout(false);
         }
 
@@ -206,5 +239,6 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart lostFocusChart;
         private Label correctionLabel;
         private Label lostFocusLabel;
+        private System.Windows.Forms.DataVisualization.Charting.Chart dateChart;
     }
 }

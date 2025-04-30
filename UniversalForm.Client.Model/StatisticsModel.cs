@@ -34,6 +34,10 @@ namespace UniversalForm.Client.Model
             else
                 return Statistics.Select(x => x.UserName).ToList();
         }
+        public List<DateTime> GetSubmissionDates()
+        {
+            return Statistics.Select(x => x.Date).ToList();
+        }
         public double GetAllAverageTime()
         {
             return Statistics.Sum(x => x.QuestionStatistics.Sum(y => y.Time)) / Statistics.Count;

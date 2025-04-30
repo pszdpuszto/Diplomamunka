@@ -48,9 +48,9 @@
             correctionsCumChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             timeChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             correctionsChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            answerLabel = new Label();
+            label = new Label();
             answerPanel = new Panel();
-            label1 = new Label();
+            answersLabel = new Label();
             dateLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)timeCumChart).BeginInit();
             ((System.ComponentModel.ISupportInitialize)lostFocusChart).BeginInit();
@@ -68,7 +68,7 @@
             chartArea1.Name = "ChartArea1";
             timeCumChart.ChartAreas.Add(chartArea1);
             timeCumChart.Dock = DockStyle.Top;
-            timeCumChart.Location = new Point(0, 121);
+            timeCumChart.Location = new Point(0, 72);
             timeCumChart.Margin = new Padding(4);
             timeCumChart.Name = "timeCumChart";
             timeCumChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.EarthTones;
@@ -93,7 +93,7 @@
             chartArea2.Name = "ChartArea1";
             lostFocusChart.ChartAreas.Add(chartArea2);
             lostFocusChart.Dock = DockStyle.Top;
-            lostFocusChart.Location = new Point(0, 861);
+            lostFocusChart.Location = new Point(0, 812);
             lostFocusChart.Margin = new Padding(4);
             lostFocusChart.Name = "lostFocusChart";
             lostFocusChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.EarthTones;
@@ -117,7 +117,7 @@
             chartArea3.Name = "ChartArea1";
             correctionsCumChart.ChartAreas.Add(chartArea3);
             correctionsCumChart.Dock = DockStyle.Top;
-            correctionsCumChart.Location = new Point(0, 1231);
+            correctionsCumChart.Location = new Point(0, 1182);
             correctionsCumChart.Margin = new Padding(4);
             correctionsCumChart.Name = "correctionsCumChart";
             correctionsCumChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.EarthTones;
@@ -142,7 +142,7 @@
             chartArea4.Name = "ChartArea1";
             timeChart.ChartAreas.Add(chartArea4);
             timeChart.Dock = DockStyle.Top;
-            timeChart.Location = new Point(0, 491);
+            timeChart.Location = new Point(0, 442);
             timeChart.Margin = new Padding(4);
             timeChart.Name = "timeChart";
             timeChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.EarthTones;
@@ -166,7 +166,7 @@
             chartArea5.Name = "ChartArea1";
             correctionsChart.ChartAreas.Add(chartArea5);
             correctionsChart.Dock = DockStyle.Top;
-            correctionsChart.Location = new Point(0, 1601);
+            correctionsChart.Location = new Point(0, 1552);
             correctionsChart.Margin = new Padding(4);
             correctionsChart.Name = "correctionsChart";
             correctionsChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.EarthTones;
@@ -182,35 +182,38 @@
             title5.Text = "Corrections";
             correctionsChart.Titles.Add(title5);
             // 
-            // answerLabel
+            // label
             // 
-            answerLabel.Dock = DockStyle.Top;
-            answerLabel.Font = new Font("Segoe UI", 16F);
-            answerLabel.Location = new Point(0, 0);
-            answerLabel.Margin = new Padding(4, 0, 4, 0);
-            answerLabel.Name = "answerLabel";
-            answerLabel.Size = new Size(780, 30);
-            answerLabel.TabIndex = 5;
-            answerLabel.Text = "Answers";
-            answerLabel.TextAlign = ContentAlignment.TopCenter;
+            label.Dock = DockStyle.Top;
+            label.Font = new Font("Segoe UI", 16F);
+            label.Location = new Point(0, 0);
+            label.Margin = new Padding(4, 0, 4, 0);
+            label.Name = "label";
+            label.Size = new Size(780, 30);
+            label.TabIndex = 5;
+            label.Text = "Answers";
+            label.TextAlign = ContentAlignment.TopCenter;
             // 
             // answerPanel
             // 
-            answerPanel.Controls.Add(answerLabel);
+            answerPanel.AutoSize = true;
+            answerPanel.Controls.Add(answersLabel);
+            answerPanel.Controls.Add(label);
             answerPanel.Dock = DockStyle.Top;
             answerPanel.Location = new Point(0, 21);
             answerPanel.Name = "answerPanel";
-            answerPanel.Size = new Size(780, 100);
+            answerPanel.Size = new Size(780, 51);
             answerPanel.TabIndex = 6;
             // 
-            // label1
+            // answersLabel
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(8, 1588);
-            label1.Name = "label1";
-            label1.Size = new Size(52, 21);
-            label1.TabIndex = 7;
-            label1.Text = "label1";
+            answersLabel.AutoSize = true;
+            answersLabel.Dock = DockStyle.Top;
+            answersLabel.Location = new Point(0, 30);
+            answersLabel.Name = "answersLabel";
+            answersLabel.Size = new Size(52, 21);
+            answersLabel.TabIndex = 6;
+            answersLabel.Text = "label2";
             // 
             // dateLabel
             // 
@@ -227,7 +230,6 @@
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
-            Controls.Add(label1);
             Controls.Add(correctionsChart);
             Controls.Add(correctionsCumChart);
             Controls.Add(lostFocusChart);
@@ -245,6 +247,7 @@
             ((System.ComponentModel.ISupportInitialize)timeChart).EndInit();
             ((System.ComponentModel.ISupportInitialize)correctionsChart).EndInit();
             answerPanel.ResumeLayout(false);
+            answerPanel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -256,9 +259,9 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart correctionsCumChart;
         private System.Windows.Forms.DataVisualization.Charting.Chart timeChart;
         private System.Windows.Forms.DataVisualization.Charting.Chart correctionsChart;
-        private Label answerLabel;
+        private Label label;
         private Panel answerPanel;
-        private Label label1;
         private Label dateLabel;
+        private Label answersLabel;
     }
 }
