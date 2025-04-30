@@ -1,0 +1,61 @@
+¬
+{
+  "title": "Test title",
+  "description": "Test Description\r\nTest Descr.",
+  "measureCorrections": false,
+  "measureTime": false,
+  "anonymous": true,
+  "focusTracking": true,
+  "questions": [
+    {
+      "$questionType": "QTextArea",
+      "defaultText": "default text",
+      "type": 0,
+      "title": "Text Area",
+      "description": "Description",
+      "required": true
+    },
+    {
+      "$questionType": "QSingleSelect",
+      "options": [
+        "op2",
+        "op1 "
+      ],
+      "customOption": true,
+      "type": 1,
+      "title": "Single Select",
+      "description": "",
+      "required": false
+    },
+    {
+      "$questionType": "QMultiSelect",
+      "options": [
+        "op2",
+        "op1"
+      ],
+      "customOption": false,
+      "type": 2,
+      "title": "Multiple Select",
+      "description": "descr",
+      "required": true
+    },
+    {
+      "$questionType": "QDate",
+      "minDate": "1993-01-01T00:00:00",
+      "maxDate": "2100-01-06T00:00:00",
+      "type": 3,
+      "title": "Date",
+      "description": "desc",
+      "required": false
+    },
+    {
+      "$questionType": "QNumber",
+      "min": -12,
+      "max": 24,
+      "type": 4,
+      "title": "Number",
+      "description": "descr",
+      "required": true
+    }
+  ]
+}

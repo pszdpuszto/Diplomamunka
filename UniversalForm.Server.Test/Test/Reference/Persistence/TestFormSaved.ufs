@@ -1,0 +1,102 @@
+î[{
+  "userName": "ANON",
+  "date": "2025-04-30T21:28:04.3290242+02:00",
+  "questionStatistics": [
+    {
+      "multipleAnswers": false,
+      "answers": [
+        "answer1"
+      ],
+      "corrections": 0,
+      "time": 3359,
+      "lostFocusTime": 0
+    },
+    {
+      "multipleAnswers": false,
+      "answers": [
+        "op1 "
+      ],
+      "corrections": 0,
+      "time": 1315,
+      "lostFocusTime": 0
+    },
+    {
+      "multipleAnswers": true,
+      "answers": [
+        "op2",
+        "op1"
+      ],
+      "corrections": 0,
+      "time": 1607,
+      "lostFocusTime": 0
+    },
+    {
+      "multipleAnswers": false,
+      "answers": [
+        "2025-04-30"
+      ],
+      "corrections": 0,
+      "time": 3047,
+      "lostFocusTime": 0
+    },
+    {
+      "multipleAnswers": false,
+      "answers": [
+        "10"
+      ],
+      "corrections": 0,
+      "time": 79337,
+      "lostFocusTime": 69881
+    }
+  ]
+},{
+  "userName": "ANON",
+  "date": "2025-04-30T21:28:36.2798938+02:00",
+  "questionStatistics": [
+    {
+      "multipleAnswers": false,
+      "answers": [
+        "answer2"
+      ],
+      "corrections": 0,
+      "time": 5454,
+      "lostFocusTime": 0
+    },
+    {
+      "multipleAnswers": false,
+      "answers": [
+        ""
+      ],
+      "corrections": 0,
+      "time": 4447,
+      "lostFocusTime": 0
+    },
+    {
+      "multipleAnswers": true,
+      "answers": [
+        "op2"
+      ],
+      "corrections": 0,
+      "time": 1662,
+      "lostFocusTime": 0
+    },
+    {
+      "multipleAnswers": false,
+      "answers": [
+        "2025-04-07"
+      ],
+      "corrections": 0,
+      "time": 2626,
+      "lostFocusTime": 0
+    },
+    {
+      "multipleAnswers": false,
+      "answers": [
+        "24"
+      ],
+      "corrections": 0,
+      "time": 3812,
+      "lostFocusTime": 0
+    }
+  ]
+}]

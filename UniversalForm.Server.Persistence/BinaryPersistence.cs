@@ -113,7 +113,7 @@ namespace UniversalForm.Server.Persistence
         {
             var fileName = GetFileLocation(formName, STAT_EXTENSION);
             if (!File.Exists(fileName))
-                File.Create(fileName);
+                File.Create(fileName).Close();
             try
             {
                 using (var fs = new FileStream(fileName, FileMode.Append, FileAccess.Write))
