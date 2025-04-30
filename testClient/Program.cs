@@ -4,7 +4,7 @@ using UniversalForm.Client.Persistence;
 
 IPHostEntry ipHostInfo = await Dns.GetHostEntryAsync(Dns.GetHostName());
 IPAddress ipAddress = ipHostInfo.AddressList[0];
-var model = new Model(new ClientJsonPersistence(Model.getQuestionTypes(), new(ipAddress, 3000)));
+var model = new FormModel(new ClientJsonPersistence(FormModel.getQuestionTypes(), new(ipAddress, 3000)));
 
 
 model.LogIn("testUser", "testPassword");

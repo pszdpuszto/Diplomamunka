@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UniversalForm.Client.Model;
 using UniversalForm.Client.Persistence;
 
 namespace UniversalForm.Client.View
@@ -15,7 +16,7 @@ namespace UniversalForm.Client.View
     {
         public bool FullExit { get; private set; } = true;
         private FormPage? _page;
-        private Model.Model _model;
+        private FormModel _model;
         private event EventHandler<QuestionChangedEventArgs> _questionChanged;
         private int PageIndex { set { numLabel.Text = $"Question #{value}"; field = value; } get; }
 
@@ -29,7 +30,7 @@ namespace UniversalForm.Client.View
             get;
         } = null!;
 
-        public FillForm(Model.Model model)
+        public FillForm(FormModel model)
         {
             _model = model;
             _questionChanged += QuestionChanged;
@@ -43,7 +44,14 @@ namespace UniversalForm.Client.View
             description.Text = e.New.Description;
             answerPanel.Controls.Clear();
             _page?.Dispose();
-            _page = new FormPage(e.New, answerPanel);
+            _page = FormPage.Factory(e.New, answerPanel, _model.GetStatisticsOfCurrentQuestion());
+            if (_page == null)
+            {
+                MessageBox.Show("Error creating question page");
+                return;
+            }
+            Deactivate += _page.LostFocus;
+            Activated += _page.GotFocus;
             if (e.Old == null && e.New != null)
             {
                 backBtn.Visible = true;
@@ -85,7 +93,13 @@ namespace UniversalForm.Client.View
                 var result = MessageBox.Show("Finish filling the form and send results?", "Confirm Finish", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
-                    MessageBox.Show("Form submitted successfully");
+                    if (_model.SaveFormStatistics())
+                    {
+                        MessageBox.Show("Form submitted successfully");
+                        FullExit = false;
+                        Close();
+                    }
+                    else MessageBox.Show("Failed to send results.");
                 }
             }
         }

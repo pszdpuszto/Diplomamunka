@@ -11,31 +11,34 @@ namespace UniversalForm.Client.Persistence
         public bool MeasureTime { get; set; } = false;
         public bool Anonymous { get; set; } = false;
         public bool FocusTracking { get; set; } = false;
-        [JsonPropertyName("questions")]
         [JsonInclude]
-        List<Question> _questions;
+        public List<Question> Questions { get; }
         [JsonConstructor]
-        public Form(string title, string description, List<Question> _questions)
+        public Form(string title, string description, List<Question> questions)
         {
             Title = title;
             Description = description;
-            this._questions = [.. _questions];
+            Questions = [.. questions];
         }
 
         public override string ToString()
         {
             var sb = new StringBuilder();
             sb.Append($"""Title: {Title}\nDescription: {Description}""");
-            sb.Append(_questions);
+            sb.Append(Questions);
             return sb.ToString();
         }
-        public void AddQuestion(Question q) => _questions.Add(q);
-        public bool RemoveQuestion(Question q) => _questions.Remove(q);
+        public void AddQuestion(Question q) => Questions.Add(q);
+        public bool RemoveQuestion(Question q) => Questions.Remove(q);
         public Question? GetQuestion(int index)
         {
-            if (index < 0 || index >= _questions.Count)
+            if (index < 0 || index >= Questions.Count)
                 return null;
-            return _questions[index];
+            return Questions[index];
+        }
+        public int NumberOfQuestions()
+        {
+            return Questions.Count;
         }
     }
 }

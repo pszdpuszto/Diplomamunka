@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,8 +14,8 @@ namespace UniversalForm.Client.View
     public partial class Admin : Form
     {
         public bool FullExit { get; private set; } = true;
-        private Model.Model _model;
-        public Admin(Model.Model model)
+        private Model.FormModel _model;
+        public Admin(Model.FormModel model)
         {
             _model = model;
             InitializeComponent();
@@ -35,7 +36,24 @@ namespace UniversalForm.Client.View
                 var formAccess = new AdminFormAccess(form);
                 formAccess.Dock = DockStyle.Top;
                 formAccess.FormEdit += FormEdit;
+                formAccess.FormDelete += FormDelete;
+                formAccess.FormViewStats += FormViewStats;
                 formsFlowLayout.Controls.Add(formAccess);
+            }
+        }
+
+        private void FormViewStats(object? sender, string e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void FormDelete(object? sender, string e)
+        {
+            var result = MessageBox.Show("Are you sure you want to delete this form?", "Delete Form", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                _model.DeleteForm(e);
+                CreateFormList();
             }
         }
 

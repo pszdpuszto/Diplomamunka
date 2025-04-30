@@ -95,13 +95,7 @@ namespace UniversalForm.Server.Persistence
                 if (!user.HasValue)
                     return false;
                 user.Value.Forms.Add(formName);
-                using (var fs = new FileStream(userFileName, FileMode.Create))
-                {
-                    using (var bw = new BinaryWriter(fs))
-                    {
-                        bw.Write(JsonParser.Serialize(user.Value));
-                    }
-                }
+                SaveUser(user.Value);
             }
             catch
             {
@@ -112,11 +106,11 @@ namespace UniversalForm.Server.Persistence
         public bool SaveStatistics(string formName, string jsonStr)
         {
             var fileName = GetFileLocation(formName, STAT_EXTENSION);
-            if (File.Exists(fileName))
-                File.Delete(fileName);
+            if (!File.Exists(fileName))
+                File.Create(fileName);
             try
             {
-                using (var fs = new FileStream(fileName, FileMode.CreateNew))
+                using (var fs = new FileStream(fileName, FileMode.Append, FileAccess.Write))
                 {
                     using (var bw = new BinaryWriter(fs))
                     {
@@ -157,27 +151,13 @@ namespace UniversalForm.Server.Persistence
             var fileName = GetFileLocation(username, USER_EXTENSION);
             if (File.Exists(fileName))
                 return false;
-            try
+            var user = new User
             {
-                using (var fs = new FileStream(fileName, FileMode.CreateNew))
-                {
-                    using (var bw = new BinaryWriter(fs))
-                    {
-                        var user = new User
-                        {
-                            Username = username,
-                            Password = PasswordHasher.HashPassword(password),
-                            Forms = new List<string>()
-                        };
-                        bw.Write(JsonParser.Serialize(user));
-                    }
-                }
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+                Username = username,
+                Password = PasswordHasher.HashPassword(password),
+                Forms = new List<string>()
+            };
+            return SaveUser(user);
         }
 
         private string GetFileLocation(string formName, string extension)
@@ -206,12 +186,48 @@ namespace UniversalForm.Server.Persistence
             }
         }
 
+        private bool SaveUser(User user)
+        {
+            var fileName = GetFileLocation(user.Username, USER_EXTENSION);
+            try
+            {
+                using (var fs = new FileStream(fileName, FileMode.Create))
+                {
+                    using (var bw = new BinaryWriter(fs))
+                    {
+                        bw.Write(JsonParser.Serialize(user));
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
         public string GetForms(string userName)
         {
             var user = LoadUser(userName);
             if (user == null)
                 return IPersistence.ERROR;
             return JsonParser.Serialize(user.Value.Forms);
+        }
+
+        public bool DeleteForm(string userName, string formName)
+        {
+            var userNull = LoadUser(userName);
+            if (userNull == null)
+                return false;
+            var user = userNull.Value;
+            user.Forms.Remove(formName);
+            if (!SaveUser(user))
+                return false;
+            var formFileName = GetFileLocation(formName, FORM_EXTENSION);
+            if (!File.Exists(formFileName))
+                return false;
+            File.Delete(formFileName);
+            return true;
         }
     }
 }

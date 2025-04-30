@@ -22,22 +22,10 @@ static class Program
             MessageBox.Show("Invalid server address in settings.ini");
             return;
         }
-        var persistence = new ClientJsonPersistence(Model.Model.getQuestionTypes(), endPoint);
-        var model = new Model.Model(persistence);
+        var persistence = new ClientJsonPersistence(Model.FormModel.getQuestionTypes(), endPoint);
+        var model = new Model.FormModel(persistence);
         var view = new Menu(model);
         Application.Run(view);
-
-        switch (view.ResultValue)
-        {
-            case Menu.Result.LOGIN:
-                Application.Run(new Admin(model));
-                break;
-            case Menu.Result.FILL_FORM:
-                Application.Run(new FillForm(model));
-                break;
-            case Menu.Result.EXIT:
-                break;
-        }
     }
 }
 

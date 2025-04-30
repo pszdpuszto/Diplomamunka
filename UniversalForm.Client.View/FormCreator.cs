@@ -15,7 +15,7 @@ namespace UniversalForm.Client.View
     public partial class FormCreator : System.Windows.Forms.Form
     {
         public bool FullExit { get; private set; } = true;
-        private Model.Model _model;
+        private FormModel _model;
         private string _formName = string.Empty;
         private CreatePage? Page
         {
@@ -29,7 +29,7 @@ namespace UniversalForm.Client.View
         private event EventHandler<CreatePageChangedEventArgs> _questionChanged;
 
         private readonly IEnumerable<Question.QTYPE> _questionTypes = Enum.GetValues(typeof(Question.QTYPE)).Cast<Question.QTYPE>();
-        public FormCreator(Model.Model model, string formName, bool newForm)
+        public FormCreator(FormModel model, string formName, bool newForm)
         {
             _model = model;
             _formName = formName;
@@ -59,7 +59,7 @@ namespace UniversalForm.Client.View
         {
             var titlePage = e.New is CPTitlePage;
             backBtn.Enabled = !titlePage;
-            var hasNext = _model.HasNextQuestion() || titlePage && _model.FirstQuestion() != null;
+            var hasNext = _model.HasNextQuestion() || titlePage && _model.HasQuestion();
             nextBtn.Visible = hasNext;
             createBtn.Visible = !hasNext;
             qTypes.Visible = !hasNext;
@@ -77,7 +77,7 @@ namespace UniversalForm.Client.View
             var result = MessageBox.Show("Finish creating form and save?", "Confirm finish", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                if (_model.SaveForm(_formName))
+                if (_model.SaveForm())
                 {
                     MessageBox.Show("Form saved successfully.");
                     FullExit = false;
@@ -136,7 +136,7 @@ namespace UniversalForm.Client.View
 
         private void createBtn_Click(object sender, EventArgs e)
         {
-            var firstQuestion = _model.FirstQuestion() == null;
+            var firstQuestion = _model.HasQuestion();
             var questionType = _questionTypes.ElementAt(qTypes.SelectedIndex);
             _model.AddQuestion(QuestionFactory(questionType));
             Question? newQuestion = null;

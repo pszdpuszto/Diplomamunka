@@ -8,21 +8,34 @@ using UniversalForm.Client.Persistence;
 
 namespace UniversalForm.Client.Model
 {
-    public class Model
+    public class FormModel
     {
-        public static IEnumerable<Type> getQuestionTypes() => typeof(Model).Assembly.GetTypes().Where(t => t.BaseType == typeof(Question)).ToList();
+        public static IEnumerable<Type> getQuestionTypes() => typeof(FormModel).Assembly.GetTypes().Where(t => t.BaseType == typeof(Question)).ToList();
 
         IPersistence _persistence;
-        Form? _form;
+        StatisticsModel? _statisticsModel;
+        string _formName = string.Empty;
+        private Form? _form { get; set {
+                _statisticsModel = (value != null) ? new(value) : null; 
+                if (value != null && value.Anonymous)
+                    UserName = "ANON";
+                field = value; 
+            } } = null;
         public int Index { get; private set; } = 0;
         public string? UserName { get; private set; }
+        public void SetUserName(string userName)
+        {
+            if (_form != null && _form.Anonymous == false)
+                UserName = userName;
+        }
 
-        public Model(IPersistence persistence) 
+        public FormModel(IPersistence persistence) 
         {
             _persistence = persistence;
         }
         public void CreateEmptyForm(string formName)
         {
+            _formName = formName;
             _form = new Form("", "", new());
         }
         public bool FormExists(string formName)
@@ -46,20 +59,39 @@ namespace UniversalForm.Client.Model
             if (newForm == null)
                 return false;
             _form = newForm;
+            _formName = formName;
             return true;
         }
 
-        public bool SaveForm(string formName)
+        public bool SaveForm()
         {
             if (_form == null || UserName == null) 
                 return false;
-            return _persistence.SaveForm(UserName, formName, _form);
+            return _persistence.SaveForm(UserName, _formName, _form);
         }
         public List<string>? GetFormList()
         {
             if (UserName == null)
                 return null;
             return _persistence.GetForms(UserName);
+        }
+        public bool SaveFormStatistics()
+        {
+            if (_form == null || _statisticsModel == null)
+                return false;
+            return _persistence.SaveFormStatistics(UserName!, _formName, _statisticsModel.QStatistics);
+        }
+        public bool DeleteForm(string formName)
+        {
+            if (UserName == null)
+                return false;
+            return _persistence.DeleteForm(UserName, formName);
+        }
+        public Statistics GetStatisticsOfCurrentQuestion()
+        {
+            if (_form == null || _statisticsModel == null)
+                return new Statistics();
+            return _statisticsModel.GetStatistics(Index);
         }
 
         public void CreateDebugForm()
@@ -79,6 +111,7 @@ namespace UniversalForm.Client.Model
         public void ResetForm()
         {
             _form = null;
+            UserName = string.Empty;
         }
 
         public string Title
@@ -105,6 +138,7 @@ namespace UniversalForm.Client.Model
                     _form.Description = value;
             }
         }
+        public bool HasQuestion() => (_form == null) ? false : _form.GetQuestion(Index) != null;
         public Question? FirstQuestion()
         { 
             var firstQuestion = _form?.GetQuestion(0);
@@ -147,6 +181,10 @@ namespace UniversalForm.Client.Model
         {
             if (_form != null && _form.RemoveQuestion(q) && Index != 0)
                Index--;
+        }
+        public bool IsAnonymous()
+        {
+            return (_form == null) ? true : _form.Anonymous;
         }
         public bool Anonymous
         {

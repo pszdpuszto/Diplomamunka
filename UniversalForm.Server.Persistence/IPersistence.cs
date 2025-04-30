@@ -23,5 +23,6 @@ namespace UniversalForm.Server.Persistence
         public bool SaveForm(string userName, string formName, string jsonStr);
         public bool SaveStatistics(string formName, string jsonStr);
         public string GetForms(string userName);
+        public bool DeleteForm(string userName, string formName);
     }
 }

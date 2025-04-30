@@ -12,9 +12,9 @@ namespace UniversalForm.Client.View
 {
     public partial class Login : Form
     {
-        private Model.Model _model;
+        private Model.FormModel _model;
         public bool Success { get; private set; } = false;
-        public Login(Model.Model model)
+        public Login(Model.FormModel model)
         {
             InitializeComponent();
             _model = model;

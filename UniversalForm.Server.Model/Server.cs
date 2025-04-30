@@ -125,6 +125,20 @@ namespace UniversalForm.Server.Model
                         ID = Response.Type.ERROR,
                         JsonStr = "Error saving form"
                     });
+                case Request.Type.DELETE_FORM:
+                    if (_persistence.DeleteForm(request.Username, request.FormName))
+                    {
+                        return JsonParser.Serialize<Response>(new Response
+                        {
+                            ID = Response.Type.ACKNOWLEDGE,
+                            JsonStr = "Form deleted"
+                        });
+                    }
+                    return JsonParser.Serialize<Response>(new Response
+                    {
+                        ID = Response.Type.ERROR,
+                        JsonStr = "Error deleting form"
+                    });
                 case Request.Type.SAVE_STATISTICS:
                     if (_persistence.SaveStatistics(request.FormName, request.JsonStr))
                         return JsonParser.Serialize<Response>(new Response

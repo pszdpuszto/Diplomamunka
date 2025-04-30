@@ -7,14 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace UniversalForm.Client.View
 {
     public partial class Menu : Form
     {
         public bool FullExit { get; private set; } = true;
-        private Model.Model _model;
-        public Menu(Model.Model model)
+        private Model.FormModel _model;
+        public Menu(Model.FormModel model)
         {
             _model = model;
             InitializeComponent();
@@ -24,19 +25,29 @@ namespace UniversalForm.Client.View
         {
             if (_model.LoadForm(FormCode.Text))
             {
-                var fillForm = new FillForm(_model);
-                Hide();
-                fillForm.ShowDialog();
-                if (fillForm.FullExit)
+                if (!_model.IsAnonymous())
                 {
-                    Close();
-                    return;
+                    var userNameForm = new UserName();
+                    userNameForm.ShowDialog();
+                    var userName = userNameForm.UserNameValue;
+                    if (userName != string.Empty)
+                    {
+                        _model.SetUserName(userName);
+                        var fillForm = new FillForm(_model);
+                        Hide();
+                        fillForm.ShowDialog();
+                        if (fillForm.FullExit)
+                        {
+                            Close();
+                            return;
+                        }
+                        Show();
+                    }
                 }
-                Show();
-            } else
-            {
-                MessageBox.Show("Invalid Form Name");
-                FormCode.Clear();
+                else
+                {
+                    MessageBox.Show("Invalid Form Name");
+                }
             }
         }
 

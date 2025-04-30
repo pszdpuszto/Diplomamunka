@@ -12,8 +12,6 @@ namespace UniversalForm.Client.Model
     public class QTextArea : Question
     {
         public string DefaultText { get; set; }
-        [JsonIgnore]
-        public string AnswerText { get; set; } = string.Empty;
         public QTextArea(string title, string description, string defaultText = "") : base(QTYPE.TEXT_AREA, title, description)
         {
             DefaultText = defaultText;
@@ -28,8 +26,6 @@ namespace UniversalForm.Client.Model
     {
         public List<string> Options { get; }
         public bool CustomOption { get; set; }
-        [JsonIgnore]
-        public string AnswerText { get; set; } = string.Empty;
         public QSingleSelect(string title, string description, List<string> options, bool customOption) : base(QTYPE.SINGLE_SELECT, title, description)
         {
             Options = options;
@@ -45,10 +41,6 @@ namespace UniversalForm.Client.Model
     {
         public List<string> Options { get; }
         public bool CustomOption { get; set; }
-        [JsonIgnore]
-        public List<string> AnswerTexts { get; set; } = new();
-        [JsonIgnore]
-        public string CustomAnswerText { get; set; } = string.Empty;
         public QMultiSelect(string title, string description, List<string> options, bool customOption) : base(QTYPE.MULTI_SELECT, title, description)
         {
             Options = options;
@@ -59,8 +51,6 @@ namespace UniversalForm.Client.Model
     {
         public DateTime MinDate { get; set; }
         public DateTime MaxDate { get; set; }
-        [JsonIgnore]
-        public DateTime? AnswerDate { get; set; } = null;
         public QDate(string title, string description, DateTime minDate, DateTime maxDate) : base(QTYPE.DATE, title, description)
         {
             MinDate = minDate;
@@ -71,8 +61,6 @@ namespace UniversalForm.Client.Model
     {
         public int Min;
         public int Max;
-        [JsonIgnore]
-        public int AnswerInt { get; set; } = 0;
         public QNumber(string title, string description, int min, int max) : base(QTYPE.NUMBER, title, description)
         {
             Min = min;

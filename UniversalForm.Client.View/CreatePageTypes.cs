@@ -11,7 +11,7 @@ namespace UniversalForm.Client.View
 {
     internal class CPTitlePage : CreatePage
     {
-        private Model.Model _model;
+        private Model.FormModel _model;
         public override string Title
         {
             get => _model.Title;
@@ -22,7 +22,7 @@ namespace UniversalForm.Client.View
             get => _model.Description;
             set => _model.Description = value;
         }
-        public CPTitlePage(Model.Model model) : base(null!)
+        public CPTitlePage(Model.FormModel model) : base(null!)
         {
             _model = model;
         }

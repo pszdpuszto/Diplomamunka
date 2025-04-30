@@ -14,6 +14,7 @@ namespace UniversalForm.Utils
         {
             GET_FORM,
             SAVE_FORM,
+            DELETE_FORM,
             GET_STATISTICS,
             SAVE_STATISTICS,
             LOGIN,

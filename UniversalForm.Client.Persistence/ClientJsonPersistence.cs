@@ -97,5 +97,30 @@ namespace UniversalForm.Client.Persistence
                 return response.JsonStr;
             return ERROR;
         }
+
+        protected override bool SaveJsonStat(string userName, string formName, string jsonStr)
+        {
+            var request = new Request
+            {
+                ID = Request.Type.SAVE_STATISTICS,
+                FormName = formName,
+                Username = userName,
+                JsonStr = jsonStr
+            };
+            var response = SendAndRecieve(request);
+            return response.ID == Response.Type.ACKNOWLEDGE;
+        }
+
+        public override bool DeleteForm(string userName, string formName)
+        {
+            var request = new Request
+            {
+                ID = Request.Type.DELETE_FORM,
+                Username = userName,
+                FormName = formName
+            };
+            var response = SendAndRecieve(request);
+            return response.ID == Response.Type.ACKNOWLEDGE;
+        }
     }
 }

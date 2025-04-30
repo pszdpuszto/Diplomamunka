@@ -12,9 +12,9 @@ namespace UniversalForm.Client.View
 {
     public partial class FormName : Form
     {
-        private Model.Model _model;
+        private Model.FormModel _model;
         public string FormNameValue { get; private set; } = string.Empty;
-        public FormName(Model.Model model)
+        public FormName(Model.FormModel model)
         {
             _model = model;
             InitializeComponent();
