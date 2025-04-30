@@ -13,10 +13,10 @@ namespace UniversalForm.Client.Model
         public static IEnumerable<Type> getQuestionTypes() => typeof(FormModel).Assembly.GetTypes().Where(t => t.BaseType == typeof(Question)).ToList();
 
         IPersistence _persistence;
-        StatisticsModel? _statisticsModel;
+        FormMeasurement? _measurements;
         string _formName = string.Empty;
         private Form? _form { get; set {
-                _statisticsModel = (value != null) ? new(value) : null; 
+                _measurements = (value != null) ? new(value) : null; 
                 if (value != null && value.Anonymous)
                     UserName = "ANON";
                 field = value; 
@@ -75,11 +75,20 @@ namespace UniversalForm.Client.Model
                 return null;
             return _persistence.GetForms(UserName);
         }
+        public StatisticsModel? GetStatisticsModel()
+        {
+            if (_form == null)
+                return null;
+            var stat = _persistence.GetStatistics(_formName);
+            if (stat == null)
+                return null;
+            return new(stat);
+        }
         public bool SaveFormStatistics()
         {
-            if (_form == null || _statisticsModel == null)
+            if (_form == null || _measurements == null)
                 return false;
-            return _persistence.SaveFormStatistics(UserName!, _formName, _statisticsModel.QStatistics);
+            return _persistence.SaveFormStatistics(UserName!, _formName, _measurements.QStatistics);
         }
         public bool DeleteForm(string formName)
         {
@@ -89,9 +98,9 @@ namespace UniversalForm.Client.Model
         }
         public Statistics GetStatisticsOfCurrentQuestion()
         {
-            if (_form == null || _statisticsModel == null)
+            if (_form == null || _measurements == null)
                 return new Statistics();
-            return _statisticsModel.GetStatistics(Index);
+            return _measurements.GetStatistics(Index);
         }
 
         public void CreateDebugForm()
@@ -99,7 +108,7 @@ namespace UniversalForm.Client.Model
             Question[] qs = new Question[10];
             for (int i = 0; i < 5; i++)
             {
-                qs[i]= new QTextArea("Title for q" + i, "desc\n\n\n\nfarrt", "defText");
+                qs[i]= new QTextArea("Title for q" + i, "desc\n\n\n\nfarrt", false, "defText");
             }
             for (int i = 0; i < 5; i++)
             {
@@ -113,7 +122,12 @@ namespace UniversalForm.Client.Model
             _form = null;
             UserName = string.Empty;
         }
-
+        public Question.QTYPE? GetQuestionType(int index)
+        {
+            if (_form == null)
+                return null;
+            return _form.GetQuestion(index)?.Type;
+        }
         public string Title
         {
             get
@@ -181,6 +195,19 @@ namespace UniversalForm.Client.Model
         {
             if (_form != null && _form.RemoveQuestion(q) && Index != 0)
                Index--;
+        }
+        public List<string> GetQuestionLabels()
+        {
+            List<string> labels = new();
+            if (_form == null)
+                return labels;
+            for (int i = 0; i < _form.NumberOfQuestions(); i++)
+            {
+                var question = _form.GetQuestion(i);
+                if (question != null)
+                    labels.Add(question.Title);
+            }
+            return labels;
         }
         public bool IsAnonymous()
         {

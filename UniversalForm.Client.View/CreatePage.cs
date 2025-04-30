@@ -42,7 +42,13 @@ namespace UniversalForm.Client.View
         public void CreateControl(Control parent)
         {
             _parent = parent;
+            if (Question != null)
+                AddIsRequiredControl();
             DoCreateControls();
+            for (int i = _controls.Count - 1; i >= 0; i--)
+            {
+                _parent.Controls.Add(_controls[i]);
+            }
         }
         public void Dispose()
         {
@@ -55,17 +61,40 @@ namespace UniversalForm.Client.View
             }
             _controls.Clear();
         }
-        protected void AddControl(Control control)
-        {
-            _controls.Add(control);
-            _parent?.Controls.Add(control);
-        }
         protected void RemoveControl(Control control)
         {
             _controls.Remove(control);
             _parent?.Controls.Remove(control);
             control.Dispose();
         }
+        public string GetQuestionType()
+        {
+            return Question.TypeToString[Question.Type];
+        }
         protected abstract void DoCreateControls();
+        protected void AddToFront(Control control)
+        {
+            _controls.Add(control);
+            if (_parent != null)
+            {
+                _parent.Controls.Add(control);
+            }
+        }
+        private void AddIsRequiredControl()
+        {
+            var isRequired = new CheckBox
+            {
+                Text = "Is Required",
+                Checked = Question.Required,
+                AutoSize = true,
+                Location = new Point(0, 0),
+                Dock = DockStyle.Top
+            };
+            isRequired.CheckedChanged += (s, e) =>
+            {
+                Question.Required = isRequired.Checked;
+            };
+            _controls.Add(isRequired);
+        } 
     }
 }

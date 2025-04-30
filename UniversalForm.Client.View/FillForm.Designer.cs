@@ -62,7 +62,7 @@
             nextBtn.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             nextBtn.AutoSize = true;
             nextBtn.Enabled = false;
-            nextBtn.Location = new Point(818, 8);
+            nextBtn.Location = new Point(617, 8);
             nextBtn.Margin = new Padding(4);
             nextBtn.Name = "nextBtn";
             nextBtn.Size = new Size(67, 35);
@@ -77,17 +77,17 @@
             answerPanel.AutoScroll = true;
             answerPanel.AutoSize = true;
             answerPanel.Dock = DockStyle.Fill;
-            answerPanel.Location = new Point(13, 119);
+            answerPanel.Location = new Point(13, 103);
             answerPanel.Margin = new Padding(13, 14, 13, 14);
             answerPanel.Name = "answerPanel";
-            answerPanel.Size = new Size(888, 299);
+            answerPanel.Size = new Size(687, 368);
             answerPanel.TabIndex = 4;
             // 
             // startBtn
             // 
             startBtn.Anchor = AnchorStyles.Bottom;
             startBtn.AutoSize = true;
-            startBtn.Location = new Point(387, 8);
+            startBtn.Location = new Point(286, 8);
             startBtn.Margin = new Padding(4);
             startBtn.Name = "startBtn";
             startBtn.Size = new Size(111, 35);
@@ -103,17 +103,17 @@
             panel1.Controls.Add(startBtn);
             panel1.Controls.Add(nextBtn);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(13, 418);
+            panel1.Location = new Point(13, 471);
             panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(888, 48);
+            panel1.Size = new Size(687, 48);
             panel1.TabIndex = 6;
             // 
             // numLabel
             // 
             numLabel.Anchor = AnchorStyles.Top;
             numLabel.AutoSize = true;
-            numLabel.Location = new Point(387, 15);
+            numLabel.Location = new Point(286, 15);
             numLabel.Margin = new Padding(4, 0, 4, 0);
             numLabel.Name = "numLabel";
             numLabel.Size = new Size(95, 21);
@@ -125,11 +125,11 @@
             // 
             title.AutoSize = true;
             title.Dock = DockStyle.Top;
-            title.Font = new Font("Segoe UI", 32F);
+            title.Font = new Font("Segoe UI", 24F);
             title.Location = new Point(13, 14);
             title.Margin = new Padding(13, 14, 13, 14);
             title.Name = "title";
-            title.Size = new Size(105, 59);
+            title.Size = new Size(81, 45);
             title.TabIndex = 2;
             title.Text = "Title";
             // 
@@ -137,12 +137,12 @@
             // 
             description.AutoSize = true;
             description.Dock = DockStyle.Top;
-            description.Font = new Font("Segoe UI", 18F);
-            description.Location = new Point(13, 73);
+            description.Font = new Font("Segoe UI", 16F);
+            description.Location = new Point(13, 59);
             description.Margin = new Padding(13, 14, 13, 14);
             description.Name = "description";
             description.Padding = new Padding(0, 0, 0, 14);
-            description.Size = new Size(135, 46);
+            description.Size = new Size(122, 44);
             description.TabIndex = 3;
             description.Text = "Description";
             // 
@@ -150,7 +150,7 @@
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(914, 480);
+            ClientSize = new Size(713, 533);
             Controls.Add(answerPanel);
             Controls.Add(description);
             Controls.Add(title);
@@ -159,7 +159,7 @@
             Margin = new Padding(4);
             Name = "FillForm";
             Padding = new Padding(13, 14, 13, 14);
-            Text = "FillForm";
+            Text = "Universal Forms - ";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();

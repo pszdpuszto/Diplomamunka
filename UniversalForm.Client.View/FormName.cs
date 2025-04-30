@@ -36,9 +36,10 @@ namespace UniversalForm.Client.View
             Close();
         }
 
-        private void textBox1_TextChanged(object sender, System.EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-
+            FormNameValue = string.Empty;
+            Close();
         }
     }
 }

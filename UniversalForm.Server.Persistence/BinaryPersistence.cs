@@ -51,13 +51,19 @@ namespace UniversalForm.Server.Persistence
                 return IPersistence.ERROR;
             try
             {
+                var list = new List<string>();
                 using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
                 {
                     using (BinaryReader r = new BinaryReader(fs))
                     {
-                        return r.ReadString();
+                        string stat;
+                        while (r.BaseStream.Position != r.BaseStream.Length) {
+                            stat = r.ReadString();
+                            list.Add(stat);
+                        }
                     }
                 }
+                return JsonParser.SerializeStrList(list);
             }
             catch
             {
@@ -227,6 +233,7 @@ namespace UniversalForm.Server.Persistence
             if (!File.Exists(formFileName))
                 return false;
             File.Delete(formFileName);
+            File.Delete(GetFileLocation(formName, STAT_EXTENSION));
             return true;
         }
     }

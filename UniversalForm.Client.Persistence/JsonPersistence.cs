@@ -6,11 +6,6 @@ namespace UniversalForm.Client.Persistence
 {
     public abstract class JsonPersistence : IPersistence
     {
-        protected struct FillStatistics
-        {
-            public string userName;
-            public List<Statistics> statistics;
-        }
         private class QuestionTypeResolver : DefaultJsonTypeInfoResolver
         {
             List<Type> _questionTypes;
@@ -73,13 +68,21 @@ namespace UniversalForm.Client.Persistence
         }
         public bool SaveFormStatistics(string userName, string formName, List<Statistics> formStatistics)
         {
-            var stat = new FillStatistics
+            var stat = new FillStatistic
             {
-                userName = userName,
-                statistics = formStatistics
+                UserName = userName,
+                Date = DateTime.Now,
+                QuestionStatistics = formStatistics
             };
             var jsonStr = JsonSerializer.Serialize(stat, _options);
             return SaveJsonStat(userName, formName, jsonStr);
+        }
+        public List<FillStatistic>? GetStatistics(string formName)
+        {
+            var jsonStr = LoadJsonStat(formName);
+            if (jsonStr == ERROR)
+                return null;
+            return JsonSerializer.Deserialize<List<FillStatistic>>(jsonStr, _options);
         }
         public abstract bool DeleteForm(string userName, string formName);
         protected abstract string LoadJson(string name);
@@ -87,5 +90,6 @@ namespace UniversalForm.Client.Persistence
         public abstract bool LogIn(string userName, string password);
         public abstract string GetFormsJson(string userName);
         protected abstract bool SaveJsonStat(string userName, string formName, string jsonStr);
+        protected abstract string LoadJsonStat(string formName);
     }
 }

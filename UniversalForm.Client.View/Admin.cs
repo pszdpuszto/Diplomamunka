@@ -44,7 +44,22 @@ namespace UniversalForm.Client.View
 
         private void FormViewStats(object? sender, string e)
         {
-            throw new NotImplementedException();
+            _model.LoadForm(e);
+            if (_model == null)
+            {
+                MessageBox.Show("Error loading form: " + e);
+                return;
+            }
+            var statModel = _model.GetStatisticsModel();
+            if (statModel == null)
+            {
+                MessageBox.Show("No statistics found for form: " + e);
+                return;
+            }
+            var stats = new FormStatistics(_model, statModel);
+            Hide();
+            stats.ShowDialog();
+            Show();
         }
 
         private void FormDelete(object? sender, string e)

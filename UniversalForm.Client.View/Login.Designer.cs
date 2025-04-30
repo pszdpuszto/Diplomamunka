@@ -43,8 +43,8 @@ namespace UniversalForm.Client.View
             // 
             usernameTextBox.Anchor = AnchorStyles.Top;
             usernameTextBox.Font = new Font("Segoe UI", 12F);
-            usernameTextBox.Location = new Point(211, 135);
-            usernameTextBox.Margin = new Padding(4, 4, 4, 4);
+            usernameTextBox.Location = new Point(111, 135);
+            usernameTextBox.Margin = new Padding(4);
             usernameTextBox.Name = "usernameTextBox";
             usernameTextBox.PlaceholderText = "Enter Username";
             usernameTextBox.Size = new Size(268, 29);
@@ -55,8 +55,8 @@ namespace UniversalForm.Client.View
             // 
             passwordTextBox.Anchor = AnchorStyles.Top;
             passwordTextBox.Font = new Font("Segoe UI", 12F);
-            passwordTextBox.Location = new Point(211, 172);
-            passwordTextBox.Margin = new Padding(4, 4, 4, 4);
+            passwordTextBox.Location = new Point(111, 172);
+            passwordTextBox.Margin = new Padding(4);
             passwordTextBox.Name = "passwordTextBox";
             passwordTextBox.PasswordChar = '*';
             passwordTextBox.PlaceholderText = "Enter Password";
@@ -68,8 +68,8 @@ namespace UniversalForm.Client.View
             // 
             okButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             okButton.Font = new Font("Segoe UI", 12F);
-            okButton.Location = new Point(485, 369);
-            okButton.Margin = new Padding(4, 4, 4, 4);
+            okButton.Location = new Point(286, 284);
+            okButton.Margin = new Padding(4);
             okButton.Name = "okButton";
             okButton.Size = new Size(96, 32);
             okButton.TabIndex = 2;
@@ -81,8 +81,8 @@ namespace UniversalForm.Client.View
             // 
             cancelButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             cancelButton.Font = new Font("Segoe UI", 12F);
-            cancelButton.Location = new Point(15, 369);
-            cancelButton.Margin = new Padding(4, 4, 4, 4);
+            cancelButton.Location = new Point(15, 284);
+            cancelButton.Margin = new Padding(4);
             cancelButton.Name = "cancelButton";
             cancelButton.Size = new Size(96, 32);
             cancelButton.TabIndex = 3;
@@ -95,7 +95,7 @@ namespace UniversalForm.Client.View
             usernameLabel.Anchor = AnchorStyles.Top;
             usernameLabel.AutoSize = true;
             usernameLabel.Font = new Font("Segoe UI", 12F);
-            usernameLabel.Location = new Point(115, 138);
+            usernameLabel.Location = new Point(15, 138);
             usernameLabel.Margin = new Padding(4, 0, 4, 0);
             usernameLabel.Name = "usernameLabel";
             usernameLabel.Size = new Size(88, 21);
@@ -107,7 +107,7 @@ namespace UniversalForm.Client.View
             passwordLabel.Anchor = AnchorStyles.Top;
             passwordLabel.AutoSize = true;
             passwordLabel.Font = new Font("Segoe UI", 12F);
-            passwordLabel.Location = new Point(115, 175);
+            passwordLabel.Location = new Point(15, 175);
             passwordLabel.Margin = new Padding(4, 0, 4, 0);
             passwordLabel.Name = "passwordLabel";
             passwordLabel.Size = new Size(83, 21);
@@ -119,7 +119,7 @@ namespace UniversalForm.Client.View
             label1.Anchor = AnchorStyles.Top;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 24F);
-            label1.Location = new Point(183, 9);
+            label1.Location = new Point(83, 9);
             label1.Name = "label1";
             label1.Size = new Size(241, 45);
             label1.TabIndex = 6;
@@ -129,7 +129,7 @@ namespace UniversalForm.Client.View
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(602, 418);
+            ClientSize = new Size(403, 333);
             Controls.Add(label1);
             Controls.Add(passwordLabel);
             Controls.Add(usernameLabel);
@@ -138,9 +138,9 @@ namespace UniversalForm.Client.View
             Controls.Add(passwordTextBox);
             Controls.Add(usernameTextBox);
             Font = new Font("Segoe UI", 12F);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "Login";
-            Text = "Login";
+            Text = "Universal Forms - Login";
             ResumeLayout(false);
             PerformLayout();
         }

@@ -33,12 +33,14 @@
             formsFlowLayout = new Panel();
             newFormBtn = new Button();
             logOut = new Button();
+            panel1 = new Panel();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(15, 13);
+            label1.Location = new Point(0, 4);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(153, 21);
@@ -49,32 +51,33 @@
             // 
             label2.Anchor = AnchorStyles.Top;
             label2.AutoSize = true;
-            label2.Location = new Point(148, 76);
+            label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label2.Location = new Point(178, 57);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(149, 21);
+            label2.Size = new Size(56, 21);
             label2.TabIndex = 1;
-            label2.Text = "View Form Statistics";
+            label2.Text = "Forms";
             // 
             // formsFlowLayout
             // 
-            formsFlowLayout.Anchor = AnchorStyles.Top;
             formsFlowLayout.AutoScroll = true;
             formsFlowLayout.AutoSize = true;
-            formsFlowLayout.Location = new Point(33, 101);
-            formsFlowLayout.Margin = new Padding(4);
+            formsFlowLayout.Dock = DockStyle.Fill;
+            formsFlowLayout.Location = new Point(8, 96);
+            formsFlowLayout.Margin = new Padding(10);
             formsFlowLayout.Name = "formsFlowLayout";
-            formsFlowLayout.Size = new Size(383, 512);
+            formsFlowLayout.Size = new Size(425, 200);
             formsFlowLayout.TabIndex = 2;
             // 
             // newFormBtn
             // 
-            newFormBtn.Anchor = AnchorStyles.Bottom;
             newFormBtn.AutoSize = true;
-            newFormBtn.Location = new Point(152, 680);
+            newFormBtn.Dock = DockStyle.Bottom;
+            newFormBtn.Location = new Point(8, 296);
             newFormBtn.Margin = new Padding(4);
             newFormBtn.Name = "newFormBtn";
-            newFormBtn.Size = new Size(142, 35);
+            newFormBtn.Size = new Size(425, 35);
             newFormBtn.TabIndex = 3;
             newFormBtn.Text = "Create New Form";
             newFormBtn.UseVisualStyleBackColor = true;
@@ -82,8 +85,9 @@
             // 
             // logOut
             // 
+            logOut.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             logOut.AutoSize = true;
-            logOut.Location = new Point(382, 13);
+            logOut.Location = new Point(346, 4);
             logOut.Name = "logOut";
             logOut.Size = new Size(76, 31);
             logOut.TabIndex = 4;
@@ -91,20 +95,32 @@
             logOut.UseVisualStyleBackColor = true;
             logOut.Click += logOut_Click;
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(logOut);
+            panel1.Controls.Add(label1);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(8, 8);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(425, 88);
+            panel1.TabIndex = 5;
+            // 
             // Admin
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(469, 732);
-            Controls.Add(logOut);
-            Controls.Add(newFormBtn);
+            ClientSize = new Size(441, 339);
             Controls.Add(formsFlowLayout);
-            Controls.Add(label2);
-            Controls.Add(label1);
+            Controls.Add(panel1);
+            Controls.Add(newFormBtn);
             Font = new Font("Segoe UI", 12F);
             Margin = new Padding(4);
             Name = "Admin";
-            Text = "Admin";
+            Padding = new Padding(8);
+            Text = "Universal Forms - Admin Page";
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -116,5 +132,6 @@
         private Panel formsFlowLayout;
         private Button newFormBtn;
         private Button logOut;
+        private Panel panel1;
     }
 }

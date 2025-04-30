@@ -20,7 +20,8 @@ namespace UniversalForm.Client.View
                 Anchor = AnchorStyles.Top | AnchorStyles.Left,
                 Height = 128,
                 Width = 512,
-                PlaceholderText = textQuestion.DefaultText
+                PlaceholderText = textQuestion.DefaultText,
+                Dock = DockStyle.Top,
             };
             textBox.LostFocus += (s, e) => { _statistics.Corrections++; };
             if (_statistics.HasAnswer())
@@ -78,6 +79,7 @@ namespace UniversalForm.Client.View
                 {
                     customTextBox.Text = _statistics.GetSingleAnswer();
                     radioButton.Checked = true;
+                    customTextBox.Enabled = true;
                 }
                 radioButton.CheckedChanged += (s, e) =>
                 {
@@ -146,8 +148,6 @@ namespace UniversalForm.Client.View
                 }
                 checkBox.CheckedChanged += (s, e) =>
                 {
-                    if (!checkBox.Checked)
-                        _statistics.ChangeCustomAnswer(multiSelectQuestion.Options, null);
                     if (checkBox.Tag != null)
                     {
                         _statistics.Corrections++;
@@ -156,6 +156,8 @@ namespace UniversalForm.Client.View
                     {
                         checkBox.Tag = new object();
                     }
+                    _statistics.ToggleAnswer(customTextBox.Text);
+                    customTextBox.Enabled = checkBox.Checked;
                 };
                 customTextBox.TextChanged += (s, e) => _statistics.ChangeCustomAnswer(multiSelectQuestion.Options, customTextBox.Text);
                 _controls.Add(textPanel);
@@ -172,6 +174,7 @@ namespace UniversalForm.Client.View
                 MinDate = dateQuestion.MinDate,
                 MaxDate = dateQuestion.MaxDate,
                 Format = DateTimePickerFormat.Short,
+                Dock = DockStyle.Top,
             };
             if (_statistics.HasAnswer())
             {
@@ -190,9 +193,14 @@ namespace UniversalForm.Client.View
         protected override void DoCreateControl()
         {
             var sliderQuestion = (QNumber)_question;
-            var numInput = new NumericUpDown();
-            numInput.Minimum = sliderQuestion.Min;
-            numInput.Maximum = sliderQuestion.Max;
+            var numInput = new NumericUpDown()
+            {
+                Minimum = sliderQuestion.Min,
+                Maximum = sliderQuestion.Max,
+                DecimalPlaces = 0,
+                Increment = 1,
+                Dock = DockStyle.Top,
+            };
             int ans;
             if (Int32.TryParse(_statistics.GetSingleAnswer(), out ans) && sliderQuestion.Min <= ans && sliderQuestion.Max >= ans)
             {

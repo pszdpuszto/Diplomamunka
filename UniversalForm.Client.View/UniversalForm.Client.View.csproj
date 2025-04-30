@@ -6,11 +6,29 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <LangVersion>preview</LangVersion>
+	<LangVersion>preview</LangVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="settings.ini" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WinForms.DataVisualization" Version="1.10.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\UniversalForm.Client.Model\UniversalForm.Client.Model.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="settings.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(ProjectDir)\settings.ini&quot; &quot;$(TargetDir)\settings.ini&#xD;&#xA;echo Copied settings.ini" />
+  </Target>
 
 </Project>

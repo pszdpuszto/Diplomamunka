@@ -1,6 +1,6 @@
 ﻿namespace UniversalForm.Client.View
 {
-    partial class UserName
+    partial class ConnectionLost
     {
         /// <summary>
         /// Required designer variable.
@@ -29,8 +29,7 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            userNameText = new TextBox();
-            button1 = new Button();
+            reconnectBtn = new Button();
             button2 = new Button();
             SuspendLayout();
             // 
@@ -38,57 +37,49 @@
             // 
             label1.Anchor = AnchorStyles.Top;
             label1.AutoSize = true;
-            label1.Location = new Point(23, 9);
+            label1.Location = new Point(7, 9);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(275, 63);
+            label1.Size = new Size(210, 21);
             label1.TabIndex = 0;
-            label1.Text = "This form is not anonymous.\r\nPlease provide a username with which\r\nthe form's creator can identify you.";
+            label1.Text = "Lost connection to the server";
             // 
-            // userNameText
+            // reconnectBtn
             // 
-            userNameText.Anchor = AnchorStyles.Top;
-            userNameText.Location = new Point(59, 91);
-            userNameText.Name = "userNameText";
-            userNameText.PlaceholderText = "Enter Username";
-            userNameText.Size = new Size(194, 29);
-            userNameText.TabIndex = 1;
-            // 
-            // button1
-            // 
-            button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button1.AutoSize = true;
-            button1.Location = new Point(237, 159);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 31);
-            button1.TabIndex = 2;
-            button1.Text = "OK";
-            button1.UseVisualStyleBackColor = true;
+            reconnectBtn.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            reconnectBtn.AutoSize = true;
+            reconnectBtn.Location = new Point(123, 56);
+            reconnectBtn.Name = "reconnectBtn";
+            reconnectBtn.Size = new Size(92, 31);
+            reconnectBtn.TabIndex = 1;
+            reconnectBtn.Text = "Reconnect";
+            reconnectBtn.UseVisualStyleBackColor = true;
+            reconnectBtn.Click += button1_Click;
             // 
             // button2
             // 
             button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             button2.AutoSize = true;
-            button2.Location = new Point(12, 159);
+            button2.Location = new Point(12, 56);
             button2.Name = "button2";
             button2.Size = new Size(75, 31);
-            button2.TabIndex = 3;
-            button2.Text = "Cancel";
+            button2.TabIndex = 2;
+            button2.Text = "Exit";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
-            // UserName
+            // ConnectionLost
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(324, 202);
+            ClientSize = new Size(227, 99);
             Controls.Add(button2);
-            Controls.Add(button1);
-            Controls.Add(userNameText);
+            Controls.Add(reconnectBtn);
             Controls.Add(label1);
             Font = new Font("Segoe UI", 12F);
             Margin = new Padding(4);
-            Name = "UserName";
-            Text = "Universal Forms - Username";
+            Name = "ConnectionLost";
+            Text = "ConnectionLost";
             ResumeLayout(false);
             PerformLayout();
         }
@@ -96,8 +87,7 @@
         #endregion
 
         private Label label1;
-        private TextBox userNameText;
-        private Button button1;
+        private Button reconnectBtn;
         private Button button2;
     }
 }

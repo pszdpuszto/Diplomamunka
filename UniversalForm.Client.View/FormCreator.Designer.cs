@@ -32,38 +32,39 @@
             descriptionTextBox = new TextBox();
             cancelBtn = new Button();
             finishBtn = new Button();
-            optionsPanel = new FlowLayoutPanel();
+            optionsPanel = new Panel();
             createBtn = new Button();
             nextBtn = new Button();
             backBtn = new Button();
             panel1 = new Panel();
+            delBtn = new Button();
             numLabel = new Label();
             qTypes = new ComboBox();
-            delBtn = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
             // titleTextBox
             // 
             titleTextBox.Dock = DockStyle.Top;
-            titleTextBox.Font = new Font("Segoe UI", 32F);
+            titleTextBox.Font = new Font("Segoe UI", 24F);
             titleTextBox.Location = new Point(0, 0);
             titleTextBox.Margin = new Padding(4);
             titleTextBox.Name = "titleTextBox";
             titleTextBox.PlaceholderText = "Form Title";
-            titleTextBox.Size = new Size(710, 64);
+            titleTextBox.Size = new Size(710, 50);
             titleTextBox.TabIndex = 2;
             titleTextBox.TextChanged += titleTextBox_TextChanged;
             // 
             // descriptionTextBox
             // 
             descriptionTextBox.Dock = DockStyle.Top;
-            descriptionTextBox.Font = new Font("Segoe UI", 18F);
-            descriptionTextBox.Location = new Point(0, 64);
+            descriptionTextBox.Font = new Font("Segoe UI", 16F);
+            descriptionTextBox.Location = new Point(0, 50);
             descriptionTextBox.Margin = new Padding(26, 28, 26, 28);
             descriptionTextBox.Multiline = true;
             descriptionTextBox.Name = "descriptionTextBox";
             descriptionTextBox.PlaceholderText = "Form Description";
+            descriptionTextBox.ScrollBars = ScrollBars.Vertical;
             descriptionTextBox.Size = new Size(710, 145);
             descriptionTextBox.TabIndex = 3;
             descriptionTextBox.TextChanged += descriptionTextBox_TextChanged;
@@ -96,12 +97,12 @@
             // 
             // optionsPanel
             // 
+            optionsPanel.AutoScroll = true;
             optionsPanel.Dock = DockStyle.Fill;
-            optionsPanel.FlowDirection = FlowDirection.TopDown;
-            optionsPanel.Location = new Point(0, 209);
+            optionsPanel.Location = new Point(0, 195);
             optionsPanel.Margin = new Padding(4);
             optionsPanel.Name = "optionsPanel";
-            optionsPanel.Size = new Size(710, 245);
+            optionsPanel.Size = new Size(710, 259);
             optionsPanel.TabIndex = 6;
             // 
             // createBtn
@@ -158,25 +159,6 @@
             panel1.Size = new Size(710, 106);
             panel1.TabIndex = 9;
             // 
-            // numLabel
-            // 
-            numLabel.AutoSize = true;
-            numLabel.Location = new Point(311, 68);
-            numLabel.Name = "numLabel";
-            numLabel.Size = new Size(76, 21);
-            numLabel.TabIndex = 10;
-            numLabel.Text = "Title Page";
-            // 
-            // qTypes
-            // 
-            qTypes.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            qTypes.FormattingEnabled = true;
-            qTypes.Location = new Point(321, 11);
-            qTypes.Margin = new Padding(4);
-            qTypes.Name = "qTypes";
-            qTypes.Size = new Size(198, 29);
-            qTypes.TabIndex = 0;
-            // 
             // delBtn
             // 
             delBtn.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
@@ -188,6 +170,26 @@
             delBtn.Text = "Delete Question";
             delBtn.UseVisualStyleBackColor = true;
             delBtn.Click += delBtn_Click;
+            // 
+            // numLabel
+            // 
+            numLabel.AutoSize = true;
+            numLabel.Location = new Point(295, 63);
+            numLabel.Name = "numLabel";
+            numLabel.Size = new Size(76, 21);
+            numLabel.TabIndex = 10;
+            numLabel.Text = "Title Page";
+            numLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // qTypes
+            // 
+            qTypes.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            qTypes.FormattingEnabled = true;
+            qTypes.Location = new Point(321, 11);
+            qTypes.Margin = new Padding(4);
+            qTypes.Name = "qTypes";
+            qTypes.Size = new Size(198, 29);
+            qTypes.TabIndex = 0;
             // 
             // FormCreator
             // 
@@ -213,7 +215,7 @@
         private TextBox descriptionTextBox;
         private Button cancelBtn;
         private Button finishBtn;
-        private FlowLayoutPanel optionsPanel;
+        private Panel optionsPanel;
         private Button nextBtn;
         private Button backBtn;
         private Panel panel1;

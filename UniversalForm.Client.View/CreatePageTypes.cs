@@ -31,7 +31,7 @@ namespace UniversalForm.Client.View
         {
             var checkBoxAnonymous = new CheckBox
             {
-                Text = "Anonymous form (Warning: statistics by user won't be available!)",
+                Text = "Anonymous form",
                 Dock = DockStyle.Top,
                 AutoSize = true,
                 Checked = _model.Anonymous
@@ -40,7 +40,7 @@ namespace UniversalForm.Client.View
             {
                 _model.Anonymous = checkBoxAnonymous.Checked;
             };
-            AddControl(checkBoxAnonymous);
+            _controls.Add(checkBoxAnonymous);
             var checkBoxCorrection = new CheckBox
             {
                 Text = "Measure Corrections",
@@ -52,7 +52,7 @@ namespace UniversalForm.Client.View
             {
                 _model.MeasureCorrections = checkBoxCorrection.Checked;
             };
-            AddControl(checkBoxCorrection);
+            _controls.Add(checkBoxCorrection);
             var checkBoxTime = new CheckBox
             {
                 Text = "Measure Time",
@@ -64,7 +64,7 @@ namespace UniversalForm.Client.View
             {
                 _model.MeasureTime = checkBoxTime.Checked;
             };
-            AddControl(checkBoxTime);
+            _controls.Add(checkBoxTime);
             var checkBoxFocus = new CheckBox
             {
                 Text = "Focus Tracking",
@@ -72,7 +72,11 @@ namespace UniversalForm.Client.View
                 AutoSize = true,
                 Checked = _model.FocusTracking
             };
-            AddControl(checkBoxFocus);
+            checkBoxFocus.CheckedChanged += (s, e) =>
+            {
+                _model.FocusTracking = checkBoxFocus.Checked;
+            };
+            _controls.Add(checkBoxFocus);
         }
     }
 
@@ -85,12 +89,13 @@ namespace UniversalForm.Client.View
         }
         protected override void DoCreateControls()
         {
-            var lable = new Label
+            var label = new Label
             {
                 Text = "Default Text (can be empty):",
                 Dock = DockStyle.Top,
                 AutoSize = true,
             };
+            _controls.Add(label);
             var defArea = new TextBox
             {
                 Multiline = true,
@@ -98,13 +103,14 @@ namespace UniversalForm.Client.View
                 Size = new Size(400, 200),
                 ScrollBars = ScrollBars.Vertical,
                 PlaceholderText = "Default Text (can be empty)",
-                Text = _question.DefaultText
+                Text = _question.DefaultText,
+                Dock = DockStyle.Top,
             };
             defArea.TextChanged += (s, e) =>
             {
                 _question.DefaultText = defArea.Text;
             };
-            AddControl(defArea);
+            _controls.Add(defArea);
         }
     }
 
@@ -128,24 +134,33 @@ namespace UniversalForm.Client.View
             {
                 SetCustomOption(custom.Checked);
             };
-            AddControl(custom);
+            _controls.Add(custom);
             var newBtn = new Button
             {
                 Text = "Add Option",
                 Dock = DockStyle.Top,
                 AutoSize = true,
             };
-            AddControl(newBtn);
+            _controls.Add(newBtn);
+            var optionPanel = new Panel
+            {
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                Dock = DockStyle.Top,
+                Padding = new Padding(5),
+                Margin = new Padding(5),
+            };
             newBtn.Click += (s, e) =>
             {
                 var option = CreateOption();
-                AddControl(option);
+                optionPanel.Controls.Add(option);
             };
             foreach (var option in GetOptions())
             {
                 var optionControl = CreateOption(option);
-                AddControl(optionControl);
+                optionPanel.Controls.Add(optionControl);
             }
+            _controls.Add(optionPanel);
         }
         private Control CreateOption(string? option = null)
         {
@@ -157,7 +172,8 @@ namespace UniversalForm.Client.View
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
                 Padding = new Padding(5),
                 Margin = new Padding(5),
-                Tag = _optionCount++
+                Tag = _optionCount++,
+                Dock = DockStyle.Top,
             };
             var textBox = new TextBox
             {
@@ -251,7 +267,7 @@ namespace UniversalForm.Client.View
                 Dock = DockStyle.Top,
                 AutoSize = true,
             };
-            AddControl(label);
+            _controls.Add(label);
             var minDate = new DateTimePicker
             {
                 Format = DateTimePickerFormat.Short,
@@ -263,14 +279,14 @@ namespace UniversalForm.Client.View
             {
                 _question.MinDate = minDate.Value;
             };
-            AddControl(minDate);
+            _controls.Add(minDate);
             var label2 = new Label
             {
                 Text = "Max Date:",
                 Dock = DockStyle.Top,
                 AutoSize = true,
             };
-            AddControl(label2);
+            _controls.Add(label2);
             var maxDate = new DateTimePicker
             {
                 Format = DateTimePickerFormat.Short,
@@ -282,7 +298,7 @@ namespace UniversalForm.Client.View
             {
                 _question.MaxDate = maxDate.Value;
             };
-            AddControl(maxDate);
+            _controls.Add(maxDate);
         }
     }
     internal class CPNumber : CreatePage
@@ -300,7 +316,7 @@ namespace UniversalForm.Client.View
                 Dock = DockStyle.Top,
                 AutoSize = true,
             };
-            AddControl(label);
+            _controls.Add(label);
             var minValue = new NumericUpDown
             {
                 Minimum = int.MinValue,
@@ -313,14 +329,14 @@ namespace UniversalForm.Client.View
             {
                 _question.Min = (int)minValue.Value;
             };
-            AddControl(minValue);
+            _controls.Add(minValue);
             var label2 = new Label
             {
                 Text = "Max Value:",
                 Dock = DockStyle.Top,
                 AutoSize = true,
             };
-            AddControl(label2);
+            _controls.Add(label2);
             var maxValue = new NumericUpDown
             {
                 Minimum = int.MinValue,
@@ -333,7 +349,7 @@ namespace UniversalForm.Client.View
             {
                 _question.Max = (int)maxValue.Value;
             };
-            AddControl(maxValue);
+            _controls.Add(maxValue);
         }
     }
 }

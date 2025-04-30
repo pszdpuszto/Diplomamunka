@@ -53,7 +53,6 @@
             textBox1.PlaceholderText = "Enter Form Name";
             textBox1.Size = new Size(186, 29);
             textBox1.TabIndex = 1;
-            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // button1
             // 
@@ -65,6 +64,7 @@
             button1.TabIndex = 2;
             button1.Text = "Cancel";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // button2
             // 
@@ -83,9 +83,9 @@
             label2.AutoSize = true;
             label2.Location = new Point(12, 9);
             label2.Name = "label2";
-            label2.Size = new Size(287, 63);
+            label2.Size = new Size(281, 63);
             label2.TabIndex = 4;
-            label2.Text = "Please enter the name for the new form.\r\nThis will be it's identifier, wich you can\r\nshare with people to fill this form.";
+            label2.Text = "Please enter the name of the new form.\r\nThis will be it's identifier, wich you can\r\nshare with people to fill this form.";
             // 
             // FormName
             // 
@@ -100,7 +100,7 @@
             Font = new Font("Segoe UI", 12F);
             Margin = new Padding(4);
             Name = "FormName";
-            Text = "FormName";
+            Text = "Universal Forms - Form Name";
             ResumeLayout(false);
             PerformLayout();
         }

@@ -8,7 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="settings.ini" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\UniversalForm.Server.Model\UniversalForm.Server.Model.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="settings.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(ProjectDir)\settings.ini&quot; &quot;$(TargetDir)\settings.ini&#xD;&#xA;echo Copied settings.ini" />
+  </Target>
 
 </Project>

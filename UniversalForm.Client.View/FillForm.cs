@@ -37,13 +37,13 @@ namespace UniversalForm.Client.View
             InitializeComponent();
             title.Text = _model.Title;
             description.Text = _model.Description;
+            Text = "Universal Forms - " + _model.Title;
         }
         private void QuestionChanged(object? sender, QuestionChangedEventArgs e)
         {
             title.Text = e.New.Title;
             description.Text = e.New.Description;
-            answerPanel.Controls.Clear();
-            _page?.Dispose();
+            DisposePage();
             _page = FormPage.Factory(e.New, answerPanel, _model.GetStatisticsOfCurrentQuestion());
             if (_page == null)
             {
@@ -52,6 +52,7 @@ namespace UniversalForm.Client.View
             }
             Deactivate += _page.LostFocus;
             Activated += _page.GotFocus;
+            _page.CanProceedChange += CanProceedChange;
             if (e.Old == null && e.New != null)
             {
                 backBtn.Visible = true;
@@ -67,6 +68,12 @@ namespace UniversalForm.Client.View
             {
                 nextBtn.Text = "Next >";
             }
+            CanProceedChange(this, _page.CanProceed);
+        }
+
+        private void CanProceedChange(object? sender, bool e)
+        {
+            nextBtn.Enabled = e;
         }
 
         private void StartBtn(object sender, EventArgs e)
@@ -90,6 +97,7 @@ namespace UniversalForm.Client.View
             }
             else
             {
+                _page?.StopTimer();
                 var result = MessageBox.Show("Finish filling the form and send results?", "Confirm Finish", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
@@ -100,6 +108,7 @@ namespace UniversalForm.Client.View
                         Close();
                     }
                     else MessageBox.Show("Failed to send results.");
+                    _page?.StartTimer();
                 }
             }
         }
@@ -108,6 +117,16 @@ namespace UniversalForm.Client.View
         {
             CurrentQuestion = _model.PreviousQuestion()!;
             PageIndex--;
+        }
+
+        private void DisposePage()
+        {
+            if (_page == null)
+                return;
+            answerPanel.Controls.Clear();
+            Deactivate -= _page.LostFocus;
+            Activated -= _page.GotFocus;
+            _page.Dispose();
         }
     }
 }

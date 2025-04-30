@@ -3,17 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace UniversalForm.Client.Persistence
 {
+    public struct FillStatistic
+    {
+        public string UserName;
+        public DateTime Date;
+        public List<Statistics> QuestionStatistics;
+    }
     public class Statistics
     {
         public bool MultipleAnswers { get; set; } = false;
+        [JsonInclude]
         private HashSet<string> Answers { get; set; } = new();
-        public int Corrections { get; set; } = -1;
+        public int Corrections { get; set; } = 0;
         public long Time { get; set; } = 0;
         public long LostFocusTime { get; set; } = 0;
+        public event EventHandler<bool>? HasAnserChanged;
+        public Statistics() { }
+        public Statistics(bool multipleAnswers, HashSet<string> answers, int corrections, long time, long lostFocusTime)
+        {
+            MultipleAnswers = multipleAnswers;
+            Answers = answers;
+            Corrections = corrections;
+            Time = time;
+            LostFocusTime = lostFocusTime;
+        }
+
         public static Statistics operator +(Statistics? left, Statistics right)
         {
             if (left == null)
@@ -35,7 +54,7 @@ namespace UniversalForm.Client.Persistence
         }
         public bool HasAnswer()
         {
-            return Answers.Count > 0;
+            return Answers.Count > 0 && Answers.Order().First() != string.Empty;
         }
         public string GetSingleAnswer()
         {
@@ -49,6 +68,7 @@ namespace UniversalForm.Client.Persistence
         {
             Answers.Clear();
             Answers.Add(answer);
+            HasAnserChanged?.Invoke(this, true);
         }
         public HashSet<string> GetMultipleAnswers()
         {
@@ -63,10 +83,12 @@ namespace UniversalForm.Client.Persistence
             if (Answers.Contains(answer))
             {
                 Answers.Remove(answer);
+                HasAnserChanged?.Invoke(this, HasAnswer());
             }
             else
             {
                 Answers.Add(answer);
+                HasAnserChanged?.Invoke(this, true);
             }
         }
         public string? GetCustomAnswer(List<string> options)
@@ -84,6 +106,7 @@ namespace UniversalForm.Client.Persistence
                     Answers.Add(newValue);
                 }
             }
+            HasAnserChanged?.Invoke(this, HasAnswer());
         }
     }
 }

@@ -42,7 +42,7 @@ namespace UniversalForm.Client.View
             Title.Anchor = AnchorStyles.Top;
             Title.AutoSize = true;
             Title.Font = new Font("Segoe UI", 24F);
-            Title.Location = new Point(123, 9);
+            Title.Location = new Point(84, 9);
             Title.Name = "Title";
             Title.Size = new Size(246, 45);
             Title.TabIndex = 0;
@@ -52,10 +52,10 @@ namespace UniversalForm.Client.View
             // 
             FormCode.Anchor = AnchorStyles.Top;
             FormCode.Font = new Font("Segoe UI", 12F);
-            FormCode.Location = new Point(88, 124);
+            FormCode.Location = new Point(44, 126);
             FormCode.Name = "FormCode";
             FormCode.PlaceholderText = "Enter Form Name";
-            FormCode.Size = new Size(178, 29);
+            FormCode.Size = new Size(192, 29);
             FormCode.TabIndex = 1;
             // 
             // LoadFormBtn
@@ -63,7 +63,7 @@ namespace UniversalForm.Client.View
             LoadFormBtn.Anchor = AnchorStyles.Top;
             LoadFormBtn.AutoSize = true;
             LoadFormBtn.Font = new Font("Segoe UI", 12F);
-            LoadFormBtn.Location = new Point(272, 124);
+            LoadFormBtn.Location = new Point(243, 124);
             LoadFormBtn.Name = "LoadFormBtn";
             LoadFormBtn.Size = new Size(139, 31);
             LoadFormBtn.TabIndex = 2;
@@ -76,7 +76,7 @@ namespace UniversalForm.Client.View
             LoginBtn.Anchor = AnchorStyles.Top;
             LoginBtn.AutoSize = true;
             LoginBtn.Font = new Font("Segoe UI", 12F);
-            LoginBtn.Location = new Point(189, 209);
+            LoginBtn.Location = new Point(142, 208);
             LoginBtn.Name = "LoginBtn";
             LoginBtn.Size = new Size(124, 31);
             LoginBtn.TabIndex = 3;
@@ -89,7 +89,7 @@ namespace UniversalForm.Client.View
             label1.Anchor = AnchorStyles.Top;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 12F);
-            label1.Location = new Point(234, 172);
+            label1.Location = new Point(191, 174);
             label1.Name = "label1";
             label1.Size = new Size(32, 21);
             label1.TabIndex = 4;
@@ -98,11 +98,10 @@ namespace UniversalForm.Client.View
             // label2
             // 
             label2.Anchor = AnchorStyles.Top;
-            label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F);
-            label2.Location = new Point(174, 84);
+            label2.Location = new Point(142, 83);
             label2.Name = "label2";
-            label2.Size = new Size(139, 21);
+            label2.Size = new Size(140, 21);
             label2.TabIndex = 5;
             label2.Text = "Enter a form name";
             // 
@@ -110,7 +109,7 @@ namespace UniversalForm.Client.View
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(499, 276);
+            ClientSize = new Size(424, 260);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(LoginBtn);

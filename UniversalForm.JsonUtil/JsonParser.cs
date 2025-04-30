@@ -59,5 +59,9 @@ namespace UniversalForm.Utils
         {
             return JsonSerializer.Deserialize<T>(jsonStr, _options);
         }
+        public static string SerializeStrList(List<string> list)
+        {
+            return "[" + string.Join(',', list) + "]";
+        }
     }
 }

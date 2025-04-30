@@ -43,6 +43,7 @@ namespace UniversalForm.Client.View
             InitializeComponent();
             qTypes.DataSource = _questionTypes.Select(q => Question.TypeToString[q]).ToList();
             qTypes.SelectedIndex = 0;
+            Text = "Universal Forms - " + _formName;
             _questionChanged += PageChanged;
             SetPage(new CPTitlePage(_model));
         }
@@ -69,7 +70,7 @@ namespace UniversalForm.Client.View
             titleTextBox.PlaceholderText = formOrQuestion + " Title";
             descriptionTextBox.PlaceholderText = formOrQuestion + " Description";
 
-            numLabel.Text = (titlePage) ? "Title Page" : $"Question #{_model.Index + 1}";
+            numLabel.Text = (titlePage) ? "Title Page" : $"Question #{_model.Index + 1}: {e.New.GetQuestionType()}";
         }
 
         private void finishBtn_Click(object sender, EventArgs e)
@@ -136,7 +137,7 @@ namespace UniversalForm.Client.View
 
         private void createBtn_Click(object sender, EventArgs e)
         {
-            var firstQuestion = _model.HasQuestion();
+            var firstQuestion = !_model.HasQuestion();
             var questionType = _questionTypes.ElementAt(qTypes.SelectedIndex);
             _model.AddQuestion(QuestionFactory(questionType));
             Question? newQuestion = null;
@@ -146,7 +147,10 @@ namespace UniversalForm.Client.View
             }
             else
             {
-                newQuestion = _model.NextQuestion();
+                while (_model.HasNextQuestion())
+                {
+                    newQuestion = _model.NextQuestion();
+                }
             }
             SetPage(CreatePage.Factory(newQuestion));
         }

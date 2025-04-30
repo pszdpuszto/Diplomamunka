@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Client.Model"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Client.Persistence", "UniversalForm.Client.Persistence\UniversalForm.Client.Persistence.csproj", "{D429A3AE-8EC2-4CA8-B9C0-BFC0C3E33359}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testClient", "testClient\testClient.csproj", "{099A4BE3-00A8-4E62-A3EA-A7A746C1D5B4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Client.View", "UniversalForm.Client.View\UniversalForm.Client.View.csproj", "{1056BAA3-A535-4E2B-9DB3-49672FF4996B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalForm.Server.Persistence", "UniversalForm.Server.Persistence\UniversalForm.Server.Persistence.csproj", "{E82CAE0B-D68D-48E3-AAF1-A9C6460FDEBA}"
@@ -37,10 +35,6 @@ Global
 		{D429A3AE-8EC2-4CA8-B9C0-BFC0C3E33359}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D429A3AE-8EC2-4CA8-B9C0-BFC0C3E33359}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D429A3AE-8EC2-4CA8-B9C0-BFC0C3E33359}.Release|Any CPU.Build.0 = Release|Any CPU
-		{099A4BE3-00A8-4E62-A3EA-A7A746C1D5B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{099A4BE3-00A8-4E62-A3EA-A7A746C1D5B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{099A4BE3-00A8-4E62-A3EA-A7A746C1D5B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{099A4BE3-00A8-4E62-A3EA-A7A746C1D5B4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1056BAA3-A535-4E2B-9DB3-49672FF4996B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1056BAA3-A535-4E2B-9DB3-49672FF4996B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1056BAA3-A535-4E2B-9DB3-49672FF4996B}.Release|Any CPU.ActiveCfg = Release|Any CPU

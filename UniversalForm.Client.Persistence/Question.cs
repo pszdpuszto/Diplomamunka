@@ -30,11 +30,13 @@ namespace UniversalForm.Client.Persistence
         public QTYPE Type { get; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public Question(QTYPE type, string title, string description)
+        public bool Required { get; set; } = false;
+        public Question(QTYPE type, string title, string description, bool required)
         {
             Type = type;
             Title = title;
             Description = description;
+            Required = required;
         }
 
         public override string ToString()

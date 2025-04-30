@@ -30,24 +30,23 @@ namespace UniversalForm.Client.View
                     var userNameForm = new UserName();
                     userNameForm.ShowDialog();
                     var userName = userNameForm.UserNameValue;
-                    if (userName != string.Empty)
-                    {
-                        _model.SetUserName(userName);
-                        var fillForm = new FillForm(_model);
-                        Hide();
-                        fillForm.ShowDialog();
-                        if (fillForm.FullExit)
-                        {
-                            Close();
-                            return;
-                        }
-                        Show();
-                    }
+                    if (userName == string.Empty)
+                        return;
+                    _model.SetUserName(userName);
                 }
-                else
+                var fillForm = new FillForm(_model);
+                Hide();
+                fillForm.ShowDialog();
+                if (fillForm.FullExit)
                 {
-                    MessageBox.Show("Invalid Form Name");
+                    Close();
+                    return;
                 }
+                Show();
+            }
+            else
+            {
+                MessageBox.Show("Invalid Form Name");
             }
         }
 

@@ -25,8 +25,6 @@ namespace UniversalForm.Server.Model
             public StringBuilder sb = new();
         }
 
-        private readonly string _hostName;
-        private readonly int _port;
         private IPEndPoint _endPoint;
 
         private bool _running = false;
@@ -35,12 +33,10 @@ namespace UniversalForm.Server.Model
         private ArrayList _peers = new();
 
         private IPersistence _persistence;
-        public Server(string hostName, int port, IPersistence persistence)
+        public Server(IPEndPoint endPoint, IPersistence persistence)
         {
-            _hostName = hostName;
-            _port = port;
 
-            _endPoint = CreateIPEndPoint().Result;
+            _endPoint = endPoint;
 
             _persistence = persistence;
         }
@@ -164,7 +160,7 @@ namespace UniversalForm.Server.Model
                     return JsonParser.Serialize<Response>(new Response
                     {
                         ID = Response.Type.STATISTICS,
-                        JsonStr = _persistence.GetJsonStatistics(request.JsonStr)
+                        JsonStr = statStr
                     });
                 case Request.Type.LOGIN:
                     if (_persistence.CheckLogin(request.Username, request.JsonStr) == IPersistence.LoginResult.SUCCESS)
@@ -200,14 +196,6 @@ namespace UniversalForm.Server.Model
                         JsonStr = "Unknown request type"
                     });
             }
-        }
-
-        private async Task<IPEndPoint> CreateIPEndPoint()
-        {
-            IPHostEntry ipHostInfo = await Dns.GetHostEntryAsync(_hostName);
-            IPAddress ipAddress = ipHostInfo.AddressList[0];
-
-            return new IPEndPoint(ipAddress, _port);
         }
 
         private void Send(Socket handler, String data)

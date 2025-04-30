@@ -23,9 +23,20 @@ static class Program
             return;
         }
         var persistence = new ClientJsonPersistence(Model.FormModel.getQuestionTypes(), endPoint);
+        persistence.ConnectionLost += ConnectionLost;
         var model = new Model.FormModel(persistence);
         var view = new Menu(model);
         Application.Run(view);
+    }
+
+    static void ConnectionLost(object? sender, ClientJsonPersistence e)
+    {
+        var retry = new ConnectionLost(e);
+        retry.ShowDialog();
+        if (retry.FullExit)
+        {
+            Application.Exit();
+        }
     }
 }
 
