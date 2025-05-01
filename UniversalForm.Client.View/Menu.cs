@@ -26,11 +26,7 @@
                 var fillForm = new FillForm(_model);
                 Hide();
                 fillForm.ShowDialog();
-                if (fillForm.FullExit)
-                {
-                    Close();
-                    return;
-                }
+                _model.ResetForm();
                 Show();
             }
             else
@@ -45,14 +41,12 @@
             loginForm.ShowDialog();
             if (loginForm.Success)
             {
+                _model.SetUserName(loginForm.UserName);
                 var adminForm = new Admin(_model);
                 Hide();
                 adminForm.ShowDialog();
-                if (adminForm.FullExit)
-                {
-                    Close();
-                    return;
-                }
+                _model.ResetForm();
+                _model.AdminUserName = string.Empty;
                 Show();
             }
         }

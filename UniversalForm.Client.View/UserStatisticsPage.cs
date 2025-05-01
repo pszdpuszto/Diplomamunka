@@ -52,6 +52,7 @@ namespace UniversalForm.Client.View
             _model = model;
             _statModel = statModel;
             InitializeComponent();
+            DisableUnneccecaryElements();
             DataBind();
         }
         public UserStatisticsPage(FormModel model, StatisticsModel statModel, int userIndex)
@@ -61,16 +62,39 @@ namespace UniversalForm.Client.View
             _model = model;
             _statModel = statModel;
             InitializeComponent();
+            DisableUnneccecaryElements();   
             DataBind();
+        }
+        private void DisableUnneccecaryElements()
+        {
+            if (!_model.MeasureTime)
+            {
+                timeCumChart.Visible = false;
+                timeChart.Visible = false;
+            }
+            if (!_model.FocusTracking)
+            {
+                lostFocusChart.Visible = false;
+            }
+            if (!_model.MeasureCorrections)
+            {
+                correctionsCumChart.Visible = false;
+                correctionsChart.Visible = false;
+            }
         }
         private void DataBind()
         {
             dateLabel.Text = SubmitDateLabelText;
-            timeCumChart.Series.First().Points.DataBindXY(Questions, TimesCumulative);
-            timeChart.Series.First().Points.DataBindXY(Questions, Times);
-            lostFocusChart.Series.First().Points.DataBindXY(Questions, LostFocusTimes);
-            correctionsCumChart.Series.First().Points.DataBindXY(Questions, CorrectionsCumulative);
-            correctionsChart.Series.First().Points.DataBindXY(Questions, Corrections);
+            if (timeCumChart.Visible)
+                timeCumChart.Series.First().Points.DataBindXY(Questions, TimesCumulative);
+            if (timeChart.Visible)
+                timeChart.Series.First().Points.DataBindXY(Questions, Times);
+            if (lostFocusChart.Visible)
+                lostFocusChart.Series.First().Points.DataBindXY(Questions, LostFocusTimes);
+            if (correctionsCumChart.Visible)
+                correctionsCumChart.Series.First().Points.DataBindXY(Questions, CorrectionsCumulative);
+            if (correctionsChart.Visible)
+                correctionsChart.Series.First().Points.DataBindXY(Questions, Corrections);
             CreateAnswerLabels();
         }
         private void CreateAnswerLabels()
@@ -85,38 +109,6 @@ namespace UniversalForm.Client.View
                 }
             }
             answersLabel.Text = sb.ToString();
-            //List<Control> answerLabels = new();
-            //for (int i = 0; i < Answers.Count; i++)
-            //{
-            //    var label = new Label()
-            //    {
-            //        Text = $"#{i+1}: {Questions[i]}",
-            //        Font = new Font("Segoe UI", 14, FontStyle.Bold),
-            //        Dock = DockStyle.Top
-            //    };
-            //    answerLabels.Add(label);
-            //    var subPanel = new Panel()
-            //    {
-            //        Dock = DockStyle.Top,
-            //        AutoSize = true,
-            //        AutoSizeMode = AutoSizeMode.GrowAndShrink,
-            //        Padding = new Padding(0, 50, 0, 0),
-            //    };
-            //    label.Controls.Add(subPanel);
-            //    foreach (var answer in Answers[i])
-            //    {
-            //        var answerLabel = new Label()
-            //        {
-            //            Text = answer,
-            //            Dock = DockStyle.Top,
-            //        };
-            //        subPanel.Controls.Add(answerLabel);
-            //    }
-            //}
-            //for (int i = answerLabels.Count - 1; i >= 0; i--)
-            //{
-            //    answerPanel.Controls.Add(answerLabels[i]);
-            //}
         }
     }
 }

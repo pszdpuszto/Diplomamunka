@@ -6,7 +6,6 @@ namespace UniversalForm.Client.View
 {
     public partial class FormCreator : System.Windows.Forms.Form
     {
-        public bool FullExit { get; private set; } = true;
         private FormModel _model;
         private string _formName = string.Empty;
         private CreatePage? Page
@@ -74,7 +73,6 @@ namespace UniversalForm.Client.View
                 if (_model.SaveForm())
                 {
                     MessageBox.Show("Form saved successfully.", "Form Saved");
-                    FullExit = false;
                     Close();
                 }
                 else
@@ -89,7 +87,6 @@ namespace UniversalForm.Client.View
             var result = MessageBox.Show("Exit without saving?", "Confirm cancel", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                FullExit = false;
                 Close();
             }
         }

@@ -11,6 +11,9 @@ namespace UniversalForm.Client.Persistence
         public bool MeasureTime { get; set; } = false;
         public bool Anonymous { get; set; } = false;
         public bool FocusTracking { get; set; } = false;
+        public bool AllowBack { get; set; } = false;
+        [JsonIgnore]
+        public string UserName { get; set; } = string.Empty;
         [JsonInclude]
         public List<Question> Questions { get; }
         [JsonConstructor]

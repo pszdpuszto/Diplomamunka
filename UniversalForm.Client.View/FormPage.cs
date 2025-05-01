@@ -70,13 +70,10 @@ namespace UniversalForm.Client.View
         }
         private void CreateControl()
         {
+            DoCreateControl();
             if (_question.Required)
                 AddRequiredLabel();
-            DoCreateControl();
-            for (int i = _controls.Count - 1; i >= 0; i--)
-            {
-                _parent.Controls.Add(_controls[i]);
-            }
+            _parent.Controls.AddRange(_controls.ToArray());
         }
 
         private void AddRequiredLabel()

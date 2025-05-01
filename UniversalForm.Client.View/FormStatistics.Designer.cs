@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormStatistics));
             overviewBtn = new RadioButton();
             questionBtn = new RadioButton();
             userBtn = new RadioButton();
@@ -124,6 +125,7 @@
             Controls.Add(mainPanel);
             Controls.Add(panel1);
             Font = new Font("Segoe UI", 12F);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "FormStatistics";
             Text = "FormStatistics";

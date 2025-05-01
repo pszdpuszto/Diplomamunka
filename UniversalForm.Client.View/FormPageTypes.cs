@@ -45,6 +45,7 @@ namespace UniversalForm.Client.View
         {
             var singleSelectQuestion = (QSingleSelect)_question;
             bool hasAnswer = false;
+            List<Control> options = new();
             foreach (var option in singleSelectQuestion.Options)
             {
                 var radioButton = new RadioButton()
@@ -63,14 +64,13 @@ namespace UniversalForm.Client.View
                         _statistics.Corrections++;
                     _statistics.SetSingleAnswer(option);
                 };
-                _controls.Add(radioButton);
+                options.Add(radioButton);
             }
             if (singleSelectQuestion.CustomOption)
             {
                 var radioButton = new RadioButton();
                 radioButton.Text = "Other, specify below:";
                 radioButton.Dock = DockStyle.Top;
-                _controls.Add(radioButton);
                 var textPanel = new Panel()
                 {
                     Dock = DockStyle.Top,
@@ -84,7 +84,11 @@ namespace UniversalForm.Client.View
                     Width = 512,
                     Enabled = false,
                 };
-                textPanel.Controls.Add(customTextBox);
+                customTextBox.TextChanged += (s, e) =>
+                {
+                    if (radioButton.Checked)
+                        _statistics.SetSingleAnswer(customTextBox.Text);
+                };
                 if (!hasAnswer && _statistics.HasAnswer())
                 {
                     customTextBox.Text = _statistics.GetSingleAnswer();
@@ -99,8 +103,11 @@ namespace UniversalForm.Client.View
                         _statistics.SetSingleAnswer(customTextBox.Text);
                     customTextBox.Enabled = radioButton.Checked;
                 };
+                textPanel.Controls.Add(customTextBox);
                 _controls.Add(textPanel);
+                _controls.Add(radioButton);
             }
+            _controls.AddRange(options.ToArray());
         }
     }
     internal class FPMultiSelect(Question question, Control parent, Statistics stats) : FormPage(question, parent, stats)
@@ -108,6 +115,7 @@ namespace UniversalForm.Client.View
         protected override void DoCreateControl()
         {
             var multiSelectQuestion = (QMultiSelect)_question;
+            List<Control> options = new();
             foreach (var option in multiSelectQuestion.Options)
             {
                 var checkBox = new CheckBox()
@@ -129,7 +137,7 @@ namespace UniversalForm.Client.View
                         checkBox.Tag = new object();
                     }
                 };
-                _controls.Add(checkBox);
+                options.Add(checkBox);
             }
             if (multiSelectQuestion.CustomOption)
             {
@@ -138,7 +146,6 @@ namespace UniversalForm.Client.View
                     Dock = DockStyle.Top,
                     Text = "Other, specify below: ",
                 };
-                _controls.Add(checkBox);
                 var textPanel = new Panel()
                 {
                     Dock = DockStyle.Top
@@ -173,7 +180,9 @@ namespace UniversalForm.Client.View
                 };
                 customTextBox.TextChanged += (s, e) => _statistics.ChangeCustomAnswer(multiSelectQuestion.Options, customTextBox.Text);
                 _controls.Add(textPanel);
+                _controls.Add(checkBox);
             }
+            _controls.AddRange(options.ToArray());
         }
     }
     internal class FPDate(Question question, Control parent, Statistics stats) : FormPage(question, parent, stats)

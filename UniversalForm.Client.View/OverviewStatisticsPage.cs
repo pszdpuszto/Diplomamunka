@@ -9,8 +9,8 @@ namespace UniversalForm.Client.View
         private StatisticsModel _statModel;
         private string SubmissionLabelText => $"Number of submissions: {_statModel.GetSubmissionCount()}";
         private string AverageTimeLabelText => $"Average time: {_statModel.GetAllAverageTime() / 1000.0} seconds";
-        private string AverageLostFocusLabelText => $"Average corrections: {_statModel.GetAllAverageLostFocus() / 1000.0}";
-        private string AverageCorrectionsLabelText => $"Average time without focus: {_statModel.GetAllAverageCorrections()} seconds";
+        private string AverageLostFocusLabelText => $"Average time without focus: {_statModel.GetAllAverageLostFocus() / 1000.0}";
+        private string AverageCorrectionsLabelText => $"Average corrections: {_statModel.GetAllAverageCorrections()} seconds";
         private List<DateTime> SubmissionDates => _statModel.GetSubmissionDates();
         private List<int> SubmissionCount
         {
@@ -33,18 +33,44 @@ namespace UniversalForm.Client.View
             _model = model;
             _statModel = statModel;
             InitializeComponent();
+            DisableUnneccecaryElements();
             DataBind();
+        }
+        private void DisableUnneccecaryElements()
+        {
+            if (!_model.MeasureTime)
+            {
+                timeLabel.Visible = false;
+                avgTimeChart.Visible = false;
+
+            }
+            if (!_model.FocusTracking)
+            {
+                lostFocusLabel.Visible = false;
+                lostFocusChart.Visible = false;
+            }
+            if (!_model.MeasureCorrections)
+            {
+                correctionLabel.Visible = false;
+                correctionChart.Visible = false;
+            }
         }
         private void DataBind()
         {
             userNumLabel.Text = SubmissionLabelText;
-            timeLabel.Text = AverageTimeLabelText;
-            correctionLabel.Text = AverageLostFocusLabelText;
-            lostFocusLabel.Text = AverageCorrectionsLabelText;
+            if (timeLabel.Visible)
+                timeLabel.Text = AverageTimeLabelText;
+            if (correctionLabel.Visible)
+                correctionLabel.Text = AverageCorrectionsLabelText;
+            if (lostFocusLabel.Visible)
+                lostFocusLabel.Text = AverageLostFocusLabelText;
             dateChart.Series.First().Points.DataBindXY(SubmissionDates, SubmissionCount);
-            avgTimeChart.Series.First().Points.DataBindXY(QuestionLabels, AverageTimesSeconds);
-            correctionChart.Series.First().Points.DataBindXY(QuestionLabels, AverageCorrections);
-            lostFocusChart.Series.First().Points.DataBindXY(QuestionLabels, AverageLostFocus);
+            if (avgTimeChart.Visible)
+                avgTimeChart.Series.First().Points.DataBindXY(QuestionLabels, AverageTimesSeconds);
+            if (correctionChart.Visible)
+                correctionChart.Series.First().Points.DataBindXY(QuestionLabels, AverageCorrections);
+            if (lostFocusChart.Visible)
+                lostFocusChart.Series.First().Points.DataBindXY(QuestionLabels, AverageLostFocus);
         }
     }
 }

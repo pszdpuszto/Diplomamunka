@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Admin));
             label1 = new Label();
             label2 = new Label();
             formsFlowLayout = new Panel();
@@ -115,6 +116,7 @@
             Controls.Add(panel1);
             Controls.Add(newFormBtn);
             Font = new Font("Segoe UI", 12F);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "Admin";
             Padding = new Padding(8);

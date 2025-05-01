@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCreator));
             titleTextBox = new TextBox();
             descriptionTextBox = new TextBox();
             cancelBtn = new Button();
@@ -102,6 +103,7 @@
             optionsPanel.Location = new Point(0, 195);
             optionsPanel.Margin = new Padding(4);
             optionsPanel.Name = "optionsPanel";
+            optionsPanel.Padding = new Padding(8);
             optionsPanel.Size = new Size(710, 259);
             optionsPanel.TabIndex = 6;
             // 
@@ -201,6 +203,7 @@
             Controls.Add(titleTextBox);
             Controls.Add(panel1);
             Font = new Font("Segoe UI", 12F);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "FormCreator";
             Text = "FormCreator";

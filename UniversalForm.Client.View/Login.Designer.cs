@@ -30,6 +30,7 @@ namespace UniversalForm.Client.View
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             usernameTextBox = new TextBox();
             passwordTextBox = new TextBox();
             okButton = new Button();
@@ -138,6 +139,7 @@ namespace UniversalForm.Client.View
             Controls.Add(passwordTextBox);
             Controls.Add(usernameTextBox);
             Font = new Font("Segoe UI", 12F);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "Login";
             Text = "Universal Forms - Login";

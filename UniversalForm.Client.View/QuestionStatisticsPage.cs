@@ -27,16 +27,41 @@ namespace UniversalForm.Client.View
             _qType = qType;
             _qIndex = qIndex;
             InitializeComponent();
+            DisableUnneccecaryElements();   
             DataBind();
+        }
+        private void DisableUnneccecaryElements()
+        {
+            if (!_model.MeasureTime)
+            {
+                timeLabel.Visible = false;
+                timeChart.Visible = false;
+            }
+            if (!_model.FocusTracking)
+            {
+                lostFocusLabel.Visible = false;
+                lostFocusChart.Visible = false;
+            }
+            if (!_model.MeasureCorrections)
+            {
+                correctionLabel.Visible = false;
+                correctionChart.Visible = false;
+            }
         }
         private void DataBind()
         {
-            timeLabel.Text = AverageTimeLabelText;
-            lostFocusLabel.Text = AverageLostFocusLabelText;
-            correctionLabel.Text = AverageCorrectionsLabelText;
-            timeChart.Series.First().Points.DataBindXY(SubmitterLabels, Times);
-            lostFocusChart.Series.First().Points.DataBindXY(SubmitterLabels, LostFocusTimes);
-            correctionChart.Series.First().Points.DataBindXY(SubmitterLabels, Corrections);
+            if (timeLabel.Visible)
+                timeLabel.Text = AverageTimeLabelText;
+            if (lostFocusLabel.Visible)
+                lostFocusLabel.Text = AverageLostFocusLabelText;
+            if (correctionLabel.Visible)
+                correctionLabel.Text = AverageCorrectionsLabelText;
+            if (timeChart.Visible)
+                timeChart.Series.First().Points.DataBindXY(SubmitterLabels, Times);
+            if (lostFocusChart.Visible)
+                lostFocusChart.Series.First().Points.DataBindXY(SubmitterLabels, LostFocusTimes);
+            if (correctionChart.Visible)
+                correctionChart.Series.First().Points.DataBindXY(SubmitterLabels, Corrections);
             BindAnswers();
         }
         private void BindAnswers()

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserName));
             label1 = new Label();
             userNameText = new TextBox();
             button1 = new Button();
@@ -86,6 +87,7 @@
             Controls.Add(userNameText);
             Controls.Add(label1);
             Font = new Font("Segoe UI", 12F);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "UserName";
             Text = "Universal Forms - Username";

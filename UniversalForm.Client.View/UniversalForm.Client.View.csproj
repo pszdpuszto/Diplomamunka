@@ -27,6 +27,10 @@
     </Resource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="copy &quot;$(ProjectDir)\settings.ini&quot; &quot;$(TargetDir)\settings.ini&#xD;&#xA;echo Copied settings.ini" />
   </Target>

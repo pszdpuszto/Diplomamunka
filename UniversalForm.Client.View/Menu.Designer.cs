@@ -29,6 +29,7 @@ namespace UniversalForm.Client.View
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Menu));
             Title = new Label();
             FormCode = new TextBox();
             LoadFormBtn = new Button();
@@ -116,6 +117,7 @@ namespace UniversalForm.Client.View
             Controls.Add(LoadFormBtn);
             Controls.Add(FormCode);
             Controls.Add(Title);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Menu";
             Text = "Universal Forms";
             ResumeLayout(false);

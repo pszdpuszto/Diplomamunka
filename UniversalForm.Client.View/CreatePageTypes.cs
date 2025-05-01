@@ -25,7 +25,7 @@ namespace UniversalForm.Client.View
         {
             var checkBoxAnonymous = new CheckBox
             {
-                Text = "Anonymous form",
+                Text = "Anonymous Form",
                 Dock = DockStyle.Top,
                 AutoSize = true,
                 Checked = _model.Anonymous
@@ -35,6 +35,18 @@ namespace UniversalForm.Client.View
                 _model.Anonymous = checkBoxAnonymous.Checked;
             };
             _controls.Add(checkBoxAnonymous);
+            var checkBoxAllowBack = new CheckBox
+            {
+                Text = "Allow Back",
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                Checked = _model.AllowBack
+            };
+            checkBoxAllowBack.CheckedChanged += (s, e) =>
+            {
+                _model.AllowBack = checkBoxAllowBack.Checked;
+            };
+            _controls.Add(checkBoxAllowBack);
             var checkBoxCorrection = new CheckBox
             {
                 Text = "Measure Corrections",

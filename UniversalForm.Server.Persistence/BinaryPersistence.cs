@@ -97,8 +97,11 @@ namespace UniversalForm.Server.Persistence
                 var user = LoadUser(userName);
                 if (!user.HasValue)
                     return false;
-                user.Value.Forms.Add(formName);
-                SaveUser(user.Value);
+                if (!user.Value.Forms.Contains(formName))
+                {
+                    user.Value.Forms.Add(formName);
+                    SaveUser(user.Value);
+                }
             }
             catch
             {

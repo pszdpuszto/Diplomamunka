@@ -2,13 +2,12 @@
 {
     public partial class Admin : Form
     {
-        public bool FullExit { get; private set; } = true;
         private Model.FormModel _model;
         public Admin(Model.FormModel model)
         {
             _model = model;
             InitializeComponent();
-            label1.Text = "Logged in as: " + _model.UserName;
+            label1.Text = "Logged in as: " + _model.AdminUserName;
             CreateFormList();
         }
         public void CreateFormList()
@@ -17,7 +16,7 @@
             var forms = _model.GetFormList();
             if (forms == null)
             {
-                MessageBox.Show("No forms found for user: " + _model.UserName, "Form List Load Error");
+                MessageBox.Show("No forms found for user: " + _model.AdminUserName, "Form List Load Error");
                 return;
             }
             foreach (var form in forms)
@@ -48,6 +47,7 @@
             var stats = new FormStatistics(_model, statModel);
             Hide();
             stats.ShowDialog();
+            _model.ResetForm();
             Show();
         }
 
@@ -66,11 +66,7 @@
             var creator = new FormCreator(_model, e, false);
             Hide();
             creator.ShowDialog();
-            if (creator.FullExit)
-            {
-                Close();
-                return;
-            }
+            _model.ResetForm();
             CreateFormList();
             Show();
         }
@@ -86,11 +82,7 @@
             var creator = new FormCreator(_model, formName.FormNameValue, true);
             Hide();
             creator.ShowDialog();
-            if (creator.FullExit)
-            {
-                Close();
-                return;
-            }
+            _model.ResetForm();
             CreateFormList();
             Show();
         }
@@ -100,7 +92,6 @@
             var result = MessageBox.Show("Are you sure you want to log out?", "Log Out", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                FullExit = false;
                 Close();
             }
         }

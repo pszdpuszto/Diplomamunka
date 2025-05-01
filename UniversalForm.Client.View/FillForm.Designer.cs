@@ -29,15 +29,18 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FillForm));
             backBtn = new Button();
             nextBtn = new Button();
             answerPanel = new Panel();
+            warningLabel = new Label();
             startBtn = new Button();
             panel1 = new Panel();
             numLabel = new Label();
             bindingSource1 = new BindingSource(components);
             title = new Label();
             description = new Label();
+            answerPanel.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             SuspendLayout();
@@ -76,12 +79,23 @@
             // 
             answerPanel.AutoScroll = true;
             answerPanel.AutoSize = true;
+            answerPanel.Controls.Add(warningLabel);
             answerPanel.Dock = DockStyle.Fill;
             answerPanel.Location = new Point(13, 103);
             answerPanel.Margin = new Padding(13, 14, 13, 14);
             answerPanel.Name = "answerPanel";
             answerPanel.Size = new Size(687, 368);
             answerPanel.TabIndex = 4;
+            // 
+            // warningLabel
+            // 
+            warningLabel.AutoSize = true;
+            warningLabel.ForeColor = Color.Red;
+            warningLabel.Location = new Point(4, 14);
+            warningLabel.Name = "warningLabel";
+            warningLabel.Size = new Size(485, 21);
+            warningLabel.TabIndex = 0;
+            warningLabel.Text = "warning: Returning to previous questions is not allowed in this form!";
             // 
             // startBtn
             // 
@@ -156,10 +170,13 @@
             Controls.Add(title);
             Controls.Add(panel1);
             Font = new Font("Segoe UI", 12F);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "FillForm";
             Padding = new Padding(13, 14, 13, 14);
             Text = "Universal Forms - ";
+            answerPanel.ResumeLayout(false);
+            answerPanel.PerformLayout();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
@@ -179,5 +196,6 @@
         private Label numLabel;
         private Label title;
         private Label description;
+        private Label warningLabel;
     }
 }

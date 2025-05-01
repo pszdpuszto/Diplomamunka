@@ -4,6 +4,7 @@
     {
         private Model.FormModel _model;
         public bool Success { get; private set; } = false;
+        public string UserName { get; private set; } = string.Empty;
         public Login(Model.FormModel model)
         {
             InitializeComponent();
@@ -15,6 +16,7 @@
             if (_model.LogIn(usernameTextBox.Text, pwd))
             {
                 Success = true;
+                UserName = usernameTextBox.Text;
                 Close();
             }
             else

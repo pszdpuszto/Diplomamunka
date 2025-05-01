@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConnectionLost));
             label1 = new Label();
             reconnectBtn = new Button();
             button2 = new Button();
@@ -77,6 +78,7 @@
             Controls.Add(reconnectBtn);
             Controls.Add(label1);
             Font = new Font("Segoe UI", 12F);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "ConnectionLost";
             Text = "ConnectionLost";

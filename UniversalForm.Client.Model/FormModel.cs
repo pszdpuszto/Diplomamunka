@@ -15,16 +15,16 @@ namespace UniversalForm.Client.Model
             {
                 _measurements = (value != null) ? new(value) : null;
                 if (value != null && value.Anonymous)
-                    UserName = "ANON";
+                    value.UserName = "ANON";
                 field = value;
             }
         } = null;
         public int Index { get; private set; } = 0;
-        public string? UserName { get; private set; }
+        public string AdminUserName { get; set; } = string.Empty;
         public void SetUserName(string userName)
         {
-            if (_form != null && _form.Anonymous == false)
-                UserName = userName;
+            if (_form != null && !_form.Anonymous)
+                _form.UserName = userName;
         }
 
         public FormModel(IPersistence persistence)
@@ -45,7 +45,7 @@ namespace UniversalForm.Client.Model
         {
             if (_persistence.LogIn(userName, password))
             {
-                UserName = userName;
+                AdminUserName = userName;
                 return true;
             }
             return false;
@@ -63,15 +63,15 @@ namespace UniversalForm.Client.Model
 
         public bool SaveForm()
         {
-            if (_form == null || UserName == null)
+            if (_form == null || string.IsNullOrEmpty(AdminUserName))
                 return false;
-            return _persistence.SaveForm(UserName, _formName, _form);
+            return _persistence.SaveForm(AdminUserName, _formName, _form);
         }
         public List<string>? GetFormList()
         {
-            if (UserName == null)
+            if (string.IsNullOrEmpty(AdminUserName))
                 return null;
-            return _persistence.GetForms(UserName);
+            return _persistence.GetForms(AdminUserName);
         }
         public StatisticsModel? GetStatisticsModel()
         {
@@ -86,13 +86,13 @@ namespace UniversalForm.Client.Model
         {
             if (_form == null || _measurements == null)
                 return false;
-            return _persistence.SaveFormStatistics(UserName!, _formName, _measurements.QStatistics);
+            return _persistence.SaveFormStatistics(_form.UserName, _formName, _measurements.QStatistics);
         }
         public bool DeleteForm(string formName)
         {
-            if (UserName == null)
+            if (string.IsNullOrEmpty(AdminUserName))
                 return false;
-            return _persistence.DeleteForm(UserName, formName);
+            return _persistence.DeleteForm(AdminUserName, formName);
         }
         public Statistics GetStatisticsOfCurrentQuestion()
         {
@@ -118,7 +118,6 @@ namespace UniversalForm.Client.Model
         public void ResetForm()
         {
             _form = null;
-            UserName = string.Empty;
         }
         public Question.QTYPE? GetQuestionType(int index)
         {
@@ -257,6 +256,18 @@ namespace UniversalForm.Client.Model
             {
                 if (_form != null)
                     _form.FocusTracking = value;
+            }
+        }
+        public bool AllowBack
+        {
+            get
+            {
+                return (_form == null) ? false : _form.AllowBack;
+            }
+            set
+            {
+                if (_form != null)
+                    _form.AllowBack = value;
             }
         }
     }
