@@ -6,13 +6,14 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using UniversalForm.Client.Persistence;
 using UniversalForm.Utils;
 
 namespace UniversalForm.Client.Test
 { 
 
     public class FakeServer
-        {
+    {
         private struct Client
         {
             public const int BUFFER_SIZE = 4096;
@@ -29,7 +30,6 @@ namespace UniversalForm.Client.Test
         private ManualResetEvent _threadSync = new(false);
         private ArrayList _peers = new();
 
-        public event EventHandler<string>? LogEvent;
         public FakeServer(IPEndPoint endPoint)
         {
 
@@ -63,97 +63,63 @@ namespace UniversalForm.Client.Test
         }
         private string ProcessRequest(string jsonStr)
         {
-            /*var request = JsonParser.Deserialize<Request>(jsonStr);
+            var request = JsonParser.Deserialize<Request>(jsonStr);
             switch (request.ID)
             {
                 case Request.Type.GET_FORM:
-
+                    Assert.AreEqual(request.FormName, TestValues.FormName, "Username mismatch");
                     return JsonParser.Serialize<Response>(new Response
                     {
                         ID = Response.Type.FORM,
-                        JsonStr = _persistence.GetJsonForm(request.FormName)
+                        JsonStr = TestValues.FormString
                     });
                 case Request.Type.SAVE_FORM:
-                    if (_persistence.SaveForm(request.Username, request.FormName, request.JsonStr))
-                    {
-                        return JsonParser.Serialize<Response>(new Response
-                        {
-                            ID = Response.Type.ACKNOWLEDGE,
-                            JsonStr = "Form saved"
-                        });
-                    }
+                    Assert.AreEqual(request.Username, TestValues.UserName, "Username mismatch");
+                    Assert.AreEqual(request.FormName, TestValues.FormName, "Form name mismatch");
+                    Assert.AreEqual(request.JsonStr, TestValues.FormString, "Form string mismatch");
                     return JsonParser.Serialize<Response>(new Response
                     {
-                        ID = Response.Type.ERROR,
-                        JsonStr = "Error saving form"
+                        ID = Response.Type.ACKNOWLEDGE,
+                        JsonStr = "Form saved"
                     });
                 case Request.Type.DELETE_FORM:
-                    if (_persistence.DeleteForm(request.Username, request.FormName))
-                    {
-                        return JsonParser.Serialize<Response>(new Response
-                        {
-                            ID = Response.Type.ACKNOWLEDGE,
-                            JsonStr = "Form deleted"
-                        });
-                    }
+                    Assert.AreEqual(request.Username, TestValues.UserName, "Username mismatch");
+                    Assert.AreEqual(request.FormName, TestValues.FormName, "Form name mismatch");
                     return JsonParser.Serialize<Response>(new Response
                     {
-                        ID = Response.Type.ERROR,
-                        JsonStr = "Error deleting form"
+                        ID = Response.Type.ACKNOWLEDGE,
+                        JsonStr = "Form deleted"
                     });
                 case Request.Type.SAVE_STATISTICS:
-                    if (_persistence.SaveStatistics(request.FormName, request.JsonStr))
-                        return JsonParser.Serialize<Response>(new Response
-                        {
-                            ID = Response.Type.ACKNOWLEDGE,
-                            JsonStr = "Statistics saved"
-                        });
+                    Assert.AreEqual(request.Username, TestValues.UserName, "Username mismatch");
+                    Assert.AreEqual(request.FormName, TestValues.FormName, "Form name mismatch");
+                    Assert.AreEqual(DatePatcher(request.JsonStr), TestValues.StatisticsListString, "Statistics mismatch");
                     return JsonParser.Serialize<Response>(new Response
                     {
-                        ID = Response.Type.ERROR,
-                        JsonStr = "Error saving statistics"
+                        ID = Response.Type.ACKNOWLEDGE,
+                        JsonStr = "Statistics saved"
                     });
                 case Request.Type.GET_STATISTICS:
-                    var statStr = _persistence.GetJsonStatistics(request.FormName);
-                    if (statStr == IPersistence.ERROR)
-                    {
-                        return JsonParser.Serialize<Response>(new Response
-                        {
-                            ID = Response.Type.ERROR,
-                            JsonStr = "Statistics not found"
-                        });
-                    }
+                    Assert.AreEqual(request.FormName, TestValues.FormName, "Username mismatch");
                     return JsonParser.Serialize<Response>(new Response
                     {
                         ID = Response.Type.STATISTICS,
-                        JsonStr = statStr
+                        JsonStr = TestValues.StatisticsString
                     });
                 case Request.Type.LOGIN:
-                    if (_persistence.CheckLogin(request.Username, request.JsonStr) == IPersistence.LoginResult.SUCCESS)
-                        return JsonParser.Serialize<Response>(new Response
-                        {
-                            ID = Response.Type.ACKNOWLEDGE,
-                            JsonStr = "Login successful"
-                        });
+                    Assert.AreEqual(request.Username, TestValues.UserName, "Username mismatch");
+                    Assert.AreEqual(request.JsonStr, TestValues.Password, "Password mismatch");
                     return JsonParser.Serialize<Response>(new Response
                     {
-                        ID = Response.Type.ERROR,
-                        JsonStr = "Login failed"
+                        ID = Response.Type.ACKNOWLEDGE,
+                        JsonStr = "Login successful"
                     });
                 case Request.Type.GET_FORM_LIST:
-                    var formList = _persistence.GetForms(request.Username);
-                    if (formList == IPersistence.ERROR)
-                    {
-                        return JsonParser.Serialize<Response>(new Response
-                        {
-                            ID = Response.Type.ERROR,
-                            JsonStr = "Error getting form list"
-                        });
-                    }
+                    Assert.AreEqual(request.Username, TestValues.UserName, "Username mismatch");
                     return JsonParser.Serialize<Response>(new Response
                     {
                         ID = Response.Type.FORM_LIST,
-                        JsonStr = formList
+                        JsonStr = TestValues.FormListString
                     });
                 default:
                     return JsonParser.Serialize<Response>(new Response
@@ -161,9 +127,16 @@ namespace UniversalForm.Client.Test
                         ID = Response.Type.ERROR,
                         JsonStr = "Unknown request type"
                     });
-            }*/
+            }
         }
 
+        public static string DatePatcher(string json)
+        {
+            // Nem ideális, de egyszerű
+            var jsonObj = JsonParser.Deserialize<FillStatistic>(json);
+            jsonObj.Date = DateTime.Parse(TestValues.DatePatch);
+            return JsonParser.Serialize(jsonObj);
+        }
         private void Send(Socket handler, String data)
         {
             byte[] byteData = Encoding.UTF8.GetBytes(data);

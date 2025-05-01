@@ -43,5 +43,18 @@ namespace UniversalForm.Client.Persistence
         {
             return Questions.Count;
         }
+        public override bool Equals(object? obj)
+        {
+            return GetHashCode() == obj?.GetHashCode();
+        }
+        public override int GetHashCode()
+        {
+            var questionsHash = new HashCode();
+            foreach (var question in Questions)
+            {
+                questionsHash.Add(question.GetHashCode());
+            }
+            return HashCode.Combine(Title, Description, MeasureCorrections, MeasureTime, Anonymous, FocusTracking, questionsHash.ToHashCode);
+        }
     }
 }

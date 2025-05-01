@@ -5,6 +5,7 @@ namespace UniversalForm.Client.Persistence
     public struct FillStatistic
     {
         public string UserName;
+
         public DateTime Date;
         public List<Statistics> QuestionStatistics;
     }
@@ -102,6 +103,12 @@ namespace UniversalForm.Client.Persistence
                 }
             }
             HasAnserChanged?.Invoke(this, HasAnswer());
+        }
+
+        public override int GetHashCode()
+        {
+            var answersHash = Answers.Aggregate(0, (current, option) => current ^ option.GetHashCode());
+            return HashCode.Combine(MultipleAnswers, answersHash, Corrections, Time, LostFocusTime);
         }
     }
 }

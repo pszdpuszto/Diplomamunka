@@ -10,9 +10,10 @@ namespace UniversalForm.Client.Model
         {
             DefaultText = defaultText;
         }
-        protected override string extraStr()
+
+        public override int GetHashCode()
         {
-            return $"DefaultText:{DefaultText}";
+            return HashCode.Combine(Type, Title, Description, Required, DefaultText);
         }
     }
 
@@ -25,10 +26,10 @@ namespace UniversalForm.Client.Model
             Options = options;
             CustomOption = customOption;
         }
-
-        protected override string extraStr()
+        public override int GetHashCode()
         {
-            return $"# options:{Options.Count} options";
+            var optionsHash = Options.Aggregate(0, (current, option) => current ^ option.GetHashCode());
+            return HashCode.Combine(Type, Title, Description, Required, optionsHash, CustomOption);
         }
     }
     public class QMultiSelect : Question
@@ -40,6 +41,11 @@ namespace UniversalForm.Client.Model
             Options = options;
             CustomOption = customOption;
         }
+        public override int GetHashCode()
+        {
+            var optionsHash = Options.Aggregate(0, (current, option) => current ^ option.GetHashCode());
+            return HashCode.Combine(Type, Title, Description, Required, optionsHash, CustomOption);
+        }
     }
     public class QDate : Question
     {
@@ -50,6 +56,10 @@ namespace UniversalForm.Client.Model
             MinDate = minDate;
             MaxDate = maxDate;
         }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Type, Title, Description, Required, MinDate, MaxDate);
+        }
     }
     public class QNumber : Question
     {
@@ -59,6 +69,10 @@ namespace UniversalForm.Client.Model
         {
             Min = min;
             Max = max;
+        }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Type, Title, Description, Required, Min, Max);
         }
     }
 }

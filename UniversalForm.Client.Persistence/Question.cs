@@ -31,11 +31,14 @@
             Required = required;
         }
 
-        public override string ToString()
+        public override bool Equals(object? obj)
         {
-            return $"Type:{Type.ToString()}\nTitle:{Title}\nDescription:{Description}\n{extraStr()}";
+            return GetHashCode() == obj?.GetHashCode();
         }
 
-        protected virtual string extraStr() => "Default";
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Type, Title, Description, Required);
+        }
     }
 }
