@@ -3,8 +3,7 @@
       "username": "testUserToDelete",
       "password": "OW1OveSosBRkJj9WOMOcFqPzasE3W8SzdO5tIeWvLrI=",
       "forms": [
-        "form1",
-        "form2",
+    	"testFormToUserDelete"
       ]
     }
     """;

@@ -61,6 +61,7 @@ namespace UniversalForm.Client.View
             var formOrQuestion = titlePage ? "Form" : "Question";
             titleTextBox.PlaceholderText = formOrQuestion + " Title";
             descriptionTextBox.PlaceholderText = formOrQuestion + " Description";
+            finishBtn.Enabled = _model.HasQuestion();
 
             numLabel.Text = (titlePage) ? "Title Page" : $"Question #{_model.Index + 1}: {e.New.GetQuestionType()}";
         }

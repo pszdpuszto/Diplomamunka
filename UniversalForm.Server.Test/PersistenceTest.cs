@@ -1,7 +1,7 @@
 ﻿using UniversalForm.Server.Persistence;
 using UniversalForms.TestUtils;
 
-namespace UniversalForm.Model.Test
+namespace UniversalForm.Server.Test
 {
     [TestClass]
     public sealed class PersistenceTest
@@ -80,6 +80,15 @@ namespace UniversalForm.Model.Test
             Assert.IsFalse(File.Exists(FilePath("testFormToDelete.uff")), "DeleteForm form deletion failed.");
             Assert.IsFalse(File.Exists(FilePath("testFormToDelete.ufs")), "DeleteForm stat deletion failed.");
             Assert.IsTrue(FileUtil.CompareFiles(FilePath("testUserToDelete.ufu")), "DeleteForm user update failed.");
+        }
+        public void DeleteUserTest()
+        {
+            string userName = "testUserToFullDelete";
+            var result = _persistence.DeleteUser(userName);
+            Assert.IsTrue(result, "DeleteUser failed.");
+            Assert.IsFalse(File.Exists(FilePath("testUserToDelete.ufu")), "DeleteUser user file deletion failed.");
+            Assert.IsFalse(File.Exists(FilePath("testFormToUserDelete.uff")), "DeleteUser form file deletion failed.");
+            Assert.IsFalse(File.Exists(FilePath("testFormToUserDelete.ufs")), "DeleteUser stat file deletion failed.");
         }
         private string FilePath(string fileName)
         {

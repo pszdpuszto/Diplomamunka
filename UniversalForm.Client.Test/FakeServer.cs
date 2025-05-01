@@ -1,15 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using UniversalForm.Server.Persistence;
+using System.Threading.Tasks;
 using UniversalForm.Utils;
 
-namespace UniversalForm.Server.Model
-{
+namespace UniversalForm.Client.Test
+{ 
 
-    public class Server
-    {
+    public class FakeServer
+        {
         private struct Client
         {
             public const int BUFFER_SIZE = 4096;
@@ -25,92 +28,46 @@ namespace UniversalForm.Server.Model
 
         private ManualResetEvent _threadSync = new(false);
         private ArrayList _peers = new();
-        private bool _verbose;
 
-        private IPersistence _persistence;
         public event EventHandler<string>? LogEvent;
-        public Server(IPEndPoint endPoint, bool verbose, IPersistence persistence)
+        public FakeServer(IPEndPoint endPoint)
         {
 
             _endPoint = endPoint;
-            _verbose = verbose;
-            _persistence = persistence;
         }
 
         public void Start()
         {
             if (_running) return;
-            try
+            using Socket listener = new(
+                _endPoint.AddressFamily,
+                SocketType.Stream,
+                ProtocolType.Tcp
+                );
+            listener.Bind(_endPoint);
+            listener.Listen(100);
+
+            _running = true;
+            while (_running)
             {
-                using Socket listener = new(
-                    _endPoint.AddressFamily,
-                    SocketType.Stream,
-                    ProtocolType.Tcp
-                    );
-                listener.Bind(_endPoint);
-                listener.Listen(100);
-                LogEvent?.Invoke(this, "Server started");
+                _threadSync.Reset();
+                listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
+                _threadSync.WaitOne();
 
-                _running = true;
-                while (_running)
-                {
-                    _threadSync.Reset();
-                    LogEvent?.Invoke(this, "Waiting for a connection...");
-                    listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
-                    _threadSync.WaitOne();
-
-                }
             }
-            catch (SocketException)
-            {
-                LogEvent?.Invoke(this, "Socket is already in use!");
-            }
-
         }
 
         public void Stop()
         {
             _running = false;
-            if (_peers.Count > 0)
-            {
-                LogEvent?.Invoke(this, $"Unfinished transactions: {_peers.Count}");
-            }
-            LogEvent?.Invoke(this, "Closed");
-        }
-
-        public bool RegisterAdmin(string userName, string password)
-        {
-            return _persistence.RegisterUser(userName, password);
-        }
-        public IPersistence.LoginResult DeleteAdmin(string userName, string password)
-        {
-            var result = _persistence.CheckLogin(userName, password);
-            if (result != IPersistence.LoginResult.SUCCESS)
-                return result;
-            if (_persistence.DeleteUser(userName))
-                return IPersistence.LoginResult.SUCCESS;
-            else
-                return IPersistence.LoginResult.IO_ERROR;
-        }
-        public bool UsernameAvailable(string username)
-        {
-            return _persistence.CheckLogin(username, string.Empty) == IPersistence.LoginResult.USER_NOT_FOUND;
         }
         private string ProcessRequest(string jsonStr)
         {
-            var request = JsonParser.Deserialize<Request>(jsonStr);
+            /*var request = JsonParser.Deserialize<Request>(jsonStr);
             switch (request.ID)
             {
                 case Request.Type.GET_FORM:
-                    var formStr = _persistence.GetJsonForm(request.FormName);
-                    if (formStr == IPersistence.ERROR)
-                    {
-                        return JsonParser.Serialize<Response>(new Response
-                        {
-                            ID = Response.Type.ERROR,
-                            JsonStr = "Form not found"
-                        });
-                    }
+
                     return JsonParser.Serialize<Response>(new Response
                     {
                         ID = Response.Type.FORM,
@@ -204,7 +161,7 @@ namespace UniversalForm.Server.Model
                         ID = Response.Type.ERROR,
                         JsonStr = "Unknown request type"
                     });
-            }
+            }*/
         }
 
         private void Send(Socket handler, String data)
@@ -232,7 +189,6 @@ namespace UniversalForm.Server.Model
                 _peers.Add(handler.RemoteEndPoint);
             }
 
-            LogEvent?.Invoke(this, $"Connected client: {handler.RemoteEndPoint}");
             handler.BeginReceive(
                 client.buffer,
                 0,
@@ -256,7 +212,6 @@ namespace UniversalForm.Server.Model
             }
             catch
             {
-                LogEvent?.Invoke(this, $"Disconnected client: {client.socket.RemoteEndPoint}");
                 lock (_peers.SyncRoot)
                 {
                     _peers.Remove(client.socket.RemoteEndPoint);
@@ -272,14 +227,10 @@ namespace UniversalForm.Server.Model
                 if (content.IndexOf(JsonParser.EOT) > -1)
                 {
                     content = content.Substring(0, content.IndexOf(JsonParser.EOT));
-                    if (_verbose)
-                        LogEvent?.Invoke(this, $"Read {content.Length} bytes of data: {content}");
 
                     var responseJsonStr = ProcessRequest(content) + JsonParser.EOT;
 
                     Send(client.socket, responseJsonStr);
-                    if (_verbose)
-                        LogEvent?.Invoke(this, $"Sent {responseJsonStr.Length} bytes of data: {responseJsonStr}");
 
                     client.sb.Clear();
                 }
@@ -297,15 +248,9 @@ namespace UniversalForm.Server.Model
 
         private void SendCallback(IAsyncResult ar)
         {
-            try
-            {
-                Socket handler = (Socket)ar.AsyncState!;
-                int bytesSent = handler.EndSend(ar);
-            }
-            catch (Exception ex)
-            {
-                LogEvent?.Invoke(this, ex.ToString());
-            }
+
+            Socket handler = (Socket)ar.AsyncState!;
+            int bytesSent = handler.EndSend(ar);
         }
     }
 }

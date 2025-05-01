@@ -64,7 +64,20 @@ namespace UniversalForm.Client.View
 
         private void CanProceedChange(object? sender, bool e)
         {
-            nextBtn.Enabled = e;
+            nextBtn.Enabled = e || CannotAnswer(_model.CurrentQuestion());
+        }
+        private bool CannotAnswer(Question? q)
+        {
+            if (q == null)
+                return true;
+            if (q.Type == Question.QTYPE.SINGLE_SELECT)
+            {
+                return ((QSingleSelect)q).Options.Count == 0;
+            } else if (q.Type == Question.QTYPE.MULTI_SELECT)
+            {
+                return ((QMultiSelect)q).Options.Count == 0;
+            }
+            return false;
         }
 
         private void StartBtn(object sender, EventArgs e)

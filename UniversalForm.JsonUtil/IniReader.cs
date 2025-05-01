@@ -7,8 +7,17 @@ namespace UniversalForm.Utils
     {
         private string[] lines;
         public bool InitSuccess { get; private set; } = false;
-        public IniReader(string iniFilePath)
+        public IniReader(string? iniFilePath)
         {
+            if (iniFilePath == null)
+            {
+                lines = [
+                    "ServerAddress=localhost",
+                    "ServerPort=3000",
+                    "Verbose=0"
+                    ];
+                return;
+            }
             try
             {
                 lines = File.ReadAllLines(iniFilePath);

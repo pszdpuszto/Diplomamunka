@@ -15,7 +15,14 @@ namespace UniversalForm.Server.View
         public ServerConsole(Model.Server server)
         {
             _server = server;
+            _server.LogEvent += Server_LogEvent;
         }
+
+        private void Server_LogEvent(object? sender, string e)
+        {
+            Console.WriteLine(e);
+        }
+
         public void Start()
         {
             Task serverTask = Task.Run(() => _server.Start());

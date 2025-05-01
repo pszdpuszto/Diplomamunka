@@ -1,3 +1,4 @@
+using System.Net.Sockets;
 using UniversalForm.Client.Persistence;
 using UniversalForm.Utils;
 
@@ -23,7 +24,16 @@ static class Program
             MessageBox.Show("Invalid server address in settings.ini", "settings.ini error");
             return;
         }
-        var persistence = new ClientJsonPersistence(Model.FormModel.getQuestionTypes(), endPoint);
+        ClientJsonPersistence persistence;
+        try
+        {
+            persistence = new ClientJsonPersistence(Model.FormModel.getQuestionTypes(), endPoint);
+        }
+        catch (SocketException)
+        {
+            MessageBox.Show("Unable to connect to the server.", "Connection error");
+            return;
+        }
         persistence.ConnectionLost += ConnectionLost;
         var model = new Model.FormModel(persistence);
         var view = new Menu(model);

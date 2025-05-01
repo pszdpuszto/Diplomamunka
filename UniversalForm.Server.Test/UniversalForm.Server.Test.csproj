@@ -16,8 +16,6 @@
   <ItemGroup>
     <ProjectReference Include="..\UniversalForm.Server.Model\UniversalForm.Server.Model.csproj" />
     <ProjectReference Include="..\UniversalForm.Server.Persistence\UniversalForm.Server.Persistence.csproj" />
-    <ProjectReference Include="..\UniversalForm.Server.View\UniversalForm.Server.View.csproj" />
-    <ProjectReference Include="..\UniversalForms.TestUtils\UniversalForms.TestUtils.csproj" />
   </ItemGroup>
 
   <ItemGroup>
